@@ -6,6 +6,8 @@ import LayoutBase from '@/components//template/LayoutBase'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_STACKED_SIDE } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
+import LanguageSelector from '@/components/template/LanguageSelector'
+import SidePanel from '@/components/template/SidePanel'
 
 const StackedSide = ({ children }: CommonProps) => {
     const { larger, smaller } = useResponsive()
@@ -20,13 +22,12 @@ const StackedSide = ({ children }: CommonProps) => {
                 <div className="flex flex-col flex-auto min-h-screen min-w-0 relative w-full">
                     <Header
                         className="shadow dark:shadow-2xl"
-                        headerStart={
-                            <>
-                                {smaller.lg && <MobileNav />}
-                            </>
-                        }
+                        headerStart={<>{smaller.lg && <MobileNav />}</>}
                         headerEnd={
                             <>
+                                <LanguageSelector />
+                                {/* <Notification /> */}
+                                <SidePanel />
                                 <UserProfileDropdown hoverable={false} />
                             </>
                         }
