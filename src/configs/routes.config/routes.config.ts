@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import authRoute from './authRoute'
 import othersRoute from './othersRoute'
 import type { Routes } from '@/@types/routes'
+import { networkRoutes } from './networkRoutes'
 
 export const publicRoutes: Routes = [...authRoute]
 
@@ -9,51 +10,39 @@ export const protectedRoutes: Routes = [
     {
         key: 'home',
         path: '/home',
-        component: lazy(() => import('@/views/Home')),
-        authority: [],
-    },
-    /** Example purpose only, please remove */
-    {
-        key: 'singleMenuItem',
-        path: '/single-menu-view',
-        component: lazy(() => import('@/views/demo/SingleMenuView')),
+        component: lazy(() => import('@/views/EcommerceDashboard')),
         authority: [],
     },
     {
-        key: 'collapseMenu.item1',
-        path: '/collapse-menu-item-view-1',
-        component: lazy(() => import('@/views/demo/CollapseMenuItemView1')),
+        key: 'epin',
+        path: '/e-pin',
+        component: lazy(() => import('@/views/EPin')),
         authority: [],
     },
     {
-        key: 'collapseMenu.item2',
-        path: '/collapse-menu-item-view-2',
-        component: lazy(() => import('@/views/demo/CollapseMenuItemView2')),
+        key: 'ewallet',
+        path: '/e-wallet',
+        component: lazy(() => import('@/views/EWallet')),
         authority: [],
     },
     {
-        key: 'groupMenu.single',
-        path: '/group-single-menu-item-view',
-        component: lazy(() =>
-            import('@/views/demo/GroupSingleMenuItemView')
-        ),
+        key: 'business',
+        path: '/business',
+        component: lazy(() => import('@/views/Business')),
         authority: [],
     },
     {
-        key: 'groupMenu.collapse.item1',
-        path: '/group-collapse-menu-item-view-1',
-        component: lazy(() =>
-            import('@/views/demo/GroupCollapseMenuItemView1')
-        ),
+        key: 'mailbox',
+        path: '/mailbox',
+        component: lazy(() => import('@/views/Mailbox')),
         authority: [],
     },
     {
-        key: 'groupMenu.collapse.item2',
-        path: '/group-collapse-menu-item-view-2',
-        component: lazy(() =>
-            import('@/views/demo/GroupCollapseMenuItemView2')
-        ),
+        key: 'payout',
+        path: '/payout',
+        component: lazy(() => import('@/views/Payout')),
         authority: [],
     },
+    ...networkRoutes,
     ...othersRoute,
 ]

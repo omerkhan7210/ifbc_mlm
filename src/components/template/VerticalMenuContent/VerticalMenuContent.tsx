@@ -1,18 +1,22 @@
 import { useState, useEffect, Fragment } from 'react'
 import Menu from '@/components/ui/Menu'
 import VerticalSingleMenuItem from './VerticalSingleMenuItem'
-import VerticalCollapsedMenuItem from './VerticalCollapsedMenuItem'
+// import VerticalCollapsedMenuItem from './VerticalCollapsedMenuItem'
 import { themeConfig } from '@/configs/theme.config'
 import {
-    NAV_ITEM_TYPE_TITLE,
     NAV_ITEM_TYPE_COLLAPSE,
+    // NAV_ITEM_TYPE_TITLE,
+    // NAV_ITEM_TYPE_COLLAPSE,
     NAV_ITEM_TYPE_ITEM,
+    NAV_ITEM_TYPE_TITLE,
 } from '@/constants/navigation.constant'
 import useMenuActive from '@/utils/hooks/useMenuActive'
 import useTranslation from '@/utils/hooks/useTranslation'
 import { Direction } from '@/@types/theme'
 import type { NavigationTree } from '@/@types/navigation'
 import type { TraslationFn } from '@/@types/common'
+import MenuGroup from '@/components/ui/Menu/MenuGroup'
+import VerticalCollapsedMenuItem from './VerticalCollapsedMenuItem'
 
 export interface VerticalMenuContentProps {
     collapsed?: boolean
@@ -24,7 +28,7 @@ export interface VerticalMenuContentProps {
     userAuthority: string[]
 }
 
-const { MenuGroup } = Menu
+// const { MenuGroup } = Menu
 
 const VerticalMenuContent = (props: VerticalMenuContentProps) => {
     const {
@@ -82,8 +86,8 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
                                 onLinkClick={handleLinkClick}
                             />
                         )}
-                        
-                        {/* {nav.type === NAV_ITEM_TYPE_COLLAPSE && (
+
+                        {nav.type === NAV_ITEM_TYPE_COLLAPSE && (
                             <VerticalCollapsedMenuItem
                                 key={nav.key}
                                 nav={nav}
@@ -104,9 +108,9 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
                                         true,
                                     )}
                             </VerticalCollapsedMenuItem>
-                        )} */}
-                        
-                        {/* {nav.type === NAV_ITEM_TYPE_TITLE && (
+                        )}
+
+                        {nav.type === NAV_ITEM_TYPE_TITLE && (
                             <MenuGroup
                                 key={nav.key}
                                 label={t(nav.translateKey) || nav.title}
@@ -119,7 +123,7 @@ const VerticalMenuContent = (props: VerticalMenuContentProps) => {
                                         false,
                                     )}
                             </MenuGroup>
-                        )} */}
+                        )}
                     </Fragment>
                 ))}
             </>

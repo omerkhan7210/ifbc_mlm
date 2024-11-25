@@ -10,11 +10,13 @@ import type {
 } from '@/@types/auth'
 
 export async function apiSignIn(data: SignInCredential) {
-    return ApiService.fetchDataWithAxios<SignInResponse>({
+    const response = await ApiService.fetchDataWithAxios<SignInResponse>({
         url: endpointConfig.signIn,
         method: 'post',
         data,
     })
+
+    return response
 }
 
 export async function apiSignUp(data: SignUpCredential) {

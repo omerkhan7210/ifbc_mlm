@@ -8,7 +8,7 @@ import { useAuth } from '@/auth'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import type { ZodType } from 'zod'
+// import type { ZodType } from 'zod'
 import type { CommonProps } from '@/@types/common'
 import type { ReactNode } from 'react'
 
@@ -23,7 +23,7 @@ type SignInFormSchema = {
     password: string
 }
 
-const validationSchema: ZodType<SignInFormSchema> = z.object({
+const validationSchema = z.object({
     email: z
         .string({ required_error: 'Please enter your email' })
         .min(1, { message: 'Please enter your email' }),
@@ -42,10 +42,6 @@ const SignInForm = (props: SignInFormProps) => {
         formState: { errors },
         control,
     } = useForm<SignInFormSchema>({
-        defaultValues: {
-            email: 'admin-01@ecme.com',
-            password: '123Qwe',
-        },
         resolver: zodResolver(validationSchema),
     })
 
@@ -57,7 +53,7 @@ const SignInForm = (props: SignInFormProps) => {
         if (!disableSubmit) {
             setSubmitting(true)
 
-            const result = await signIn({ email, password })
+            const result = await signIn({ email, password, username: '' })
 
             if (result?.status === 'failed') {
                 setMessage?.(result.message)
@@ -81,7 +77,7 @@ const SignInForm = (props: SignInFormProps) => {
                         render={({ field }) => (
                             <Input
                                 type="email"
-                                placeholder="Email"
+                                placeholder="Email/Username"
                                 autoComplete="off"
                                 {...field}
                             />

@@ -12,11 +12,12 @@ type DropdownList = {
     icon: JSX.Element
 }
 
-const dropdownItemList: DropdownList[] = [
-]
+const dropdownItemList: DropdownList[] = []
 
 const _UserDropdown = () => {
-    const { avatar, userName, email } = useSessionUser((state) => state.user)
+    const { profileImage, username, email } = useSessionUser(
+        (state) => state.user,
+    )
 
     const { signOut } = useAuth()
 
@@ -25,7 +26,7 @@ const _UserDropdown = () => {
     }
 
     const avatarProps = {
-        ...(avatar ? { src: avatar } : { icon: <PiUserDuotone /> }),
+        ...(profileImage ? { src: profileImage } : { icon: <PiUserDuotone /> }),
     }
 
     return (
@@ -44,7 +45,7 @@ const _UserDropdown = () => {
                     <Avatar {...avatarProps} />
                     <div>
                         <div className="font-bold text-gray-900 dark:text-gray-100">
-                            {userName || 'Anonymous'}
+                            {username || 'Anonymous'}
                         </div>
                         <div className="text-xs">
                             {email || 'No email available'}
