@@ -1,9 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import ReactFlow, { MiniMap, Controls, Background } from 'react-flow-renderer'
+import ReactFlow, {
+    MiniMap,
+    Controls,
+    Background,
+    Handle,
+} from 'react-flow-renderer'
 import dagre from 'dagre'
 import AddUserInGraph from '../../components/forms/AddUserInGraph.jsx'
 import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant.js'
 import axios from 'axios'
+import profileImage from '../../../public/images/logo/android-chrome-192x192.png'
+
+// Custom Node Component
+const CustomNode = ({ data }) => {
+    return (
+        <div className="custom-node flex items-center justify-center p-2 border rounded bg-white shadow-md">
+            <img
+                src={profileImage}
+                alt="profileImage"
+                className="w-6  h-6 rounded-full mr-2"
+            />
+            <div>{data.label}</div>
+            <Handle type="source" position="bottom" id="a" />
+            <Handle type="target" position="top" id="b" />
+        </div>
+    )
+}
 
 // Recursive function to generate nodes and edges
 const generateTree = (data, parentId = null) => {
@@ -15,6 +37,7 @@ const generateTree = (data, parentId = null) => {
             id: node.id,
             data: { label: node.label },
             position: { x: 0, y: 0 },
+            type: 'custom', // Use custom node type
         })
 
         if (parentId) {
@@ -45,7 +68,7 @@ const applyDagreLayout = (nodes, edges, direction = 'TB') => {
     dagreGraph.setGraph({ rankdir: direction })
 
     nodes.forEach((node) => {
-        dagreGraph.setNode(node.id, { width: 110, height: 50 })
+        dagreGraph.setNode(node.id, { width: 125, height: 50 })
     })
 
     edges.forEach((edge) => {
@@ -63,19 +86,19 @@ const applyDagreLayout = (nodes, edges, direction = 'TB') => {
 }
 
 const mapDynamicDataToTree = (data) => {
-    return data.map((item) => ({
-        id: String(item.id),
-        label: item.label,
-        children: item.children ? mapDynamicDataToTree(item.children) : [],
-    }))
+    return (
+        data?.map((item) => ({
+            id: String(item.id),
+            label: item.name || 'IFBC',
+            children: item.children ? mapDynamicDataToTree(item.children) : [],
+        })) || []
+    )
 }
 
 const Business = () => {
     const [treeData, setTreeData] = useState([])
     const [selectedNode, setSelectedNode] = useState(null)
     const [isFormOpen, setIsFormOpen] = useState(false)
-
-    console.log(treeData, 'treeData')
 
     // Fetch user data
     const handelGetUserData = async () => {
@@ -117,6 +140,7 @@ const Business = () => {
                 edges={layout.edges}
                 onNodeClick={handleNodeClick}
                 fitView
+                nodeTypes={{ custom: CustomNode }}
             >
                 <MiniMap />
                 <Controls />

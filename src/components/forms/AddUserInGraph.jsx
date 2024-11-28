@@ -12,10 +12,9 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
     const [showOtpForm, setShowOtpForm] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-
     const [otpValues, setOtpValues] = useState();
 
-    console.log(otpValues, "otpValues")
+    const [formErrors, setFormErrors] = useState({});
     const [formFields, setFormFields] = useState({
         mangerName: selectedNode.data.label,
         firstName: '',
@@ -27,13 +26,30 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
         userType: '',
     })
 
+    const validateForm = () => {
+        const errors = {};
+
+        if (!formFields.firstName) errors.firstName = "First Name is required";
+        if (!formFields.lastName) errors.lastName = "Last Name is required";
+        if (!formFields.email) errors.email = "Email is required";
+        if (!formFields.phone) errors.phone = "Phone number is required";
+        if (!formFields.password) errors.password = "Password is required";
+        if (!formFields.userType) errors.userType = "User Type is required";
+        if (!formFields.userName) errors.userName = "User Name is required";
+
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
     const handleOTPData = (val) => {
         setOtpValues(val)
     }
 
-
     const handleSendOtp = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
         const otpData = {
             email: formFields?.email?.toLowerCase(),
             firstname: formFields?.firstName?.toLowerCase(),
@@ -58,7 +74,6 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
             console.error("Error sending OTP:", error);
         }
     };
-
 
     const validateOtp = async (e) => {
         setIsLoading(true);
@@ -117,8 +132,6 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
         }
     };
 
-
-
     const handleSubmitAfterValidation = async () => {
         try {
             const userUrl = `${BASE_API_URL}/users`;
@@ -153,42 +166,9 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
             console.error("Error:", error);
             // setFormErrors({ error: error?.response?.data?.message });
             window.scrollTo(0, 0);
-            // Handle unexpected response
             setIsLoading(false);
         }
     };
-
-    // const getAllUsers = async () => {
-    //     try {
-    //         const resp = await apiGetAllUsers()
-    //         if (resp) {
-    //             const consultants = resp?.filter(u => u.userType === 'C' || u.userType === 'A')
-    //             console.log(consultants)
-    //         }
-    //         //     handleSignIn(, resp.userDetails)
-    //         //     redirect()
-    //         //     return {
-    //         //         status: 'success',
-    //         //         message: '',
-    //         //     }
-    //         // }
-    //         // return {
-    //         //     status: 'failed',
-    //         //     message: 'Unable to sign in',
-    //         // }
-    //         // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    //     } catch (errors) {
-    //         return {
-    //             status: 'failed',
-    //             message: errors?.response?.data?.message || errors.toString(),
-    //         }
-    //     }
-    // }
- 
-
-
-
-
 
     return (
         <>
@@ -223,8 +203,91 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
                         </button>
                     </div>
 
-
                     <form>
+                        <div className="grid sm:grid-cols-2 gap-8">
+                            {/* Input fields for form */}
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Manager Name</label>
+                                <input
+                                    type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
+                                    value={formFields?.mangerName}
+                                    onChange={(e) => setFormFields({ ...formFields, mangerName: e.target.value })}
+                                />
+                            </div>
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">First Name</label>
+                                <input
+                                    type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
+                                    value={formFields.firstName}
+                                    onChange={(e) => setFormFields({ ...formFields, firstName: e.target.value })}
+                                />
+                                {formErrors.firstName && <p className="text-red-500 text-xs">{formErrors?.firstName}</p>}
+                            </div>
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Last Name</label>
+                                <input
+                                    type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
+                                    value={formFields.lastName}
+                                    onChange={(e) => setFormFields({ ...formFields, lastName: e.target.value })}
+                                />
+                                {formErrors.lastName && <p className="text-red-500 text-xs">{formErrors?.lastName}</p>}
+                            </div>
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Email Id</label>
+                                <input type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter email"
+                                    value={formFields.email}
+                                    onChange={(e) => setFormFields({ ...formFields, email: e.target.value })} />
+                                {formErrors.email && <p className="text-red-500 text-xs">{formErrors?.email}</p>}
+                            </div>
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Mobile No.</label>
+                                <input type="number" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter mobile number"
+                                    value={formFields.phone}
+                                    onChange={(e) => setFormFields({ ...formFields, phone: e.target.value })}
+                                />
+                                {formErrors.phone && <p className="text-red-500 text-xs">{formErrors?.phone}</p>}
+                            </div>
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Password</label>
+                                <input type="password" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password"
+                                    value={formFields.password}
+                                    onChange={(e) => setFormFields({ ...formFields, password: e.target.value })}
+                                />
+                                {formErrors.password && <p className="text-red-500 text-xs">{formErrors?.password}</p>}
+                            </div>
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">User Name</label>
+                                <input
+                                    type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                    value={formFields.userName}
+                                    onChange={(e) => setFormFields({ ...formFields, userName: e.target.value })}
+                                />
+                                {formErrors.userName && <p className="text-red-500 text-xs">{formErrors?.userName}</p>}
+                            </div>
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">User Type</label>
+                                <select
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    value={formFields.userType}
+                                    onChange={(e) => setFormFields({ ...formFields, userType: e.target.value })}
+                                >
+                                    <option value="" disabled>Select User Type</option>
+                                    <option value="C">Consultant</option>
+                                    <option value="A">Ambassador</option>
+                                </select>
+                                {formErrors.userType && <p className="text-red-500 text-xs">{formErrors?.userType}</p>}
+                            </div>
+                        </div>
+
+                        <div className="!mt-12">
+                            <button type="button"
+                                onClick={handleSendOtp}
+                                className="py-2.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                                Sign up
+                            </button>
+                        </div>
+                    </form>
+                    {/* <form>
                         <div className="grid sm:grid-cols-2 gap-8">
                             <div>
                                 <label className="text-gray-800 text-sm mb-2 block">Manager Name</label>
@@ -303,7 +366,7 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
                                 Sign up
                             </button>
                         </div>
-                    </form>
+                    </form> */}
                 </div>
             )
             }
