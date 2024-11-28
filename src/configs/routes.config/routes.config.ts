@@ -22,13 +22,13 @@ export const protectedRoutes: Routes = [
     {
         key: 'ewallet',
         path: '/e-wallet',
-        component: lazy(() => import('@/views/EWallet')),
+        component: lazy(() => import('@/views/eWallet')),
         authority: [],
     },
     {
         key: 'business',
         path: '/business',
-        component: lazy(() => import('@/views/Business')),
+        component: lazy(() => import('@/views/business')),
         authority: [],
     },
     {
