@@ -26,7 +26,7 @@ const _UserDropdown = () => {
     }
 
     const avatarProps = {
-        ...(profileImage ? { src: profileImage } : { icon: <PiUserDuotone /> }),
+        ...(!profileImage ? { src: profileImage } : { icon: <PiUserDuotone /> }),
     }
 
     return (
