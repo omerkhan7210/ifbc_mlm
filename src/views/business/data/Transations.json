@@ -1,0 +1,1164 @@
+[
+    {
+      "transactionId": "TXN001",
+      "memberName": "Member1 Test",
+      "memberId": "INF00123",
+      "category": "Joining Fee",
+      "amount": 500,
+      "transactionDate": "2024-02-15T05:16:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN002",
+      "memberName": "3HVHVE7MW",
+      "memberId": "3hvhve7mw",
+      "category": "Commission Charge",
+      "amount": 0.3,
+      "transactionDate": "2024-02-15T06:00:00-08:00",
+      "transactionType": "debit"
+    },
+    {
+      "transactionId": "TXN003",
+      "memberName": "3HVHVE7MW",
+      "memberId": "3hvhve7mw",
+      "category": "Referral Commission",
+      "amount": 1.7,
+      "transactionDate": "2024-02-15T06:30:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN004",
+      "memberName": "3HVHVE7MW",
+      "memberId": "3hvhve7mw",
+      "category": "Level Commission",
+      "amount": 2.55,
+      "transactionDate": "2024-02-15T07:00:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN005",
+      "memberName": "John Doe",
+      "memberId": "JD12345",
+      "category": "Product Purchase",
+      "amount": 45.99,
+      "transactionDate": "2024-02-16T10:45:00-08:00",
+      "transactionType": "debit"
+    },
+    {
+      "transactionId": "TXN006",
+      "memberName": "Jane Smith",
+      "memberId": "JS67890",
+      "category": "Bonus Payment",
+      "amount": 20.0,
+      "transactionDate": "2024-02-16T12:00:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN007",
+      "memberName": "3HVHVE7MW",
+      "memberId": "3hvhve7mw",
+      "category": "Service Fee",
+      "amount": 5.0,
+      "transactionDate": "2024-02-17T08:30:00-08:00",
+      "transactionType": "debit"
+    },
+    {
+      "transactionId": "TXN008",
+      "memberName": "Alice Brown",
+      "memberId": "AB11223",
+      "category": "Refund",
+      "amount": 15.5,
+      "transactionDate": "2024-02-17T14:00:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN009",
+      "memberName": "John Doe",
+      "memberId": "JD12345",
+      "category": "Monthly Subscription",
+      "amount": 10.0,
+      "transactionDate": "2024-02-18T09:00:00-08:00",
+      "transactionType": "debit"
+    },
+    {
+      "transactionId": "TXN010",
+      "memberName": "Jane Smith",
+      "memberId": "JS67890",
+      "category": "Referral Payout",
+      "amount": 25.0,
+      "transactionDate": "2024-02-18T15:30:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN011",
+      "memberName": "Alice Brown",
+      "memberId": "AB11223",
+      "category": "Cashback Reward",
+      "amount": 5.0,
+      "transactionDate": "2024-02-19T08:00:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN012",
+      "memberName": "John Doe",
+      "memberId": "JD12345",
+      "category": "Affiliate Commission",
+      "amount": 7.5,
+      "transactionDate": "2024-02-19T09:15:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN013",
+      "memberName": "Jane Smith",
+      "memberId": "JS67890",
+      "category": "Loyalty Bonus",
+      "amount": 12.0,
+      "transactionDate": "2024-02-19T10:30:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN014",
+      "memberName": "Alice Brown",
+      "memberId": "AB11223",
+      "category": "Quarterly Bonus",
+      "amount": 50.0,
+      "transactionDate": "2024-02-20T08:00:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN015",
+      "memberName": "John Doe",
+      "memberId": "JD12345",
+      "category": "Sales Incentive",
+      "amount": 22.75,
+      "transactionDate": "2024-02-20T12:30:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN016",
+      "memberName": "Jane Smith",
+      "memberId": "JS67890",
+      "category": "Team Bonus",
+      "amount": 30.0,
+      "transactionDate": "2024-02-20T15:00:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+      "transactionId": "TXN017",
+      "memberName": "Alice Brown",
+      "memberId": "AB11223",
+      "category": "Referral Earnings",
+      "amount": 18.0,
+      "transactionDate": "2024-02-21T09:00:00-08:00",
+      "transactionType": "credit"
+    },
+    {
+        "transactionId": "TXN001",
+        "memberName": "Member1 Test",
+        "memberId": "INF00123",
+        "category": "Joining Fee",
+        "amount": 500,
+        "transactionDate": "2024-02-15T05:16:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN002",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Commission Charge",
+        "amount": 0.3,
+        "transactionDate": "2024-02-15T06:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN003",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Referral Commission",
+        "amount": 1.7,
+        "transactionDate": "2024-02-15T06:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN004",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Level Commission",
+        "amount": 2.55,
+        "transactionDate": "2024-02-15T07:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN005",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Product Purchase",
+        "amount": 45.99,
+        "transactionDate": "2024-02-16T10:45:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN006",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Bonus Payment",
+        "amount": 20.0,
+        "transactionDate": "2024-02-16T12:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN007",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Service Fee",
+        "amount": 5.0,
+        "transactionDate": "2024-02-17T08:30:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN008",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Refund",
+        "amount": 15.5,
+        "transactionDate": "2024-02-17T14:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN009",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Monthly Subscription",
+        "amount": 10.0,
+        "transactionDate": "2024-02-18T09:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN010",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Referral Payout",
+        "amount": 25.0,
+        "transactionDate": "2024-02-18T15:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN011",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Cashback Reward",
+        "amount": 5.0,
+        "transactionDate": "2024-02-19T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN012",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Affiliate Commission",
+        "amount": 7.5,
+        "transactionDate": "2024-02-19T09:15:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN013",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Loyalty Bonus",
+        "amount": 12.0,
+        "transactionDate": "2024-02-19T10:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN014",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Quarterly Bonus",
+        "amount": 50.0,
+        "transactionDate": "2024-02-20T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN015",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Sales Incentive",
+        "amount": 22.75,
+        "transactionDate": "2024-02-20T12:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN016",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Team Bonus",
+        "amount": 30.0,
+        "transactionDate": "2024-02-20T15:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN001",
+        "memberName": "Member1 Test",
+        "memberId": "INF00123",
+        "category": "Joining Fee",
+        "amount": 500,
+        "transactionDate": "2024-02-15T05:16:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN002",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Commission Charge",
+        "amount": 0.3,
+        "transactionDate": "2024-02-15T06:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN003",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Referral Commission",
+        "amount": 1.7,
+        "transactionDate": "2024-02-15T06:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN004",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Level Commission",
+        "amount": 2.55,
+        "transactionDate": "2024-02-15T07:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN005",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Product Purchase",
+        "amount": 45.99,
+        "transactionDate": "2024-02-16T10:45:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN006",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Bonus Payment",
+        "amount": 20.0,
+        "transactionDate": "2024-02-16T12:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN007",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Service Fee",
+        "amount": 5.0,
+        "transactionDate": "2024-02-17T08:30:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN008",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Refund",
+        "amount": 15.5,
+        "transactionDate": "2024-02-17T14:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN009",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Monthly Subscription",
+        "amount": 10.0,
+        "transactionDate": "2024-02-18T09:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN010",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Referral Payout",
+        "amount": 25.0,
+        "transactionDate": "2024-02-18T15:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN011",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Cashback Reward",
+        "amount": 5.0,
+        "transactionDate": "2024-02-19T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN012",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Affiliate Commission",
+        "amount": 7.5,
+        "transactionDate": "2024-02-19T09:15:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN013",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Loyalty Bonus",
+        "amount": 12.0,
+        "transactionDate": "2024-02-19T10:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN014",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Quarterly Bonus",
+        "amount": 50.0,
+        "transactionDate": "2024-02-20T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN015",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Sales Incentive",
+        "amount": 22.75,
+        "transactionDate": "2024-02-20T12:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN016",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Team Bonus",
+        "amount": 30.0,
+        "transactionDate": "2024-02-20T15:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN001",
+        "memberName": "Member1 Test",
+        "memberId": "INF00123",
+        "category": "Joining Fee",
+        "amount": 500,
+        "transactionDate": "2024-02-15T05:16:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN002",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Commission Charge",
+        "amount": 0.3,
+        "transactionDate": "2024-02-15T06:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN003",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Referral Commission",
+        "amount": 1.7,
+        "transactionDate": "2024-02-15T06:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN004",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Level Commission",
+        "amount": 2.55,
+        "transactionDate": "2024-02-15T07:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN005",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Product Purchase",
+        "amount": 45.99,
+        "transactionDate": "2024-02-16T10:45:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN006",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Bonus Payment",
+        "amount": 20.0,
+        "transactionDate": "2024-02-16T12:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN007",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Service Fee",
+        "amount": 5.0,
+        "transactionDate": "2024-02-17T08:30:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN008",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Refund",
+        "amount": 15.5,
+        "transactionDate": "2024-02-17T14:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN009",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Monthly Subscription",
+        "amount": 10.0,
+        "transactionDate": "2024-02-18T09:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN010",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Referral Payout",
+        "amount": 25.0,
+        "transactionDate": "2024-02-18T15:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN011",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Cashback Reward",
+        "amount": 5.0,
+        "transactionDate": "2024-02-19T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN012",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Affiliate Commission",
+        "amount": 7.5,
+        "transactionDate": "2024-02-19T09:15:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN013",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Loyalty Bonus",
+        "amount": 12.0,
+        "transactionDate": "2024-02-19T10:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN014",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Quarterly Bonus",
+        "amount": 50.0,
+        "transactionDate": "2024-02-20T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN015",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Sales Incentive",
+        "amount": 22.75,
+        "transactionDate": "2024-02-20T12:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN016",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Team Bonus",
+        "amount": 30.0,
+        "transactionDate": "2024-02-20T15:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN001",
+        "memberName": "Member1 Test",
+        "memberId": "INF00123",
+        "category": "Joining Fee",
+        "amount": 500,
+        "transactionDate": "2024-02-15T05:16:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN002",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Commission Charge",
+        "amount": 0.3,
+        "transactionDate": "2024-02-15T06:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN003",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Referral Commission",
+        "amount": 1.7,
+        "transactionDate": "2024-02-15T06:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN004",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Level Commission",
+        "amount": 2.55,
+        "transactionDate": "2024-02-15T07:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN005",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Product Purchase",
+        "amount": 45.99,
+        "transactionDate": "2024-02-16T10:45:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN006",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Bonus Payment",
+        "amount": 20.0,
+        "transactionDate": "2024-02-16T12:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN007",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Service Fee",
+        "amount": 5.0,
+        "transactionDate": "2024-02-17T08:30:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN008",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Refund",
+        "amount": 15.5,
+        "transactionDate": "2024-02-17T14:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN009",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Monthly Subscription",
+        "amount": 10.0,
+        "transactionDate": "2024-02-18T09:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN010",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Referral Payout",
+        "amount": 25.0,
+        "transactionDate": "2024-02-18T15:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN011",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Cashback Reward",
+        "amount": 5.0,
+        "transactionDate": "2024-02-19T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN012",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Affiliate Commission",
+        "amount": 7.5,
+        "transactionDate": "2024-02-19T09:15:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN013",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Loyalty Bonus",
+        "amount": 12.0,
+        "transactionDate": "2024-02-19T10:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN014",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Quarterly Bonus",
+        "amount": 50.0,
+        "transactionDate": "2024-02-20T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN015",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Sales Incentive",
+        "amount": 22.75,
+        "transactionDate": "2024-02-20T12:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN016",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Team Bonus",
+        "amount": 30.0,
+        "transactionDate": "2024-02-20T15:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN001",
+        "memberName": "Member1 Test",
+        "memberId": "INF00123",
+        "category": "Joining Fee",
+        "amount": 500,
+        "transactionDate": "2024-02-15T05:16:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN002",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Commission Charge",
+        "amount": 0.3,
+        "transactionDate": "2024-02-15T06:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN003",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Referral Commission",
+        "amount": 1.7,
+        "transactionDate": "2024-02-15T06:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN004",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Level Commission",
+        "amount": 2.55,
+        "transactionDate": "2024-02-15T07:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN005",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Product Purchase",
+        "amount": 45.99,
+        "transactionDate": "2024-02-16T10:45:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN006",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Bonus Payment",
+        "amount": 20.0,
+        "transactionDate": "2024-02-16T12:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN007",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Service Fee",
+        "amount": 5.0,
+        "transactionDate": "2024-02-17T08:30:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN008",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Refund",
+        "amount": 15.5,
+        "transactionDate": "2024-02-17T14:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN009",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Monthly Subscription",
+        "amount": 10.0,
+        "transactionDate": "2024-02-18T09:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN010",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Referral Payout",
+        "amount": 25.0,
+        "transactionDate": "2024-02-18T15:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN011",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Cashback Reward",
+        "amount": 5.0,
+        "transactionDate": "2024-02-19T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN012",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Affiliate Commission",
+        "amount": 7.5,
+        "transactionDate": "2024-02-19T09:15:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN013",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Loyalty Bonus",
+        "amount": 12.0,
+        "transactionDate": "2024-02-19T10:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN014",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Quarterly Bonus",
+        "amount": 50.0,
+        "transactionDate": "2024-02-20T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN015",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Sales Incentive",
+        "amount": 22.75,
+        "transactionDate": "2024-02-20T12:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN016",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Team Bonus",
+        "amount": 30.0,
+        "transactionDate": "2024-02-20T15:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN001",
+        "memberName": "Member1 Test",
+        "memberId": "INF00123",
+        "category": "Joining Fee",
+        "amount": 500,
+        "transactionDate": "2024-02-15T05:16:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN002",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Commission Charge",
+        "amount": 0.3,
+        "transactionDate": "2024-02-15T06:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN003",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Referral Commission",
+        "amount": 1.7,
+        "transactionDate": "2024-02-15T06:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN004",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Level Commission",
+        "amount": 2.55,
+        "transactionDate": "2024-02-15T07:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN005",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Product Purchase",
+        "amount": 45.99,
+        "transactionDate": "2024-02-16T10:45:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN006",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Bonus Payment",
+        "amount": 20.0,
+        "transactionDate": "2024-02-16T12:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN007",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Service Fee",
+        "amount": 5.0,
+        "transactionDate": "2024-02-17T08:30:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN008",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Refund",
+        "amount": 15.5,
+        "transactionDate": "2024-02-17T14:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN009",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Monthly Subscription",
+        "amount": 10.0,
+        "transactionDate": "2024-02-18T09:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN010",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Referral Payout",
+        "amount": 25.0,
+        "transactionDate": "2024-02-18T15:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN011",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Cashback Reward",
+        "amount": 5.0,
+        "transactionDate": "2024-02-19T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN012",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Affiliate Commission",
+        "amount": 7.5,
+        "transactionDate": "2024-02-19T09:15:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN013",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Loyalty Bonus",
+        "amount": 12.0,
+        "transactionDate": "2024-02-19T10:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN014",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Quarterly Bonus",
+        "amount": 50.0,
+        "transactionDate": "2024-02-20T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN015",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Sales Incentive",
+        "amount": 22.75,
+        "transactionDate": "2024-02-20T12:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN016",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Team Bonus",
+        "amount": 30.0,
+        "transactionDate": "2024-02-20T15:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN001",
+        "memberName": "Member1 Test",
+        "memberId": "INF00123",
+        "category": "Joining Fee",
+        "amount": 500,
+        "transactionDate": "2024-02-15T05:16:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN002",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Commission Charge",
+        "amount": 0.3,
+        "transactionDate": "2024-02-15T06:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN003",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Referral Commission",
+        "amount": 1.7,
+        "transactionDate": "2024-02-15T06:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN004",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Level Commission",
+        "amount": 2.55,
+        "transactionDate": "2024-02-15T07:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN005",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Product Purchase",
+        "amount": 45.99,
+        "transactionDate": "2024-02-16T10:45:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN006",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Bonus Payment",
+        "amount": 20.0,
+        "transactionDate": "2024-02-16T12:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN007",
+        "memberName": "3HVHVE7MW",
+        "memberId": "3hvhve7mw",
+        "category": "Service Fee",
+        "amount": 5.0,
+        "transactionDate": "2024-02-17T08:30:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN008",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Refund",
+        "amount": 15.5,
+        "transactionDate": "2024-02-17T14:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN009",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Monthly Subscription",
+        "amount": 10.0,
+        "transactionDate": "2024-02-18T09:00:00-08:00",
+        "transactionType": "debit"
+      },
+      {
+        "transactionId": "TXN010",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Referral Payout",
+        "amount": 25.0,
+        "transactionDate": "2024-02-18T15:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN011",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Cashback Reward",
+        "amount": 5.0,
+        "transactionDate": "2024-02-19T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN012",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Affiliate Commission",
+        "amount": 7.5,
+        "transactionDate": "2024-02-19T09:15:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN013",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Loyalty Bonus",
+        "amount": 12.0,
+        "transactionDate": "2024-02-19T10:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN014",
+        "memberName": "Alice Brown",
+        "memberId": "AB11223",
+        "category": "Quarterly Bonus",
+        "amount": 50.0,
+        "transactionDate": "2024-02-20T08:00:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN015",
+        "memberName": "John Doe",
+        "memberId": "JD12345",
+        "category": "Sales Incentive",
+        "amount": 22.75,
+        "transactionDate": "2024-02-20T12:30:00-08:00",
+        "transactionType": "credit"
+      },
+      {
+        "transactionId": "TXN016",
+        "memberName": "Jane Smith",
+        "memberId": "JS67890",
+        "category": "Team Bonus",
+        "amount": 30.0,
+        "transactionDate": "2024-02-20T15:00:00-08:00",
+        "transactionType": "credit"
+      }
+]
+  

@@ -110,6 +110,7 @@ const Pagination = (props: PaginationProps) => {
     return (
         <div className={paginationClass}>
             {displayTotal && <Total total={total} />}
+
             <Prev
                 currentPage={internalCurrentPage}
                 pagerClass={pagerClass}
