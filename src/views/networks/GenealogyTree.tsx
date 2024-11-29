@@ -21,8 +21,8 @@ const CustomNode = ({ data }) => {
                 className="w-6  h-6 rounded-full mr-2"
             />
             <div>{data.label}</div>
-            <Handle type="source" position="bottom" id="a" />
-            <Handle type="target" position="top" id="b" />
+            {/* <Handle type="source" position="bottom" id="a" />
+            <Handle type="target" position="top" id="b" /> */}
         </div>
     )
 }

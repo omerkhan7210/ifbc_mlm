@@ -10,9 +10,10 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Table from '@/components/ui/Table'
 
+// Define the table structure
 const { Tr, Td, TBody, THead, Th } = Table
 
-// Define the type for treeView data
+// Type for treeView data
 type TreeViewItem = {
     id: number
     profile: string
@@ -23,10 +24,17 @@ type TreeViewItem = {
 
 type TreeViewTableProps = {
     data: TreeViewItem[]
+    headerConfig: {
+        title: string
+        buttonText: string
+        buttonAction: () => void
+    }
 }
 
+// Column helper for React Table
 const columnHelper = createColumnHelper<TreeViewItem>()
 
+// Define the table columns
 const columns = [
     columnHelper.accessor('id', {
         header: 'ID',
@@ -65,7 +73,29 @@ const columns = [
     }),
 ]
 
-const TreeViewTable: React.FC<TreeViewTableProps> = ({ data }) => {
+// Header with Button Component
+const HeaderWithButton: React.FC<{
+    title: string
+    buttonText: string
+    buttonAction: () => void
+}> = ({ title, buttonText, buttonAction }) => (
+    <div className="flex items-center justify-between mb-6">
+        <h4>{title}</h4>
+        <Button
+            size="sm"
+            className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF]"
+            onClick={buttonAction}
+        >
+            {buttonText}
+        </Button>
+    </div>
+)
+
+// Main Component
+const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
+    data,
+    headerConfig,
+}) => {
     const table = useReactTable({
         data,
         columns,
@@ -74,15 +104,11 @@ const TreeViewTable: React.FC<TreeViewTableProps> = ({ data }) => {
 
     return (
         <Card>
-            <div className="flex items-center justify-between mb-6">
-                <h4>Team Members</h4>
-                <Button
-                    size="sm"
-                    onClick={() => console.log('Navigate to details')}
-                >
-                    View Details
-                </Button>
-            </div>
+            <HeaderWithButton
+                title={headerConfig.title}
+                buttonText={headerConfig.buttonText}
+                buttonAction={headerConfig.buttonAction}
+            />
             <Table>
                 <THead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -98,6 +124,8 @@ const TreeViewTable: React.FC<TreeViewTableProps> = ({ data }) => {
                         </Tr>
                     ))}
                 </THead>
+
+                {/* Table Body */}
                 <TBody>
                     {table.getRowModel().rows.map((row) => (
                         <Tr key={row.id}>
@@ -117,4 +145,4 @@ const TreeViewTable: React.FC<TreeViewTableProps> = ({ data }) => {
     )
 }
 
-export default TreeViewTable
+export default DownlineMembersTable
