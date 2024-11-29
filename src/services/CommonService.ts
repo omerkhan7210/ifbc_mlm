@@ -1,4 +1,4 @@
-import { ApiService } from './ApiService'
+import ApiService from './ApiService'
 
 export async function apiGetNotificationCount() {
     return ApiService.fetchDataWithAxios<{
