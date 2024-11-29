@@ -43,6 +43,7 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/Payout')),
         authority: [],
     },
+    
     ...networkRoutes,
     ...othersRoute,
 ]
