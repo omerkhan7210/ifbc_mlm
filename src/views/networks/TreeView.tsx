@@ -6,7 +6,7 @@ import { MdExpandCircleDown } from 'react-icons/md'
 // Card Component
 const Card = ({ profile, title, name, level, id }) => (
     <div
-        className="relative bg-white py-4 px-4 rounded-md border mb-4 w-full flex items-center justify-between shadow"
+        className="relative bg-white py-4 px-4 rounded-md gap-[5%] border mb-4 w-[100%] md:w-full flex items-center justify-between shadow"
         style={{
             boxShadow:
                 '0 1px 1px rgba(0, 0, 0, 0.1), 0 -1px 1px rgba(0, 0, 0, 0.1), 4px 0 6px rgba(0, 0, 0, 0.1), -1px 0 1px rgba(0, 0, 0, 0.1)',
@@ -52,11 +52,9 @@ const TreeView = ({ data }) => {
                 />
                 {/* Render child users if present */}
                 {childrenKeys.length > 0 && (
-                    <div className="relative pl-10 ml-[30px]">
-                        {/* Vertical Line connecting parent to children */}
+                    <div className="relative pl-10 ml-[20px] md:ml-[30px]">
                         <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gray-300"></div>
-                        {/* Render all children */}
-                        <div className="flex gap-6">
+                        <div className="flex gap-2 flex-col md:flex-row">
                             {childrenKeys.map((key) => renderTree(user[key]))}
                         </div>
                     </div>
@@ -66,7 +64,7 @@ const TreeView = ({ data }) => {
     }
 
     return (
-        <div className="p-4 flex flex-col items-start">
+        <div className="flex gap-2 flex-col md:flex-col p-4 items-start">
             {data.map((user) => renderTree(user))}
         </div>
     )
