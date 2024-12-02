@@ -4,6 +4,8 @@ import othersRoute from './othersRoute'
 import type { Routes } from '@/@types/routes'
 import { networkRoutes } from './networkRoutes'
 import { profileManagement } from './profileManagement'
+import { reports } from './reports'
+import { ourPackages } from './ourPackages'
 
 export const publicRoutes: Routes = [...authRoute]
 
@@ -47,5 +49,7 @@ export const protectedRoutes: Routes = [
 
     ...networkRoutes,
     ...profileManagement,
+    ...ourPackages,
+    ...reports,
     ...othersRoute,
 ]

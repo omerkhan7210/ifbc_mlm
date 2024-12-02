@@ -1,19 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import profileImage from '../../../public/images/logo/android-chrome-192x192.png'
 import { HiDotsVertical } from 'react-icons/hi'
 import { Input } from '@/components/ui'
+import { Button } from 'react-scroll'
 
 const ProfileView = () => {
+    const [toggleInfoForm, setToggleInfoForm] = useState({
+        personalDetails: true,
+        bankDetails: false,
+        contactDetrails: false,
+    })
+
+    const handleToggleComponent = (action) => {
+        setToggleInfoForm({
+            personalDetails: action === 'personalDetails',
+            bankDetails: action === 'bankDetails',
+            contactDetrails: action === 'contactDetrails',
+        })
+    }
     return (
         <>
             <div>
                 <div className="flex justify-between mb-[1rem] items-center px-[0.5rem] py-[0.7rem] bg-white shadow rounded-xl">
                     <h5>All user's details</h5>
-                 
-                        <input type="text" />
-                        <button className='w-[10%]  inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] justify-center text-[#FFFFFF]'>
-                            View
-                        </button>
+
+                    <input type="text" />
+                    <button className="w-[10%]  inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] justify-center text-[#FFFFFF]">
+                        View
+                    </button>
                 </div>
                 <div>
                     <div className="flex justify-between w-[100%] items-start gap-[1rem]">
@@ -130,57 +144,228 @@ const ProfileView = () => {
                     </div>
                     <div className="flex justify-between w-[100%] items-start gap-[1rem]">
                         <div className="bg-white w-[30%] shadow rounded-xl flex flex-col items-center justify-start p-[1rem]">
-                            <button className='w-full "text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] mb-4 justify-center text-[#FFFFFF]'>
+                            <button
+                                className='w-full "text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] mb-4 justify-center text-[#FFFFFF]'
+                                onClick={() =>
+                                    handleToggleComponent('personalDetails')
+                                }
+                            >
                                 Personal Details
                             </button>
-                            <button className='w-full "text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] mb-4 justify-center text-[#FFFFFF]'>
+                            <button
+                                className='w-full "text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] mb-4 justify-center text-[#FFFFFF]'
+                                onClick={() =>
+                                    handleToggleComponent('bankDetails')
+                                }
+                            >
                                 Bank Details
                             </button>
-                            <button className='w-full "text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] mb-4 justify-center text-[#FFFFFF]'>
+                            <button
+                                className='w-full "text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] mb-4 justify-center text-[#FFFFFF]'
+                                onClick={() =>
+                                    handleToggleComponent('contactDetrails')
+                                }
+                            >
                                 Contact Details
                             </button>
                         </div>
                         <div className="bg-white w-[70%] shadow rounded-xl p-[1rem]">
-                            <span className="flex justify-between items-center mb-4">
-                                <p className="min-w-[30%]">Address</p>{' '}
-                                <Input
-                                    placeholder="Enter Your Value"
-                                    // {...props}
-                                    // value={props.value}
-                                    // suffix={inputSuffix}
-                                    // prefix={inputPrefix}
-                                />
-                            </span>
-                            <span className="flex justify-between items-center mb-4">
-                                <p className="min-w-[30%]">Address</p>{' '}
-                                <Input
-                                    placeholder="Enter Your Value"
-                                    // {...props}
-                                    // value={props.value}
-                                    // suffix={inputSuffix}
-                                    // prefix={inputPrefix}
-                                />
-                            </span>
-                            <span className="flex justify-between items-center mb-4">
-                                <p className="min-w-[30%]">Address</p>{' '}
-                                <Input
-                                    placeholder="Enter Your Value"
-                                    // {...props}
-                                    // value={props.value}
-                                    // suffix={inputSuffix}
-                                    // prefix={inputPrefix}
-                                />
-                            </span>
-                            <span className="flex justify-between items-center mb-4">
-                                <p className="min-w-[30%]">Address</p>{' '}
-                                <Input
-                                    placeholder="Enter Your Value"
-                                    // {...props}
-                                    // value={props.value}
-                                    // suffix={inputSuffix}
-                                    // prefix={inputPrefix}
-                                />
-                            </span>
+                            {toggleInfoForm?.personalDetails && (
+                                <div>
+                                    <h4>Personal Details</h4>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">
+                                            First Name
+                                        </p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">Last Name</p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">Gender</p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">
+                                            Date of Birth
+                                        </p>
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <button
+                                        className='w-full "text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] mb-4 justify-center text-[#FFFFFF]'
+                                        onClick={() =>
+                                            handleToggleComponent(
+                                                'personalDetails',
+                                            )
+                                        }
+                                    >
+                                        Update
+                                    </button>
+                                </div>
+                            )}
+                            {toggleInfoForm?.contactDetrails && (
+                                <div>
+                                    <h4>Contant Details</h4>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">Address</p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">Address</p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">Address</p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">Address</p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <button
+                                        className='w-full "text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] mb-4 justify-center text-[#FFFFFF]'
+                                        onClick={() =>
+                                            handleToggleComponent(
+                                                'personalDetails',
+                                            )
+                                        }
+                                    >
+                                        Update
+                                    </button>
+                                </div>
+                            )}
+                            {toggleInfoForm?.bankDetails && (
+                                <div>
+                                    <h4>Bank Details</h4>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">Bank Name</p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">
+                                            Branch Name
+                                        </p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">
+                                            Account Holder Name
+                                        </p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">
+                                            Account Number
+                                        </p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">IFSC</p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+                                    <span className="flex justify-between items-center mb-4">
+                                        <p className="min-w-[30%]">PAN No</p>{' '}
+                                        <Input
+                                            placeholder="Enter Your Value"
+                                            // {...props}
+                                            // value={props.value}
+                                            // suffix={inputSuffix}
+                                            // prefix={inputPrefix}
+                                        />
+                                    </span>
+
+                                    <button
+                                        className='w-full "text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF] mb-4 justify-center text-[#FFFFFF]'
+                                        onClick={() =>
+                                            handleToggleComponent(
+                                                'personalDetails',
+                                            )
+                                        }
+                                    >
+                                        Update
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

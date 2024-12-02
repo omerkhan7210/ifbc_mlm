@@ -12,7 +12,7 @@ export const profileManagement: Routes = [
     {
         key: 'profilemanagement',
         path: `${PROFILEMANAGEMENT_PREFIX_PATH}/member-list`,
-        component: lazy(() => import('@/views/networks/TreeView')),
+        component: lazy(() => import('@/views/profileManagement/MemberList')),
         authority: [],
     },
     {
