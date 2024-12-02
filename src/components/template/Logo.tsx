@@ -12,7 +12,6 @@ interface LogoProps extends CommonProps {
     sideNavCollapse?: boolean
 }
 
-
 const Logo = (props: LogoProps) => {
     const {
         type = 'full',
@@ -21,7 +20,7 @@ const Logo = (props: LogoProps) => {
         imgClass,
         style,
         logoWidth = 'auto',
-        sideNavCollapse
+        sideNavCollapse,
     } = props
 
     return (
@@ -33,7 +32,7 @@ const Logo = (props: LogoProps) => {
             }}
         >
             <img
-                className={imgClass}
+                className={`object-contain ${imgClass}`}
                 src={!sideNavCollapse ? logo : logoCollapse}
                 alt={`IFBC logo`}
             />
