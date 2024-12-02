@@ -13,7 +13,8 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "npm run prettier:fix && npm run lint:fix",
     "deploy": "aws s3 sync build/ s3://members.ifbc.co --profile default",
-    "prod": "npm run build && npm run deploy"
+    "prod": "npm run build && npm run deploy",
+    "flush": "aws cloudfront create-invalidation --distribution-id E35SAD69BKIVGJ --paths '/*' --profile default"
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.23",
@@ -38,6 +39,7 @@
     "d3-fetch": "^3.0.1",
     "d3-scale": "^4.0.2",
     "dagre": "^0.8.5",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "firebase": "^10.13.1",
     "framer-motion": "^11.5.4",
