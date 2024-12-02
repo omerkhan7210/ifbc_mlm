@@ -6,6 +6,7 @@ import { networkRoutes } from './networkRoutes'
 import { profileManagement } from './profileManagement'
 import { reports } from './reports'
 import { ourPackages } from './ourPackages'
+import { tools } from './tools'
 
 export const publicRoutes: Routes = [...authRoute]
 
@@ -51,5 +52,6 @@ export const protectedRoutes: Routes = [
     ...profileManagement,
     ...ourPackages,
     ...reports,
+    ...tools,
     ...othersRoute,
 ]
