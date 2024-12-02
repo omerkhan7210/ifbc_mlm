@@ -43,7 +43,7 @@ export const protectedRoutes: Routes = [
     {
         key: 'payout',
         path: '/payout',
-        component: lazy(() => import('@/views/Payout')),
+        component: lazy(() => import('@/views/payout/Payout')),
         authority: [],
     },
 

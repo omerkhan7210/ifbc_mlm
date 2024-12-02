@@ -5,7 +5,7 @@ import WalletSummary from './components/WalletSummary'
 import WalletTransaction from './components/WalletTransaction'
 import UserEarnings from './components/UserEarnings'
 
-const walletTabs = ['E-Wallet Summary', 'E-Wallet Transaction', 'User Earnings']
+const walletTabs = ['E-Wallet Summary', 'E-Wallet Transaction']
 export default function EWallet() {
     const [activeTab, setActiveTab] = useState<string>('E-Wallet Summary')
 
@@ -32,7 +32,7 @@ export default function EWallet() {
                     {/* Content  */}
                     {activeTab === 'E-Wallet Summary' && <WalletSummary />}
                     {activeTab === 'E-Wallet Transaction' && <WalletTransaction />}
-                    {activeTab === 'User Earnings' && <UserEarnings />}
+
 
                 </div>
 
