@@ -158,11 +158,10 @@ const _Notification = ({ className }: { className?: string }) => {
                                 </div>
                                 <Badge
                                     className="absolute top-4 ltr:right-4 rtl:left-4 mt-1.5"
-                                    innerClass={`${
-                                        item.readed
+                                    innerClass={`${item.readed
                                             ? 'bg-gray-300 dark:bg-gray-600'
                                             : 'bg-primary'
-                                    } `}
+                                        } `}
                                 />
                             </div>
                             {!isLastChild(notificationList, index) ? (
