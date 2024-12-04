@@ -1,0 +1,213 @@
+[
+    {
+      "consultantId": "c001",
+      "consultantName": "John Doe",
+      "subConsultantId": "sc001",
+      "subConsultantName": "Jane Smith",
+      "franchiseName": "FoodCorp",
+      "stage": "New Deal",
+      "timestamp": "2024-12-03T10:30:00-08:00",
+      "details": {
+        "message": "John initiated a new deal with a potential franchisee.",
+        "additionalInfo": "Candidate interested in food sector.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c002",
+      "consultantName": "Emily Carter",
+      "subConsultantId": null,
+      "subConsultantName": null,
+      "franchiseName": "TechCorp",
+      "stage": "Initial Call Attempt",
+      "timestamp": "2024-12-02T11:15:00-08:00",
+      "details": {
+        "message": "Emily made the initial call to the franchise candidate.",
+        "additionalInfo": "Candidate prefers evening calls.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c003",
+      "consultantName": "Michael Chang",
+      "subConsultantId": "sc002",
+      "subConsultantName": "Alex Wong",
+      "franchiseName": "HealthCorp",
+      "stage": "Connected",
+      "timestamp": "2024-12-01T14:20:00-08:00",
+      "details": {
+        "message": "Alex successfully connected with the candidate.",
+        "additionalInfo": "Candidate requested presentation materials.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c004",
+      "consultantName": "Sophia Brown",
+      "subConsultantId": null,
+      "subConsultantName": null,
+      "franchiseName": "EduCorp",
+      "stage": "Spoton / Candidate Research",
+      "timestamp": "2024-12-01T09:45:00-08:00",
+      "details": {
+        "message": "Sophia completed initial candidate research.",
+        "additionalInfo": "Prepared list of top preferences.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c005",
+      "consultantName": "Ryan Howard",
+      "subConsultantId": "sc003",
+      "subConsultantName": "Linda Garcia",
+      "franchiseName": "AutoCorp",
+      "stage": "Research & Prepare Presentation",
+      "timestamp": "2024-11-30T16:00:00-08:00",
+      "details": {
+        "message": "Linda finalized the presentation for the franchisee.",
+        "additionalInfo": "Focus on competitive analysis.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c006",
+      "consultantName": "David Parker",
+      "subConsultantId": "sc004",
+      "subConsultantName": "Sarah Lee",
+      "franchiseName": "EcoCorp",
+      "stage": "Present Franchise Review",
+      "timestamp": "2024-11-29T10:30:00-08:00",
+      "details": {
+        "message": "Sarah presented the franchise review to the candidate.",
+        "additionalInfo": "Candidate expressed interest in proceeding to the next stage.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c007",
+      "consultantName": "Laura Wilson",
+      "subConsultantId": null,
+      "subConsultantName": null,
+      "franchiseName": "RetailCorp",
+      "stage": "Intro to Zor",
+      "timestamp": "2024-11-28T15:15:00-08:00",
+      "details": {
+        "message": "Laura introduced the candidate to the Zor team.",
+        "additionalInfo": null,
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c008",
+      "consultantName": "Chris Anderson",
+      "subConsultantId": "sc005",
+      "subConsultantName": "Mark Paul",
+      "franchiseName": "GreenCorp",
+      "stage": "Franchise Due Diligence",
+      "timestamp": "2024-11-27T09:00:00-08:00",
+      "details": {
+        "message": "Mark initiated franchise due diligence.",
+        "additionalInfo": "Review of financials and candidate background.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c001",
+      "consultantName": "John Doe",
+      "subConsultantId": null,
+      "subConsultantName": null,
+      "franchiseName": "FoodCorp",
+      "stage": "Validate - FSO",
+      "timestamp": "2024-11-26T11:25:00-08:00",
+      "details": {
+        "message": "John validated the candidate through FSO process.",
+        "additionalInfo": null,
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c009",
+      "consultantName": "Nathan Moore",
+      "subConsultantId": "sc006",
+      "subConsultantName": "Emma Stone",
+      "franchiseName": "HealthCorp",
+      "stage": "Discovery/Day Award - FSO",
+      "timestamp": "2024-11-25T14:45:00-08:00",
+      "details": {
+        "message": "Emma awarded the candidate after discovery.",
+        "additionalInfo": null,
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c003",
+      "consultantName": "Michael Chang",
+      "subConsultantId": "sc002",
+      "subConsultantName": "Alex Wong",
+      "franchiseName": "HealthCorp",
+      "stage": "Closed Won",
+      "timestamp": "2024-11-24T17:00:00-08:00",
+      "details": {
+        "message": "Alex successfully closed the deal with the candidate.",
+        "additionalInfo": "Franchise location: San Francisco.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c004",
+      "consultantName": "Sophia Brown",
+      "subConsultantId": null,
+      "subConsultantName": null,
+      "franchiseName": "EduCorp",
+      "stage": "Closed Lost",
+      "timestamp": "2024-11-23T13:30:00-08:00",
+      "details": {
+        "message": "Sophia marked the deal as lost due to candidate withdrawal.",
+        "additionalInfo": null,
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c002",
+      "consultantName": "Emily Carter",
+      "subConsultantId": "sc004",
+      "subConsultantName": "David Lee",
+      "franchiseName": "TechCorp",
+      "stage": "On Hold",
+      "timestamp": "2024-11-22T08:45:00-08:00",
+      "details": {
+        "message": "Emily put the deal on hold for further review.",
+        "additionalInfo": "Pending candidate feedback.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c010",
+      "consultantName": "Oliver Brooks",
+      "subConsultantId": null,
+      "subConsultantName": null,
+      "franchiseName": "AutoCorp",
+      "stage": "Franchise Agreement Signed",
+      "timestamp": "2024-11-21T10:00:00-08:00",
+      "details": {
+        "message": "Oliver signed the franchise agreement with the candidate.",
+        "additionalInfo": "Agreement finalized with legal team.",
+        "media": null
+      }
+    },
+    {
+      "consultantId": "c011",
+      "consultantName": "Grace White",
+      "subConsultantId": null,
+      "subConsultantName": null,
+      "franchiseName": "RetailCorp",
+      "stage": "Contract Negotiation",
+      "timestamp": "2024-11-20T09:30:00-08:00",
+      "details": {
+        "message": "Grace entered contract negotiation with the candidate.",
+        "additionalInfo": null,
+        "media": null
+      }
+    }
+  ]
+  

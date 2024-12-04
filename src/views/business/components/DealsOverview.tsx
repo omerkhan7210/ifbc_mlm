@@ -3,6 +3,11 @@ import { TbArrowDownToArc } from 'react-icons/tb'
 import { FaSackDollar, FaCircleDollarToSlot, FaMoneyCheckDollar } from "react-icons/fa6";
 import type { ReactNode } from 'react'
 import { Card } from "@/components/ui"
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
+import { GrInProgress } from "react-icons/gr";
+import { BsMicrosoftTeams } from "react-icons/bs";
+import { GoIssueReopened } from "react-icons/go";
+
 
 type StatisticCardProps = {
     title: string
@@ -51,40 +56,30 @@ const StatisticCard = ({
     )
 }
 
-const IncomeOverview = () => {
+const DealsOverview = ({ className }) => {
     return (
-        <Card>
-            <div className="flex items-center justify-between">
+        <Card className={className}>
+            <div className="flex items-center justify-between mb-5">
                 <h4>Business Overview</h4>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 rounded-2xl mt-4">
+            <div className="grid grid-cols-1  gap-4 rounded-2xl mt-4">
                 <StatisticCard
-                    title="Income"
+                    title="Completed Deals (Your)"
                     className="bg-sky-100 dark:bg-opacity-75"
-                    value='$703.5k'
-                    icon={<FaSackDollar />}
+                    value='12'
+                    icon={<IoCheckmarkDoneCircle />}
                 />
                 <StatisticCard
-                    title="Bonus"
+                    title="In Progress Deals (Your)"
                     className="bg-emerald-100 dark:bg-opacity-75"
-                    value='$1.45k'
-                    icon={<FaCircleDollarToSlot />}
+                    value='7'
+                    icon={<GoIssueReopened />}
                 />
-                <StatisticCard
-                    title="Paid"
-                    className="bg-pink-100 dark:bg-opacity-75"
-                    value='$450'
-                    icon={<FaMoneyCheckDollar />}
-                />
-                <StatisticCard
-                    title="Total Profit"
-                    className="bg-emerald-200 dark:bg-opacity-75"
-                    value='$32.4k'
-                    icon={<TbArrowDownToArc />}
-                />
+
+
             </div>
         </Card>
     )
 }
 
-export default IncomeOverview
+export default DealsOverview
