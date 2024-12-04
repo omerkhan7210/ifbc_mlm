@@ -500,6 +500,16 @@ const navigationConfig: NavigationTree[] = [
         subMenu: [],
     },
     {
+        key: 'teams',
+        path: '/teams',
+        title: 'Teams',
+        translateKey: 'nav.teams',
+        icon: 'eWallet',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [],
+        subMenu: [],
+    },
+    {
         key: 'payout',
         path: '/payout',
         title: 'Payout',

@@ -7,6 +7,7 @@ import { profileManagement } from './profileManagement'
 import { reports } from './reports'
 import { ourPackages } from './ourPackages'
 import { tools } from './tools'
+import { settings } from './settings'
 
 export const publicRoutes: Routes = [...authRoute]
 
@@ -27,6 +28,12 @@ export const protectedRoutes: Routes = [
         key: 'ewallet',
         path: '/e-wallet',
         component: lazy(() => import('@/views/eWallet')),
+        authority: [],
+    },
+    {
+        key: 'teams',
+        path: '/teams',
+        component: lazy(() => import('@/views/teams/OurTeam')),
         authority: [],
     },
     {
@@ -53,5 +60,6 @@ export const protectedRoutes: Routes = [
     ...ourPackages,
     ...reports,
     ...tools,
+    ...settings,
     ...othersRoute,
 ]
