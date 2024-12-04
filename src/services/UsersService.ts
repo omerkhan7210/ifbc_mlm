@@ -10,3 +10,12 @@ export async function apiGetAllUsers() {
 
     return response
 }
+
+export async function apiGetAllCandidates() {
+    const response = await ApiService.fetchDataWithAxios<User>({
+        url: endpointConfig.getAllUsers,
+        method: 'get',
+    })
+
+    return response
+}

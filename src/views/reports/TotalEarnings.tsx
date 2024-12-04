@@ -93,63 +93,61 @@ const TotalEarnings = () => {
     return (
         <>
             <div>
-                {/* <div className="flex justify-between items-center mb-[1rem] bg-white py-[1rem] px-[0.5rem] rounded-xl shadow">
-                    <div>
-                        <label>UserName</label>
-                        <select
-                            className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                            // value={formFields.userType}
-                            // onChange={(e) =>
-                            //     setFormFields({
-                            //         ...formFields,
-                            //         userType: e.target.value,
-                            //     })
-                            // }
-                        >
-                            <option value="" disabled>
-                                Select User Type
-                            </option>
-                            <option value="C">Consultant</option>
-                            <option value="A">Ambassador</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>UserName</label>
-                        <select
-                            className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                            // value={formFields.userType}
-                            // onChange={(e) =>
-                            //     setFormFields({
-                            //         ...formFields,
-                            //         userType: e.target.value,
-                            //     })
-                            // }
-                        >
-                            <option value="" disabled>
-                                Select User Type
-                            </option>
-                            <option value="C">Consultant</option>
-                            <option value="A">Ambassador</option>
-                        </select>
-                    </div>
-                    <div className="flex gap-2 flex-col">
-                        <button
-                            type="button"
-                            // onClick={handleSendOtp}
-                            className="py-2.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
-                        >
-                            Submit
-                        </button>
-                        <button
-                            type="button"
-                            // onClick={handleSendOtp}
-                            className="py-2.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
-                        >
-                            Reset
-                        </button>
-                    </div>
-                </div> */}
-                {/* <div> */}
+                <div>
+                    <label>UserName</label>
+                    <select
+                        className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                        // value={formFields.userType}
+                        // onChange={(e) =>
+                        //     setFormFields({
+                        //         ...formFields,
+                        //         userType: e.target.value,
+                        //     })
+                        // }
+                    >
+                        <option value="" disabled>
+                            Select User Type
+                        </option>
+                        <option value="C">Consultant</option>
+                        <option value="A">Ambassador</option>
+                    </select>
+                </div>
+                <div>
+                    <label>UserName</label>
+                    <select
+                        className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                        // value={formFields.userType}
+                        // onChange={(e) =>
+                        //     setFormFields({
+                        //         ...formFields,
+                        //         userType: e.target.value,
+                        //     })
+                        // }
+                    >
+                        <option value="" disabled>
+                            Select User Type
+                        </option>
+                        <option value="C">Consultant</option>
+                        <option value="A">Ambassador</option>
+                    </select>
+                </div>
+                <div className="flex gap-2 flex-col">
+                    <button
+                        type="button"
+                        // onClick={handleSendOtp}
+                        className="py-2.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+                    >
+                        Submit
+                    </button>
+                    <button
+                        type="button"
+                        // onClick={handleSendOtp}
+                        className="py-2.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+                    >
+                        Reset
+                    </button>
+                </div>
+
                 <div className="flex justify-between mb-[1rem] bg-white py-[1rem] px-[0.5rem] rounded-xl shadow">
                     <div className="flex flex-col gap-[0.3rem]">
                         <h1 className="text-black ">Company name</h1>
