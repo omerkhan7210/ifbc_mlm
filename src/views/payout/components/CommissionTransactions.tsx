@@ -108,7 +108,7 @@ export default function CommissionTransactions() {
   return (
     <div>
       <Card>
-        <h4 className='mb-5' >Closed Deals Commission Details</h4>
+        <h3 className='mb-5 text-center' >Closed Deals Commission Details</h3>
         {/* headings */}
 
         <div className='grid grid-cols-3 gap-5'>
