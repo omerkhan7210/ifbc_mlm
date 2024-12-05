@@ -7,6 +7,7 @@ import OptForm from './OptForm'
 import Loading from '../../components/shared/Loading'
 import { apiGetAllUsers } from '@/services/UsersService'
 import { useAuth } from '@/auth'
+import { CgClapperBoard } from 'react-icons/cg'
 
 interface FormFields {
     teamsName: string
@@ -37,8 +38,6 @@ const TeamsForm = ({ onClose }) => {
     })
     const [cands, setCands] = useState([])
     const [members, setMembers] = useState([])
-    console.log(cands, 'cands')
-    console.log(formFields, 'formFields')
 
     const { user } = useAuth()
     console.log(user)
@@ -97,9 +96,9 @@ const TeamsForm = ({ onClose }) => {
             }
         })
     }
-    const handleCheckboxChange2 = (event) => {
-        const value = event.target.value
-        const isChecked = event.target.checked
+    const handleCheckboxChange2 = (e) => {
+        const value = e.target.value
+        const isChecked = e.target.checked
 
         setFormFields((prevState) => {
             return {
@@ -312,104 +311,6 @@ const TeamsForm = ({ onClose }) => {
                             )}
                         </div>
 
-                        {/* <div>
-                            <label className="text-gray-800 text-sm mb-2 block">
-                                Add Teams
-                            </label>
-                            <div className="relative">
-                                <button
-                                    type="button"
-                                    onClick={toggleDropdown}
-                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                                >
-                                    Select Team Members
-                                </button>
-
-                                {isDropdownOpen && (
-                                    <div className="absolute bg-white border border-gray-300 rounded-md mt-1 w-full z-10">
-                                        <div>
-                                            <input
-                                                type="checkbox"
-                                                id="consultant"
-                                                value="C"
-                                                checked={formFields.addteamMembers.includes(
-                                                    'C',
-                                                )}
-                                                onChange={handleCheckboxChange}
-                                                className="mr-2"
-                                            />
-                                            <label
-                                                htmlFor="consultant"
-                                                className="text-sm"
-                                            >
-                                                Consultant
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <input
-                                                type="checkbox"
-                                                id="ambassador"
-                                                value="A"
-                                                checked={formFields.addteamMembers.includes(
-                                                    'A',
-                                                )}
-                                                onChange={handleCheckboxChange}
-                                                className="mr-2"
-                                            />
-                                            <label
-                                                htmlFor="ambassador"
-                                                className="text-sm"
-                                            >
-                                                Ambassador
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <input
-                                                type="checkbox"
-                                                id="ambass34"
-                                                value="R"
-                                                checked={formFields.addteamMembers.includes(
-                                                    'R',
-                                                )}
-                                                onChange={handleCheckboxChange}
-                                                className="mr-2"
-                                            />
-                                            <label
-                                                htmlFor="ambass34"
-                                                className="text-sm"
-                                            >
-                                                Ambass34
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <input
-                                                type="checkbox"
-                                                id="ambass355"
-                                                value="U"
-                                                checked={formFields.addteamMembers.includes(
-                                                    'U',
-                                                )}
-                                                onChange={handleCheckboxChange}
-                                                className="mr-2"
-                                            />
-                                            <label
-                                                htmlFor="ambass355"
-                                                className="text-sm"
-                                            >
-                                                Ambass355
-                                            </label>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            {formErrors.addteamMembers && (
-                                <p className="text-red-500 text-xs">
-                                    {formErrors?.addteamMembers}
-                                </p>
-                            )}
-                        </div> */}
-
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">
                                 Add Teams
@@ -418,7 +319,7 @@ const TeamsForm = ({ onClose }) => {
                                 <button
                                     type="button"
                                     onClick={toggleDropdown}
-                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md outline-blue-500 transition-all"
                                 >
                                     Select Team Members
                                 </button>
@@ -469,7 +370,7 @@ const TeamsForm = ({ onClose }) => {
                                 <button
                                     type="button"
                                     onClick={toggleDropdown2}
-                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md outline-blue-500 transition-all"
                                 >
                                     Select Team Members
                                 </button>
@@ -478,15 +379,15 @@ const TeamsForm = ({ onClose }) => {
                                     <div className="p-[0.5rem] max-h-[35vh] overflow-auto absolute bg-white border border-gray-300 rounded-md mt-1 w-full z-10">
                                         {cands?.map((card) => (
                                             <div
-                                                key={card.docId}
+                                                key={card.docid}
                                                 className="mt-[0.5rem]"
                                             >
                                                 <input
                                                     type="checkbox"
-                                                    id={`member-${card.docId}`}
-                                                    value={card.docId}
+                                                    id={`card-${card.docid}`}
+                                                    value={card.docid}
                                                     checked={formFields.assignDeals.includes(
-                                                        card?.docId?.toString(),
+                                                        card?.docid?.toString(),
                                                     )}
                                                     onChange={
                                                         handleCheckboxChange2
