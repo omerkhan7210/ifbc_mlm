@@ -3,6 +3,7 @@ import authRoute from './authRoute'
 import othersRoute from './othersRoute'
 import type { Routes } from '@/@types/routes'
 import { networkRoutes } from './networkRoutes'
+import { profileManagement } from './profileManagement'
 
 export const publicRoutes: Routes = [...authRoute]
 
@@ -22,13 +23,13 @@ export const protectedRoutes: Routes = [
     {
         key: 'ewallet',
         path: '/e-wallet',
-        component: lazy(() => import('@/views/EWallet')),
+        component: lazy(() => import('@/views/eWallet')),
         authority: [],
     },
     {
         key: 'business',
         path: '/business',
-        component: lazy(() => import('@/views/Business')),
+        component: lazy(() => import('@/views/business')),
         authority: [],
     },
     {
@@ -43,6 +44,8 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/Payout')),
         authority: [],
     },
+
     ...networkRoutes,
+    ...profileManagement,
     ...othersRoute,
 ]
