@@ -81,9 +81,13 @@ const Mailbox = () => {
     const headerConfig = {
         title: 'Inbox',
         buttonText: 'New email',
+        placeholderText: 'Search User',
         buttonAction: () => {
             setShowEmailModel(true)
             console.log('Navigate to details')
+        },
+        onchangeAction: () => {
+            console.log('Onchange details')
         },
     }
 

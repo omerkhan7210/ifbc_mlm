@@ -13,7 +13,7 @@ const IncomeDonutChart = () => {
                 options={{
                     // colors: ['#e0f2fe', '#d1fae5', '#fce7f3', '#a7f3d0'],
                     colors: COLORS,
-                    labels: ['Income', 'Bonus', 'Paid', 'Profit'],
+                    labels: ['Completed Deals', 'In Progress Deal'],
                     responsive: [
                         {
                             breakpoint: 480,
@@ -28,7 +28,7 @@ const IncomeDonutChart = () => {
                         },
                     ],
                 }}
-                series={[20300, 14500, 4500, 32400]}
+                series={[12, 7]}
                 height={300}
                 type="donut"
             />

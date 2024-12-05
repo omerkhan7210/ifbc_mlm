@@ -7,7 +7,8 @@ const endpointConfig = {
     forgotPassword: '/forget-password',
     resetPassword: '/reset-password',
     // getAllUsers: '/users',
-    getAllUsers: '/users/hierarchy',
+    getAllUsers: '/users',
+    getAllCandidates: '/candidateprofile',
 }
 
 export default endpointConfig

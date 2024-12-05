@@ -1,7 +1,10 @@
+import TransactionsTable from '@/views/business/components/TransactionsTable'
 import React from 'react'
 
 export default function WalletTransaction() {
     return (
-        <div>WalletTransaction</div>
+        <div>
+            <TransactionsTable />
+        </div>
     )
 }

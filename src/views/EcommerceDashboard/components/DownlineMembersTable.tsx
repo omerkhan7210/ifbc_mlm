@@ -9,6 +9,7 @@ import {
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Table from '@/components/ui/Table'
+import { Input } from '@/components/ui'
 
 // Define the table structure
 const { Tr, Td, TBody, THead, Th } = Table
@@ -27,7 +28,9 @@ type TreeViewTableProps = {
     headerConfig: {
         title: string
         buttonText: string
+        placeholderText: string
         buttonAction: () => void
+        onchangeAction: () => void
     }
 }
 
@@ -77,10 +80,21 @@ const columns = [
 const HeaderWithButton: React.FC<{
     title: string
     buttonText: string
+    placeholderText: string
+    onchangeAction: () => void
     buttonAction: () => void
-}> = ({ title, buttonText, buttonAction }) => (
+}> = ({ title, buttonText, buttonAction, placeholderText, onchangeAction }) => (
     <div className="flex items-center justify-between mb-6">
         <h4>{title}</h4>
+        <Input
+            placeholder={placeholderText}
+            onChange={onchangeAction}
+            className="w-[30%] bg-[#E5E5E5]"
+            // {...props}
+            // value={props.value}
+            // suffix={inputSuffix}
+            // prefix={inputPrefix}
+        />
         <Button
             size="sm"
             className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF]"
@@ -107,7 +121,9 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
             <HeaderWithButton
                 title={headerConfig.title}
                 buttonText={headerConfig.buttonText}
+                placeholderText={headerConfig.placeholderText}
                 buttonAction={headerConfig.buttonAction}
+                onchangeAction={headerConfig.onchangeAction}
             />
             <Table>
                 <THead>

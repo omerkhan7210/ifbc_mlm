@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable'
 import profileImage from '../../../public/images/logo/android-chrome-192x192.png'
+import TeamsForm from '@/components/forms/TeamsForm'
 
-const DownlineMembers = () => {
+const OurTeam = () => {
     const treeViewData = [
         {
             id: 1,
@@ -78,24 +79,31 @@ const DownlineMembers = () => {
 
     const headerConfig = {
         title: 'Downline Members',
-        buttonText: 'View Details',
+        buttonText: 'Create New Team',
         buttonAction: () => {
-            console.log('Navigate to details')
+            handleToggleModel()
         },
         placeholderText: 'Search your Teams',
         onchangeAction: () => {
             console.log('Navigate to details')
         },
     }
+
+    const [openModel, setOpenModel] = useState(false)
+    const handleToggleModel = () => {
+        setOpenModel(!openModel)
+    }
     return (
-        <div>
-            <DownlineMembersTable
-                data={treeViewData}
-                headerConfig={headerConfig}
-            />
-            
-        </div>
+        <>
+            <div>
+                <DownlineMembersTable
+                    data={treeViewData}
+                    headerConfig={headerConfig}
+                />
+                {openModel && <TeamsForm onClose={handleToggleModel} />}
+            </div>
+        </>
     )
 }
 
-export default DownlineMembers
+export default OurTeam

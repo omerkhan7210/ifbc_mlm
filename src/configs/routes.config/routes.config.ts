@@ -4,6 +4,10 @@ import othersRoute from './othersRoute'
 import type { Routes } from '@/@types/routes'
 import { networkRoutes } from './networkRoutes'
 import { profileManagement } from './profileManagement'
+import { reports } from './reports'
+import { ourPackages } from './ourPackages'
+import { tools } from './tools'
+import { settings } from './settings'
 
 export const publicRoutes: Routes = [...authRoute]
 
@@ -27,6 +31,12 @@ export const protectedRoutes: Routes = [
         authority: [],
     },
     {
+        key: 'teams',
+        path: '/teams',
+        component: lazy(() => import('@/views/teams/OurTeam')),
+        authority: [],
+    },
+    {
         key: 'business',
         path: '/business',
         component: lazy(() => import('@/views/business')),
@@ -41,11 +51,15 @@ export const protectedRoutes: Routes = [
     {
         key: 'payout',
         path: '/payout',
-        component: lazy(() => import('@/views/Payout')),
+        component: lazy(() => import('@/views/payout/Payout')),
         authority: [],
     },
 
     ...networkRoutes,
     ...profileManagement,
+    ...ourPackages,
+    ...reports,
+    ...tools,
+    ...settings,
     ...othersRoute,
 ]
