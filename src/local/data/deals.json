@@ -1,0 +1,201 @@
+[
+    {
+      "id": 1201,
+      "franchise": "The Brothers That Just Do Gutters",
+      "dealAmount": 43000,
+      "consultant": "Ali Rehman",
+      "seniorConsultant": "Zeeshan Sadiq",
+      "broker": "Saima Basheer",
+      "closingDate": "2024-02-15T05:16:00-08:00",
+      "candidateName": "John Smith",
+      "ambassador": "Rehan Nazir"
+    },
+    {
+      "id": 1202,
+      "franchise": "Bright Future Landscaping",
+      "dealAmount": 52000,
+      "consultant": "Sana Khan",
+      "seniorConsultant": "Ahmed Raza",
+      "broker": "Kamran Tariq",
+      "closingDate": "2024-03-10T14:30:00-08:00",
+      "candidateName": "Emma Johnson"
+    },
+    {
+      "id": 1203,
+      "franchise": "Eco-Friendly Cleaners",
+      "dealAmount": 67000,
+      "consultant": "Sara Malik",
+      "seniorConsultant": "Usman Ali",
+      "broker": "Hira Shah",
+      "closingDate": "2024-04-20T10:45:00-08:00",
+      "candidateName": "Sophia Brown",
+      "ambassador": "Bilal Aslam"
+    },
+    {
+      "id": 1204,
+      "franchise": "HomeSafe Inspections",
+      "dealAmount": 38000,
+      "consultant": "Hassan Javed",
+      "seniorConsultant": "Yasmin Iqbal",
+      "broker": "Naveed Khan",
+      "closingDate": "2024-01-12T09:00:00-08:00",
+      "candidateName": "Michael Davis"
+    },
+    {
+      "id": 1205,
+      "franchise": "Green Energy Solutions",
+      "dealAmount": 45000,
+      "consultant": "Zara Yousaf",
+      "seniorConsultant": "Fahad Mustafa",
+      "broker": "Amna Iqbal",
+      "closingDate": "2024-06-25T16:00:00-08:00",
+      "candidateName": "Liam Martinez"
+    },
+    {
+      "id": 1206,
+      "franchise": "Urban Farmstead",
+      "dealAmount": 60000,
+      "consultant": "Hamza Ahmed",
+      "seniorConsultant": "Maria Qureshi",
+      "broker": "Imran Nazir",
+      "closingDate": "2024-05-18T11:30:00-08:00",
+      "candidateName": "Olivia Garcia",
+      "ambassador": "Saba Rehman"
+    },
+    {
+      "id": 1207,
+      "franchise": "Speedy Car Wash",
+      "dealAmount": 39000,
+      "consultant": "Farah Nadeem",
+      "seniorConsultant": "Hammad Saeed",
+      "broker": "Kashif Malik",
+      "closingDate": "2024-07-22T08:00:00-08:00",
+      "candidateName": "Noah Wilson"
+    },
+    {
+      "id": 1208,
+      "franchise": "Healthy Bites Cafeteria",
+      "dealAmount": 71000,
+      "consultant": "Noman Rizvi",
+      "seniorConsultant": "Fatima Anwar",
+      "broker": "Rashid Khan",
+      "closingDate": "2024-08-15T12:00:00-08:00",
+      "candidateName": "Ava Moore",
+      "ambassador": "Lubna Sadiq"
+    },
+    {
+      "id": 1209,
+      "franchise": "Bright Spark Education",
+      "dealAmount": 83000,
+      "consultant": "Yasir Hussain",
+      "seniorConsultant": "Mahnoor Kaleem",
+      "broker": "Ayesha Khalid",
+      "closingDate": "2024-09-05T15:45:00-08:00",
+      "candidateName": "Isabella Clark"
+    },
+    {
+      "id": 1210,
+      "franchise": "Tech Innovators",
+      "dealAmount": 95000,
+      "consultant": "Owais Jameel",
+      "seniorConsultant": "Kiran Tariq",
+      "broker": "Adnan Saleem",
+      "closingDate": "2024-10-11T18:00:00-08:00",
+      "candidateName": "James Walker",
+      "ambassador": "Mohtashim Riaz"
+    },
+    {
+      "id": 1211,
+      "franchise": "Eco Transport Services",
+      "dealAmount": 76000,
+      "consultant": "Rida Ali",
+      "seniorConsultant": "Salman Ahmed",
+      "broker": "Asad Noor",
+      "closingDate": "2024-11-07T14:00:00-08:00",
+      "candidateName": "Lucas Hall"
+    },
+    {
+      "id": 1212,
+      "franchise": "Clean & Clear Maintenance",
+      "dealAmount": 42000,
+      "consultant": "Tania Aftab",
+      "seniorConsultant": "Zubair Khan",
+      "broker": "Hassan Zia",
+      "closingDate": "2024-12-01T09:00:00-08:00",
+      "candidateName": "Mia Young",
+      "ambassador": "Muneeb Iqbal"
+    },
+    {
+      "id": 1213,
+      "franchise": "Bright Lights Electricians",
+      "dealAmount": 50000,
+      "consultant": "Areeba Zafar",
+      "seniorConsultant": "Waleed Tahir",
+      "broker": "Rafay Hasan",
+      "closingDate": "2024-10-23T10:00:00-08:00",
+      "candidateName": "Ethan Allen"
+    },
+    {
+      "id": 1214,
+      "franchise": "Golden Path Fitness",
+      "dealAmount": 68000,
+      "consultant": "Fahima Qazi",
+      "seniorConsultant": "Hammad Raza",
+      "broker": "Razia Sultan",
+      "closingDate": "2024-11-15T16:30:00-08:00",
+      "candidateName": "Amelia King",
+      "ambassador": "Zain Mehdi"
+    },
+    {
+      "id": 1215,
+      "franchise": "Smart Green Solutions",
+      "dealAmount": 89000,
+      "consultant": "Naveen Ahmed",
+      "seniorConsultant": "Sahar Ali",
+      "broker": "Waqar Hussain",
+      "closingDate": "2024-06-12T10:00:00-08:00",
+      "candidateName": "Alexander Wright"
+    },
+    {
+      "id": 1216,
+      "franchise": "Urban Mobility Systems",
+      "dealAmount": 53000,
+      "consultant": "Usama Tahir",
+      "seniorConsultant": "Javeria Khan",
+      "broker": "Faheem Akbar",
+      "closingDate": "2024-04-01T11:30:00-08:00",
+      "candidateName": "Charlotte Scott"
+    },
+    {
+      "id": 1217,
+      "franchise": "Dynamic Health Services",
+      "dealAmount": 44000,
+      "consultant": "Sajjad Shah",
+      "seniorConsultant": "Laila Munir",
+      "broker": "Shahzaib Qureshi",
+      "closingDate": "2024-05-09T13:15:00-08:00",
+      "candidateName": "Elijah Green"
+    },
+    {
+      "id": 1218,
+      "franchise": "NextGen Solutions",
+      "dealAmount": 61000,
+      "consultant": "Mehreen Ahmed",
+      "seniorConsultant": "Zainab Tariq",
+      "broker": "Aliya Shah",
+      "closingDate": "2024-03-16T10:00:00-08:00",
+      "candidateName": "Harper Baker"
+    },
+    {
+      "id": 1219,
+      "franchise": "Urban Wellness Clinics",
+      "dealAmount": 73000,
+      "consultant": "Uzair Saeed",
+      "seniorConsultant": "Amna Shahid",
+      "broker": "Fahad Kareem",
+      "closingDate": "2024-02-22T08:00:00-08:00",
+      "candidateName": "Aiden Gonzalez",
+      "ambassador": "Lubna Tariq"
+    }
+  ]
+  

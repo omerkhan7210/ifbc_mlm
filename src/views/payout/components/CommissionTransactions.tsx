@@ -2,6 +2,7 @@ import { Card, Pagination } from '@/components/ui';
 import classNames from '@/utils/classNames';
 import { formatDateCustom } from '@/utils/dateUtils';
 import { useState } from 'react';
+import transactions from '@/local/data/deals.json'
 
 const shares = {
   consultantShare: 15,
@@ -11,82 +12,9 @@ const shares = {
 }
 
 
-const transactions = [
-  {
-    id: 1201,
-    franchise: 'The Brothers That Just Do Gutters',
-    dealAmount: 43000,
-    consultant: 'Ali Rehman',
-    seniorConsultant: 'Zeeshan Sadiq',
-    broker: 'Saima Basheer',
-    closingDate: '2024-02-15T05:16:00-08:00',
-    ambassador: 'Rehan Nazir'
-  },
-  {
-    id: 1202,
-    franchise: 'Bright Future Landscaping',
-    dealAmount: 52000,
-    consultant: 'Sana Khan',
-    seniorConsultant: 'Ahmed Raza',
-    broker: 'Kamran Tariq',
-    closingDate: '2024-03-10T14:30:00-08:00',
-    ambassador: 'Nida Farooq'
-  },
-  {
-    id: 1203,
-    franchise: 'Eco-Friendly Cleaners',
-    dealAmount: 67000,
-    consultant: 'Sara Malik',
-    seniorConsultant: 'Usman Ali',
-    broker: 'Hira Shah',
-    closingDate: '2024-04-20T10:45:00-08:00',
-    ambassador: 'Bilal Aslam'
-  },
-  {
-    id: 1204,
-    franchise: 'HomeSafe Inspections',
-    dealAmount: 38000,
-    consultant: 'Hassan Javed',
-    seniorConsultant: 'Yasmin Iqbal',
-    broker: 'Naveed Khan',
-    closingDate: '2024-01-12T09:00:00-08:00',
-    ambassador: 'Tariq Mehdi'
-  },
-  {
-    id: 1205,
-    franchise: 'Green Energy Solutions',
-    dealAmount: 45000,
-    consultant: 'Zara Yousaf',
-    seniorConsultant: 'Fahad Mustafa',
-    broker: 'Amna Iqbal',
-    closingDate: '2024-06-25T16:00:00-08:00',
-    ambassador: 'Nashit Ali'
-  },
-  {
-    id: 1206,
-    franchise: 'Urban Farmstead',
-    dealAmount: 60000,
-    consultant: 'Hamza Ahmed',
-    seniorConsultant: 'Maria Qureshi',
-    broker: 'Imran Nazir',
-    closingDate: '2024-05-18T11:30:00-08:00',
-    ambassador: 'Saba Rehman'
-  },
-  {
-    id: 1207,
-    franchise: 'Speedy Car Wash',
-    dealAmount: 39000,
-    consultant: 'Farah Nadeem',
-    seniorConsultant: 'Hammad Saeed',
-    broker: 'Kashif Malik',
-    closingDate: '2024-07-22T08:00:00-08:00',
-    ambassador: 'Adil Mehmood'
-  }
-];
-
 
 export default function CommissionTransactions() {
-  const itemsPerPage = 10;
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   // Calculate the total number of pages
@@ -111,7 +39,7 @@ export default function CommissionTransactions() {
         <h3 className='mb-5 text-center' >Closed Deals Commission Details</h3>
         {/* headings */}
 
-        <div className='grid grid-cols-3 gap-5'>
+        <div className='grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5'>
           {currentTransactions.length > 0 &&
             currentTransactions.map((e, i) => (
               <div
@@ -127,17 +55,27 @@ export default function CommissionTransactions() {
 
                     <div className='flex justify-between items-center'>
                       <div className='text-sm'>
+                        <span className='text-gray-800 font-bold' > Candidate: </span>
+                        {' ' + e?.candidateName}
+                      </div>
+                    </div>
+
+
+                    <div className='flex justify-between items-center'>
+                      <div className='text-sm'>
                         <span className='text-gray-800 font-bold' > Consultant: </span>
+                        <br className='block md:hidden' />
                         {' ' + e?.consultant}
                       </div>
                       <div className='text-green-700 bg-green-100 px-2 py-1 text-xs font-semibold'>
-                        ${' ' + (shares?.consultantShare / 100 * e?.dealAmount).toFixed(2)}
+                        ${e?.ambassador ? ((shares?.consultantShare / 100 * e?.dealAmount) - 1500).toFixed(2) : (shares?.consultantShare / 100 * e?.dealAmount).toFixed(2)}
                       </div>
                     </div>
 
                     <div className='flex justify-between items-center'>
                       <div className='text-sm'>
                         <span className='text-gray-800 font-bold' >Senior Consultant: </span>
+                        <br className='block md:hidden' />
                         {' ' + e?.seniorConsultant}
                       </div>
                       <div className='text-green-700 bg-green-100 px-2 py-1 text-xs font-semibold'>
@@ -149,6 +87,7 @@ export default function CommissionTransactions() {
                     <div className='flex justify-between items-center'>
                       <div className='text-sm'>
                         <span className='text-gray-800 font-bold' >Broker: </span>
+                        <br className='block md:hidden' />
                         {' ' + e?.broker}
                       </div>
                       <div className='text-green-700 bg-green-100 px-2 py-1 text-xs font-semibold'>
@@ -160,10 +99,12 @@ export default function CommissionTransactions() {
                     <div className='flex justify-between items-center'>
                       <div className='text-sm'>
                         <span className='text-gray-800 font-bold' >Ambassador: </span>
+                        <br className='block md:hidden' />
+
                         {' ' + e?.ambassador || '- -'}
                       </div>
                       <div className='text-green-700 bg-green-100 px-2 py-1 text-xs font-semibold'>
-                        ${' ' + (shares?.brokerShare / 100 * e?.dealAmount).toFixed(2)}
+                        $ 1500
                       </div>
                     </div>
 
@@ -180,7 +121,7 @@ export default function CommissionTransactions() {
 
         {/* Pagination */}
         <div
-          className='flex justify-center'
+          className='flex justify-center mt-3'
         >
           <Pagination
             currentPage={currentPage}
