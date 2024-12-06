@@ -12,7 +12,6 @@ export default function Candidates() {
 
         getData('candidateProfile').then(data => {
             let users = data.filter(e => e?.refferralId == user?.userId)
-            console.log(users)
         }
         ).catch(error => console.log(error))
     }

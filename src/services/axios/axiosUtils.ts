@@ -1,11 +1,13 @@
 import axios from 'axios';
-import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant'
+import { BASE_API_URL, HEADER_TOKEN, USER_TOKEN } from '@/constants/app.constant'
 
 const defaultHeaders = {
     'X-App-Token': HEADER_TOKEN,
     'Content-Type': 'application/json',
+    Authorization: `Bearer ${USER_TOKEN}`
 };
 
+console.log(USER_TOKEN)
 // Utility function to make GET requests
 // @param {string} endpoint - API endpoint
 // @param {object} config - Additional axios config (optional)
