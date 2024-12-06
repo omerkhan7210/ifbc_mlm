@@ -21,19 +21,14 @@ const ModalInternalScroll: FC<ModalProps> = ({ children, title, open, setOpen, w
     };
 
     return (
-        <div>
+        <div className=''>
             <Dialog
                 width={width}
-                closable={false}
+                closable={true}
                 isOpen={open} onClose={onDialogClose} onRequestClose={onDialogClose}>
-                <div className="flex flex-col h-full justify-between">
+                <div className="flex flex-col h-full justify-between  ">
                     <div className="max-h-96 overflow-y-auto">
                         {children}
-                    </div>
-                    <div className="text-right mt-6">
-                        <Button variant="solid" onClick={onDialogOk}>
-                            Okay
-                        </Button>
                     </div>
                 </div>
             </Dialog>
