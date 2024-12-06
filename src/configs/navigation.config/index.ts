@@ -574,7 +574,7 @@ const navigationConfig: NavigationTree[] = [
         path: '/funding-calculator',
         title: 'Funding Calculator Inquiries',
         translateKey: 'nav.funding-calculator',
-        icon: 'signup   ',
+        icon: 'signup',
         type: NAV_ITEM_TYPE_ITEM,
         authority: [],
         subMenu: [],
