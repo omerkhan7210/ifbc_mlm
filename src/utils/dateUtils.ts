@@ -7,7 +7,7 @@ export const formatDateCustom = (dateString: string): string => {
         day: "numeric",
         hour: "2-digit",
         minute: "2-digit",
-        timeZone: "America/Los_Angeles", // Pacific Time
-        timeZoneName: "short", // Adds "PST"
+        // timeZone: "America/Los_Angeles", 
+        // timeZoneName: "short", 
     });
 };
