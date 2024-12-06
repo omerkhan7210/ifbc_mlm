@@ -18,6 +18,7 @@ export const Icon = <T extends ElementType>({
 
 const VerticalMenuIcon = ({ icon }: VerticalMenuIconProps) => {
     if (typeof icon !== 'string' && !icon) {
+        alert('icon nhi ha')
         return <></>
     }
 

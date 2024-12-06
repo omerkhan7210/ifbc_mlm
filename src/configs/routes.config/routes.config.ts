@@ -31,6 +31,48 @@ export const protectedRoutes: Routes = [
         authority: [],
     },
     {
+        key: 'cadidates',
+        path: '/candidates',
+        component: lazy(() => import('@/views/candidates/Candidates')),
+        authority: [],
+    },
+    {
+        key: 'franchise-inquiries',
+        path: '/franchise-inquiries',
+        component: lazy(() => import('@/views/franchiseInquiries/FranchiseInquiries')),
+        authority: [],
+    },
+    {
+        key: 'become-consultant',
+        path: '/become-consultant',
+        component: lazy(() => import('@/views/becomeConsultant/BecomeConsultant')),
+        authority: [],
+    },
+    {
+        key: 'contact-us',
+        path: '/contact-us',
+        component: lazy(() => import('@/views/contactUs/ContactUs')),
+        authority: [],
+    },
+    {
+        key: 'franchise-your-business',
+        path: '/franchise-your-business',
+        component: lazy(() => import('@/views/franchiseYourBusiness/FranchiseYourBusiness')),
+        authority: [],
+    },
+    {
+        key: 'funding-calculator',
+        path: '/funding-calculator',
+        component: lazy(() => import('@/views/fundingCalculator/FundingCalculator')),
+        authority: [],
+    },
+    {
+        key: 'help-request',
+        path: '/help-request',
+        component: lazy(() => import('@/views/helpRequest/HelpRequest')),
+        authority: [],
+    },
+    {
         key: 'teams',
         path: '/teams',
         component: lazy(() => import('@/views/teams/OurTeam')),

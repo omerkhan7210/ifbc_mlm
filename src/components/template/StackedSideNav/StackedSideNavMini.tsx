@@ -92,8 +92,8 @@ const StackedSideNavMini = (props: StackedSideNavMiniProps) => {
         activeKeys && activeKeys.length > 0
             ? activeKeys
             : isEmpty(selectedMenu)
-              ? []
-              : [includedRouteTree.key]
+                ? []
+                : [includedRouteTree.key]
 
     return (
         <div {...rest}>
