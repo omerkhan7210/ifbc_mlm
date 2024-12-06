@@ -39,6 +39,7 @@ import {
     PiArrowSquareDownDuotone,
     PiChatCenteredTextDuotone,
     PiQuestionMarkDuotone,
+    PiUserListFill
 } from 'react-icons/pi'
 
 export type NavigationIcons = Record<string, JSX.Element>
@@ -55,6 +56,7 @@ const navigationIcon: NavigationIcons = {
     approval: <PiJoystickDuotone />,
     business: <PiBuildingOfficeDuotone />,
     eWallet: <PiWalletDuotone />,
+    consultants: <PiUserListFill />,
     payout: <PiCurrencyCircleDollarDuotone />,
     ePin: <PiListNumbersDuotone />,
     profileManagement: <PiUserCircleCheckDuotone />,
