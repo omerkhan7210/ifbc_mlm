@@ -42,6 +42,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         (state) => state.setSessionSignedIn,
     )
     const { token, setToken } = useToken()
+    
 
     const authenticated = Boolean(token && signedIn)
 

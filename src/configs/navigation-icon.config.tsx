@@ -1,3 +1,8 @@
+import { FaBusinessTime, FaCalculator, FaListOl } from 'react-icons/fa'
+import { FaSquarePhone } from 'react-icons/fa6'
+import { IoBagAdd, IoPeople } from 'react-icons/io5'
+import { MdHelpCenter } from 'react-icons/md'
+import { RiQuestionnaireFill } from 'react-icons/ri'
 import {
     PiHouseLineDuotone,
     PiArrowsInDuotone,
@@ -39,6 +44,7 @@ import {
     PiArrowSquareDownDuotone,
     PiChatCenteredTextDuotone,
     PiQuestionMarkDuotone,
+    PiUserListFill,
 } from 'react-icons/pi'
 
 export type NavigationIcons = Record<string, JSX.Element>
@@ -54,7 +60,15 @@ const navigationIcon: NavigationIcons = {
     signup: <PiUserListDuotone />,
     approval: <PiJoystickDuotone />,
     business: <PiBuildingOfficeDuotone />,
+    candidates: <FaListOl />,
+    franchiseinquiries: <IoBagAdd />,
+    becomeconsultant: <IoPeople />,
+    contactus: <FaSquarePhone />,
+    franchiseyourbusiness: <FaBusinessTime />,
+    fundingcalculator: <FaCalculator />,
+    helprequest: <MdHelpCenter />,
     eWallet: <PiWalletDuotone />,
+    consultants: <PiUserListFill />,
     payout: <PiCurrencyCircleDollarDuotone />,
     ePin: <PiListNumbersDuotone />,
     profileManagement: <PiUserCircleCheckDuotone />,

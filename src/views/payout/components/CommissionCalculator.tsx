@@ -14,8 +14,7 @@ export default function CommissionCalculator() {
     const calculateCommission = () => {
         commissions.first = 15 / 100 * amount
         commissions.second = 5 / 100 * amount
-        commissions.third = 3 / 100 * amount
-        commissions.fourth = 2 / 100 * amount
+        commissions.third = 2 / 100 * amount
 
         setCommissions(
             { ...commissions }
@@ -28,10 +27,9 @@ export default function CommissionCalculator() {
             <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className='flex  gap-5 my-5'>
                     <Input
-                        placeholder='Enter Deal Amount'
+                        placeholder='Enter Franchise Amount'
                         type='number'
                         onChange={e => setAmount(e.target.value)}
-
                     />
                     <Button
                         variant='solid'
@@ -40,35 +38,26 @@ export default function CommissionCalculator() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 rounded-2xl my-3 ">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 rounded-2xl my-3 ">
                 <StatisticCard
-                    title="1st  (15%)"
+                    title="Consultant (15%)"
                     className="bg-slate-100 dark:bg-opacity-75"
                     value={commissions.first ? `$${commissions.first.toFixed(2)}` : '15%'}
                     icon={<BsPersonArmsUp />}
                 />
                 <StatisticCard
-                    title="2nd  (5%)"
+                    title="Senior Consultant  (5%)"
                     className="bg-slate-100 dark:bg-opacity-75"
                     value={commissions.second ? `$${commissions.second.toFixed(2)}` : '5%'}
                     icon={<BsPersonArmsUp />}
                 />
                 <StatisticCard
-                    title="3rd  (3%)"
+                    title="Franchise Broker (2%)"
                     className="bg-slate-100 dark:bg-opacity-75"
-                    value={commissions.third ? `$${commissions.third.toFixed(2)}` : '3%'}
+                    value={commissions.third ? `$${commissions.third.toFixed(2)}` : '2%'}
                     icon={<BsPersonArmsUp />}
                 />
-                <StatisticCard
-                    title="4th  (2%)"
-                    className="bg-slate-100 dark:bg-opacity-75"
-                    value={commissions.fourth ? `$${commissions.fourth.toFixed(2)}` : '2%'}
-                    icon={<BsPersonArmsUp />
-
-                    }
-                />
             </div>
-
         </Card>
     )
 }

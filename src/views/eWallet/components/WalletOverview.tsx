@@ -1,8 +1,12 @@
 import classNames from '@/utils/classNames'
 import { TbArrowDownToArc } from 'react-icons/tb'
-import { FaSackDollar, FaCircleDollarToSlot, FaMoneyCheckDollar } from "react-icons/fa6";
+import {
+    FaSackDollar,
+    FaCircleDollarToSlot,
+    FaMoneyCheckDollar,
+} from 'react-icons/fa6'
 import type { ReactNode } from 'react'
-import { Card } from "@/components/ui"
+import { Card } from '@/components/ui'
 
 type StatisticCardProps = {
     title: string
@@ -34,7 +38,7 @@ const StatisticCard = ({
                 className,
             )}
         >
-            <div className="flex justify-between items-center relative">
+            <div className="flex justify-between relative">
                 <div>
                     <div className="mb-4 text-gray-900 font-bold">{title}</div>
                     <h1 className="mb-1 text-gray-900">{value}</h1>
@@ -54,30 +58,29 @@ const StatisticCard = ({
 const WalletOverview = () => {
     return (
         <Card>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 rounded-2xl ">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3  xl:grid-cols-4 gap-4 rounded-2xl">
                 <StatisticCard
                     title="Credited"
                     className="bg-emerald-100 dark:bg-opacity-75"
-                    value='$214.53'
+                    value="$214.53"
                     icon={<FaCircleDollarToSlot />}
                 />
                 <StatisticCard
                     title="Debited"
                     className="bg-pink-100 dark:bg-opacity-75"
-                    value='$54.5'
+                    value="$54.5"
                     icon={<FaMoneyCheckDollar />}
                 />
                 <StatisticCard
                     title="Debited"
                     className="bg-sky-100 dark:bg-opacity-75"
-                    value='$160.38'
+                    value="$160.38"
                     icon={<FaSackDollar />}
                 />
                 <StatisticCard
                     title="Total Profit"
                     className="bg-emerald-200 dark:bg-opacity-75"
-                    value='$195.08'
+                    value="$195.08"
                     icon={<TbArrowDownToArc />}
                 />
             </div>
