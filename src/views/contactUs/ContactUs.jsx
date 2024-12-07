@@ -9,7 +9,7 @@ import CardSkeleton from './../../components/CardSkeleton';
 import PaginationHandler from '@/components/PaginationHandler';
 import FiltersHandler from '@/components/FiltersHandler';
 
-export default function BecomeConsultant() {
+export default function ContactUs() {
     const { user } = useAuth();
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
@@ -21,8 +21,9 @@ export default function BecomeConsultant() {
 
     const getAllData = () => {
         setIsLoading(true);
-        getData(`BecomeConsultant/referral/${user?.userId}`)
+        getData(`ContactUs/referral/${user?.userId}`)
             .then((data) => {
+                console.log(data)
                 setIsLoading(false);
                 setData(data);
                 setFilteredData(data);
@@ -69,7 +70,7 @@ export default function BecomeConsultant() {
     return (
         <div>
             <Card>
-                <h4 className="mb-4">Become Consultant Inquiries</h4>
+                <h4 className="mb-4">Contact Us Inquiries</h4>
 
                 <FiltersHandler
                     placeholder='Search by Name, Email, Phone, or Date'
