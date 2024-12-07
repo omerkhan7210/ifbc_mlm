@@ -39,13 +39,17 @@ export const protectedRoutes: Routes = [
     {
         key: 'franchise-inquiries',
         path: '/franchise-inquiries',
-        component: lazy(() => import('@/views/franchiseInquiries/FranchiseInquiries')),
+        component: lazy(
+            () => import('@/views/franchiseInquiries/FranchiseInquiries'),
+        ),
         authority: [],
     },
     {
         key: 'become-consultant',
         path: '/become-consultant',
-        component: lazy(() => import('@/views/becomeConsultant/BecomeConsultant')),
+        component: lazy(
+            () => import('@/views/becomeConsultant/BecomeConsultant'),
+        ),
         authority: [],
     },
     {
@@ -57,13 +61,17 @@ export const protectedRoutes: Routes = [
     {
         key: 'franchise-your-business',
         path: '/franchise-your-business',
-        component: lazy(() => import('@/views/franchiseYourBusiness/FranchiseYourBusiness')),
+        component: lazy(
+            () => import('@/views/franchiseYourBusiness/FranchiseYourBusiness'),
+        ),
         authority: [],
     },
     {
         key: 'funding-calculator',
         path: '/funding-calculator',
-        component: lazy(() => import('@/views/fundingCalculator/FundingCalculator')),
+        component: lazy(
+            () => import('@/views/fundingCalculator/FundingCalculator'),
+        ),
         authority: [],
     },
     {
