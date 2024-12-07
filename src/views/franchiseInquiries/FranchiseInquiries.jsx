@@ -97,7 +97,7 @@ export default function FranchiseInquiries() {
                 {/* Paginated Data */}
                 <PaginationHandler items={filteredData} itemsPerPage={itemsPerPage}>
                     {(currentData) => (
-                        <div className="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-3 gap-5">
+                        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
                             {isLoading
                                 ? Array(9).fill(0).map((_, index) => <CardSkeleton key={index} />)
                                 : currentData && currentData.length > 0 ? currentData.map((e, i) => (

@@ -25,7 +25,7 @@ export default function FiltersHandler({ searchQuery, setSearchQuery, handleItem
             <select
                 value={itemsPerPage}
                 onChange={(e) => handleItemsPerPageChange(e)}
-                className="p-3 border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-auto"
+                className="p-3 border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-auto "
                 style={{ minWidth: '150px', textAlign: 'center' }}
             >
                 <option value={6}>6 Items per Page</option>
