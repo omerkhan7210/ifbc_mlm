@@ -483,7 +483,7 @@ const StepColumn = ({
             <AnimatePresence>
                 {isModalVisible && (
                     <motion.div
-                        className="fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-[999999999]"
+                        className="fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-9"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -627,7 +627,7 @@ const DraggableCard = ({ cand, key, containerRef }) => {
             onDrag={handleDrag} // Call drag handling logic
             key={key}
             style={{ opacity: isDragging ? 0.5 : 1 }}
-            className="p-2 rounded-xl border-2 border-[#2176ff]/50 z-[50] relative cursor-pointer snap-start bg-gradient-to-r from-blue-50 to-blue-200 flex flex-col items-start justify-start gap-2 transition-all duration-300 group shadow-inner max-w-full"
+            className="p-2 rounded-xl border-2 border-[#2176ff]/50 z-9 relative cursor-pointer snap-start bg-gradient-to-r from-blue-50 to-blue-200 flex flex-col items-start justify-start gap-2 transition-all duration-300 group shadow-inner max-w-full"
         >
             <ReferralRibbon cand={cand} />
             <NavLink
