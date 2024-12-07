@@ -191,7 +191,7 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                             <div className='text-gray-600'>{dataObj?.hearAboutSpecify}</div>
                         </div>
                     </div>
-                    <div className='text-gray-600 text-xs'>
+                    <div className='text-gray-600 text-xs mt-3'>
                         {formatDateCustom(dataObj?.docDate)}
                     </div>
                 </div>
