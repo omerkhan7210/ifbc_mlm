@@ -10,7 +10,7 @@ export const TopButtonsSection = ({
     filteredCandidates,
 }) => {
     return (
-        <div className="grid p-3 max-md:grid-cols-1 md:grid-cols-5 sticky top-0 left-0 gap-2  z-9">
+        <div className="grid p-3 max-md:grid-cols-1 md:grid-cols-5 sticky top-0 left-0 gap-2  z-999999">
             <div className="flex items-center justify-center w-full bg-[#001136] rounded-sm">
                 <button
                     onClick={handle.enter}
