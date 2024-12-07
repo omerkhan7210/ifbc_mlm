@@ -7,6 +7,8 @@ import React, { useEffect, useState } from 'react';
 import { PiEnvelopeThin, PiPhoneCallLight, PiCalendarDotsLight } from "react-icons/pi";
 import CardSkeleton from '@/components/CardSkeleton';
 import PaginationHandler from '@/components/PaginationHandler';
+import FiltersHandler from '@/components/FiltersHandler';
+
 
 export default function FranchiseInquiries() {
     const { user } = useAuth();
@@ -33,9 +35,8 @@ export default function FranchiseInquiries() {
             });
     };
 
-    const handleSearch = (e) => {
-        const query = e.target.value.toLowerCase();
-        setSearchQuery(query);
+    const handleSearch = () => {
+        const query = searchQuery.toLowerCase();
 
         const filtered = data.filter(item => {
             const name = `${item?.checkout?.firstName} ${item?.checkout?.lastName}`.toLowerCase();
@@ -54,6 +55,11 @@ export default function FranchiseInquiries() {
         setFilteredData(filtered);
     };
 
+
+    useEffect(() => {
+        handleSearch()
+    }, [searchQuery])
+
     const handleItemsPerPageChange = (e) => {
         setItemsPerPage(Number(e.target.value));
     };
@@ -67,37 +73,19 @@ export default function FranchiseInquiries() {
             <Card>
                 <h4 className="mb-4">Franchise Inquiries</h4>
 
-                {/* Filters Section */}
-                <div className="mb-4 flex justify-between items-center flex-wrap">
-
-                    {/* Search Input */}
-
-                    <input
-                        type="text"
-                        value={searchQuery}
-                        onChange={handleSearch}
-                        placeholder="Search by Name, Email, Available Capital, or Date"
-                        className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-2/4"
-                    />
-
-                    {/* Items Per Page Selector */}
-                    <select
-                        value={itemsPerPage}
-                        onChange={handleItemsPerPageChange}
-                        className="p-3 border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-auto"
-                        style={{ minWidth: '150px', textAlign: 'center' }}
-                    >
-                        <option value={6}>6 Items per Page</option>
-                        <option value={9}>9 Items per Page</option>
-                        <option value={12}>12 Items per Page</option>
-                        <option value={15}>15 Items per Page</option>
-                    </select>
-                </div>
+                <FiltersHandler
+                    placeholder='Search by Name, Email, Phone, or Date'
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    itemsPerPage={itemsPerPage}
+                    handleItemsPerPageChange={handleItemsPerPageChange}
+                    noOfItems={filteredData?.length}
+                />
 
                 {/* Paginated Data */}
                 <PaginationHandler items={filteredData} itemsPerPage={itemsPerPage}>
                     {(currentData) => (
-                        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-5">
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                             {isLoading
                                 ? Array(9).fill(0).map((_, index) => <CardSkeleton key={index} />)
                                 : currentData && currentData.length > 0 ? currentData.map((e, i) => (

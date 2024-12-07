@@ -28,12 +28,12 @@ export default function PaginationHandler({ items, itemsPerPage, children }: Pag
         <div>
             {children(paginatedItems)}
             <div className="flex justify-center mt-3">
-                <Pagination
+                {items.length > itemsPerPage && <Pagination
                     currentPage={currentPage}
                     total={totalItems}
                     pageSize={itemsPerPage}
                     onChange={handlePageChange}
-                />
+                />}
             </div>
         </div>
     );
