@@ -116,11 +116,7 @@ export default function FranchiseInquiries() {
                                                     {`${e?.checkout?.firstName} ${e?.checkout?.lastName}`}
                                                 </h6>
                                                 <div className="bg-green-100 text-green-700 px-2 py-1 font-bold">
-                                                    {
-                                                        e?.checkout?.availCapital && !isNaN(Number(e?.checkout?.availCapital)) ? Number(e?.checkout?.availCapital).toLocaleString('en-US') : 'N/A'
-                                                    }
-
-                                                    {console.log(e?.checkout?.availCapital, "e?.checkout?.availCapital")}
+                                                    {e?.checkout?.availCapital && !isNaN(Number(e?.checkout?.availCapital)) ? Number(e?.checkout?.availCapital).toLocaleString('en-US') : 'N/A'}
                                                 </div>
                                             </div>
                                             <div className="flex flex-col gap-1">

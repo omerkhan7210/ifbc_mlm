@@ -52,101 +52,101 @@ export default function HelpRequest() {
                 priority?.includes(query) ||
                 date?.includes(query)
             );
-    });
+        });
 
-    setFilteredData(filtered);
-};
+        setFilteredData(filtered);
+    };
 
-useEffect(() => {
-    handleSearch()
-}, [searchQuery])
+    useEffect(() => {
+        handleSearch()
+    }, [searchQuery])
 
 
-const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(Number(e.target.value));
-};
+    const handleItemsPerPageChange = (e) => {
+        setItemsPerPage(Number(e.target.value));
+    };
 
-useEffect(() => {
-    getAllData();
-}, []);
+    useEffect(() => {
+        getAllData();
+    }, []);
 
-return (
-    <div>
-        <Card>
-            <h4 className="mb-4">Help Requests</h4>
-            <FiltersHandler
-                placeholder='Search by Name, Email, Phone, or Date'
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                itemsPerPage={itemsPerPage}
-                handleItemsPerPageChange={handleItemsPerPageChange}
+    return (
+        <div>
+            <Card>
+                <h4 className="mb-4">Help Requests</h4>
+                <FiltersHandler
+                    placeholder='Search by Name, Email, Phone, or Date'
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    itemsPerPage={itemsPerPage}
+                    handleItemsPerPageChange={handleItemsPerPageChange}
 
+                />
+
+                {/* Paginated Data */}
+                <PaginationHandler items={filteredData} itemsPerPage={itemsPerPage}>
+                    {(currentData) => (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-5">
+                            {isLoading
+                                ? Array(6).fill(0).map((_, index) => <CardSkeleton key={index} />)
+                                : currentData && currentData.length > 0 ? currentData.map((e, i) => (
+                                    <Card
+                                        key={i}
+                                        clickable
+                                        onClick={() => {
+                                            setDataObj(e);
+                                            setOpenModal(true);
+                                        }}
+                                        className="p-0"
+                                    >
+                                        <div>
+                                            <div className="flex justify-between items-center mb-3">
+                                                <h6 className="text-gray-900 font-bold capitalize">
+                                                    {`${e?.firstName} ${e?.lastName}`}
+                                                </h6>
+                                            </div>
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex justify-start items-center gap-2">
+                                                    <PiEnvelopeThin className="text-gray-600" />
+                                                    <div className="text-gray-700 cursor-pointer">
+                                                        {e?.email}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-start items-center gap-2">
+                                                    <PiQuestionFill className="text-gray-600" />
+                                                    <div className="text-gray-700">
+                                                        {e?.caseName}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-start items-center gap-2">
+                                                    <MdPriorityHigh className="text-gray-600" />
+                                                    <div className="text-gray-700">
+                                                        {e?.priority}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-start items-center gap-2">
+                                                    <PiCalendarDotsLight className="text-gray-600" />
+                                                    <div className="text-gray-700">
+                                                        {formatDateCustom(e?.docDate)}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                )) : <h4 className='mt-5'>No Data Available</h4>}
+                        </div>
+                    )}
+                </PaginationHandler>
+            </Card>
+
+            {/* Modal for Data Details */}
+            <DataModal
+                dataObj={dataObj}
+                openModal={openModal}
+                setOpenModal={setOpenModal}
             />
-
-            {/* Paginated Data */}
-            <PaginationHandler items={filteredData} itemsPerPage={itemsPerPage}>
-                {(currentData) => (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-5">
-                        {isLoading
-                            ? Array(6).fill(0).map((_, index) => <CardSkeleton key={index} />)
-                            : currentData && currentData.length > 0 ? currentData.map((e, i) => (
-                                <Card
-                                    key={i}
-                                    clickable
-                                    onClick={() => {
-                                        setDataObj(e);
-                                        setOpenModal(true);
-                                    }}
-                                    className="p-0"
-                                >
-                                    <div>
-                                        <div className="flex justify-between items-center mb-3">
-                                            <h6 className="text-gray-900 font-bold capitalize">
-                                                {`${e?.firstName} ${e?.lastName}`}
-                                            </h6>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <div className="flex justify-start items-center gap-2">
-                                                <PiEnvelopeThin className="text-gray-600" />
-                                                <div className="text-gray-700 cursor-pointer">
-                                                    {e?.email}
-                                                </div>
-                                            </div>
-                                            <div className="flex justify-start items-center gap-2">
-                                                <PiQuestionFill className="text-gray-600" />
-                                                <div className="text-gray-700">
-                                                    {e?.caseName}
-                                                </div>
-                                            </div>
-                                            <div className="flex justify-start items-center gap-2">
-                                                <MdPriorityHigh className="text-gray-600" />
-                                                <div className="text-gray-700">
-                                                    {e?.priority}
-                                                </div>
-                                            </div>
-                                            <div className="flex justify-start items-center gap-2">
-                                                <PiCalendarDotsLight className="text-gray-600" />
-                                                <div className="text-gray-700">
-                                                    {formatDateCustom(e?.docDate)}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Card>
-                            )) : <h4 className='mt-5'>No Data Available</h4>}
-                    </div>
-                )}
-            </PaginationHandler>
-        </Card>
-
-        {/* Modal for Data Details */}
-        <DataModal
-            dataObj={dataObj}
-            openModal={openModal}
-            setOpenModal={setOpenModal}
-        />
-    </div>
-);
+        </div>
+    );
 }
 
 const DataModal = ({ dataObj, openModal, setOpenModal }) => {
@@ -198,9 +198,19 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                             <div className='text-gray-800 font-semibold'>Outher Help: </div>
                             <div className='text-gray-600'>{dataObj?.otherHelp ? dataObj?.otherHelp : "---"}</div>
                         </div>
-                        <div className="flex justify-start items-center gap-1">
+                        <div className="flex justify-start items-center gap-3">
                             <div className='text-gray-800 font-semibold'>File: </div>
-                            <div className='text-gray-600'>{dataObj?.file ? dataObj?.file : "---"}</div>
+                            <div className='text-white'>
+                                {/* {dataObj?.file ? dataObj?.file : "---"} */}
+                                {dataObj?.file ? (
+                                    <a
+                                        href={`https://backend.ifbc.co/api/SupportRequest/${dataObj?.id}/file`}
+                                        className="bg-red-700 rounded-sm p-1 text-sm capitalize"
+                                    >
+                                        Download File
+                                    </a>
+                                ) : '- -'}
+                            </div>
                         </div>
                         <div className="flex justify-start items-center gap-1">
                             <div className='text-gray-800 font-semibold'>File Extension: </div>

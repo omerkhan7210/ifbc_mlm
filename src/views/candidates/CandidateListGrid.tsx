@@ -362,24 +362,18 @@ const CandidateListGrid = () => {
                         animate="visible"
                         exit="exit"
                     >
-                        {steps
-                            .filter((step) =>
-                                filteredCandidates.some(
+                        {steps.map((step, index) => (
+                            <StepColumn
+                                key={index}
+                                step={step}
+                                handle={handle}
+                                candidates={filteredCandidates.filter(
                                     (cand) => cand.pipelineStep === step,
-                                ),
-                            )
-                            .map((step, index) => (
-                                <StepColumn
-                                    key={index}
-                                    step={step}
-                                    handle={handle}
-                                    candidates={filteredCandidates.filter(
-                                        (cand) => cand.pipelineStep === step,
-                                    )}
-                                    onDropCandidate={handleDropCandidate}
-                                    containerRef={containerRef} // Pass down the container ref
-                                />
-                            ))}
+                                )}
+                                onDropCandidate={handleDropCandidate}
+                                containerRef={containerRef} // Pass down the container ref
+                            />
+                        ))}
                     </motion.div>
                 </FullScreen>
             )}
@@ -483,7 +477,7 @@ const StepColumn = ({
             <AnimatePresence>
                 {isModalVisible && (
                     <motion.div
-                        className="fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-9"
+                        className="fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-0"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
