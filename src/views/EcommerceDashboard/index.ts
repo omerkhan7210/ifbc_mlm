@@ -1,3 +1,3 @@
-import EcommerceDashboard from './EcommerceDashboard'
+import SalesDashboard from './home'
 
-export default EcommerceDashboard
+export default SalesDashboard

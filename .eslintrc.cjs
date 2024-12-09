@@ -36,6 +36,7 @@ module.exports = {
     "import/no-named-as-default-member": "off",
     "import/no-duplicates": "error",
     "import/no-named-as-default": 0,
+    "import/no-unresolved": "off",
     "react/prop-types": "off",
     "react/jsx-sort-props": [
       "warn",

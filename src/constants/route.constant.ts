@@ -2,6 +2,7 @@ export const ROOT = '/'
 
 export const NETWORKS_PREFIX_PATH = '/networks'
 export const SETTINGS_PREFIX_PATH = '/settings'
+export const INQUIRIES_PREFIX_PATH = '/inquiries'
 export const SIGNUP_PREFIX_PATH = '/signup'
 export const APPROVAL_PREFIX_PATH = '/approval'
 export const TOOLS_PREFIX_PATH = '/tools'

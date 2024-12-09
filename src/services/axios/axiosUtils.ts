@@ -11,7 +11,6 @@ const defaultHeaders = {
     Authorization: `Bearer ${USER_TOKEN}`,
 }
 
-console.log(USER_TOKEN)
 // Utility function to make GET requests
 // @param {string} endpoint - API endpoint
 // @param {object} config - Additional axios config (optional)

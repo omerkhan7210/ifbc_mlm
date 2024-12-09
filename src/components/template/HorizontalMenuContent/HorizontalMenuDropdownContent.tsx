@@ -140,15 +140,15 @@ const ColumnsLayout = (
         navigationTree,
         t,
         onDropdownClose,
-        columns = 1,
-        showColumnTitle = true,
+        // columns = 1,
+        // showColumnTitle = true,
         routeKey,
         userAuthority,
     } = props
 
     return (
         <div className="flex max-w-[1400px] w-full">
-            <div
+            {/* <div
                 className={classNames(
                     'grid gap-y-6 gap-x-8 p-6 flex-1',
                     gridClasses[columns]?.grid,
@@ -210,11 +210,12 @@ const ColumnsLayout = (
                     }
                     return null
                 })}
-            </div>
+            </div> */}
             {navigationTree.some((nav) => nav.type === NAV_ITEM_TYPE_ITEM) && (
                 <div
                     className={classNames(
-                        'ltr:border-l rtl:border-r border-gray-200 dark:border-gray-800 min-w-[280px] p-4 flex flex-col',
+                        // 'ltr:border-l rtl:border-r border-gray-200 dark:border-gray-800 min-w-[280px] p-4 flex flex-col',
+                        ' min-w-[280px] p-4 flex flex-col',
                     )}
                 >
                     {navigationTree.map((nav) => {
