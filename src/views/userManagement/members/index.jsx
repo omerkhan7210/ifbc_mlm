@@ -248,11 +248,11 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                         <div className="text-gray-600 text-xs mt-3">
                             {formatDateCustom(dataObj?.docDate)}
                         </div>
-                        <button
+                        {/* <button
                             onClick={() => handleUserApprove(dataObj, !dataObj?.isApproved)}
                             className={'text-white text-sm p-2 px-3 rounded-lg ' + (dataObj?.isApproved ? 'bg-red-500' : 'bg-green-600')}>
                             {updating ? 'Loading...' : dataObj?.isApproved ? "Disapprove" : "Approve"}
-                        </button>
+                        </button> */}
                     </div>
 
                 </div>
