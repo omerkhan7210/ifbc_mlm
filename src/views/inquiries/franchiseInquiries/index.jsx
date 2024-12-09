@@ -8,10 +8,12 @@ import { PiEnvelopeThin, PiPhoneCallLight, PiCalendarDotsLight } from "react-ico
 import CardSkeleton from '@/components/CardSkeleton';
 import PaginationHandler from '@/components/PaginationHandler';
 import FiltersHandler from '@/components/FiltersHandler';
+import useIsAdmin from '../../../hooks/useIsAdmin';
 
 
 export default function FranchiseInquiries() {
     const { user } = useAuth();
+    const isAdmin = useIsAdmin();
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [filteredData, setFilteredData] = useState([]);
@@ -20,11 +22,14 @@ export default function FranchiseInquiries() {
     const [searchQuery, setSearchQuery] = useState('');
     const [itemsPerPage, setItemsPerPage] = useState(6);
 
+
+
     const getFranchises = () => {
         setIsLoading(true);
         getData(`checkout/referral/${user?.userId}`)
             .then((data) => {
                 setIsLoading(false);
+                console.log(data);
                 data = data.reverse();
                 setData(data);
                 setFilteredData(data);
@@ -63,6 +68,7 @@ export default function FranchiseInquiries() {
     const handleItemsPerPageChange = (e) => {
         setItemsPerPage(Number(e.target.value));
     };
+
 
     useEffect(() => {
         getFranchises();
@@ -111,19 +117,19 @@ export default function FranchiseInquiries() {
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiEnvelopeThin className="text-gray-600" />
                                                     <div className="text-gray-700 cursor-pointer">
-                                                        {e.checkout.email}
+                                                        {e?.checkout?.email}
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiPhoneCallLight className="text-gray-600" />
                                                     <div className="text-gray-700">
-                                                        {e.checkout.phone}
+                                                        {e?.checkout?.phone}
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiCalendarDotsLight className="text-gray-600" />
                                                     <div className="text-gray-700">
-                                                        {formatDateCustom(e.checkout.docDate)}
+                                                        {formatDateCustom(e?.checkout?.docDate)}
                                                     </div>
                                                 </div>
                                             </div>
