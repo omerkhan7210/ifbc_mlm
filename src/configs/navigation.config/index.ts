@@ -80,7 +80,7 @@ const userManagementNavigation: NavigationTree[] = [
         subMenu: [
             {
                 key: 'members',
-                path: `/members`,
+                path: `/userManagement/members`,
                 title: 'Members',
                 translateKey: 'nav.members',
                 icon: 'members',

@@ -1,36 +1,38 @@
-import { useAuth } from '@/auth'
-import { Card } from '@/components/ui'
-import ModalInternalScroll from '@/components/ui/modal/ModalInternalScroll'
-import { getData } from '@/services/axios/axiosUtils'
-import { formatDateCustom } from '@/utils/dateUtils'
-import React, { useEffect, useState } from 'react'
-import {
-    PiEnvelopeThin,
-    PiPhoneCallLight,
-    PiCalendarDotsLight,
-} from 'react-icons/pi'
-import CardSkeleton from '@/components/CardSkeleton'
-import PaginationHandler from '@/components/PaginationHandler'
-import FiltersHandler from '@/components/FiltersHandler'
+import { useAuth } from '@/auth';
+import { Card } from '@/components/ui';
+import ModalInternalScroll from '@/components/ui/modal/ModalInternalScroll';
+import { getData } from '@/services/axios/axiosUtils';
+import { formatDateCustom } from '@/utils/dateUtils';
+import React, { useEffect, useState } from 'react';
+import { PiEnvelopeThin, PiPhoneCallLight, PiCalendarDotsLight } from "react-icons/pi";
+import CardSkeleton from '@/components/CardSkeleton';
+import PaginationHandler from '@/components/PaginationHandler';
+import FiltersHandler from '@/components/FiltersHandler';
+import useIsAdmin from '../../../hooks/useIsAdmin';
+
 
 export default function FranchiseInquiries() {
-    const { user } = useAuth()
-    const [data, setData] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [filteredData, setFilteredData] = useState([])
-    const [dataObj, setDataObj] = useState(null)
-    const [openModal, setOpenModal] = useState(false)
-    const [searchQuery, setSearchQuery] = useState('')
-    const [itemsPerPage, setItemsPerPage] = useState(6)
+    const { user } = useAuth();
+    const isAdmin = useIsAdmin();
+    const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [filteredData, setFilteredData] = useState([]);
+    const [dataObj, setDataObj] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+
+
 
     const getFranchises = () => {
         setIsLoading(true)
         getData(`checkout/referral/${user?.userId}`)
             .then((data) => {
-                setIsLoading(false)
-                data = data.reverse()
-                setData(data)
-                setFilteredData(data)
+                setIsLoading(false);
+                console.log(data);
+                data = data.reverse();
+                setData(data);
+                setFilteredData(data);
             })
             .catch((error) => {
                 setIsLoading(false)
@@ -72,6 +74,7 @@ export default function FranchiseInquiries() {
     const handleItemsPerPageChange = (e) => {
         setItemsPerPage(Number(e.target.value))
     }
+
 
     useEffect(() => {
         getFranchises()
@@ -123,18 +126,18 @@ export default function FranchiseInquiries() {
                                                 <div className="bg-green-100 text-green-700 px-2 py-1 font-bold">
                                                     {e?.checkout
                                                         ?.availCapital &&
-                                                    !isNaN(
-                                                        Number(
+                                                        !isNaN(
+                                                            Number(
+                                                                e?.checkout
+                                                                    ?.availCapital,
+                                                            ),
+                                                        )
+                                                        ? Number(
                                                             e?.checkout
                                                                 ?.availCapital,
-                                                        ),
-                                                    )
-                                                        ? Number(
-                                                              e?.checkout
-                                                                  ?.availCapital,
-                                                          ).toLocaleString(
-                                                              'en-US',
-                                                          )
+                                                        ).toLocaleString(
+                                                            'en-US',
+                                                        )
                                                         : 'N/A'}
                                                 </div>
                                             </div>
@@ -142,21 +145,19 @@ export default function FranchiseInquiries() {
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiEnvelopeThin className="text-gray-600" />
                                                     <div className="text-gray-700 cursor-pointer">
-                                                        {e.checkout.email}
+                                                        {e?.checkout?.email}
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiPhoneCallLight className="text-gray-600" />
                                                     <div className="text-gray-700">
-                                                        {e.checkout.phone}
+                                                        {e?.checkout?.phone}
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiCalendarDotsLight className="text-gray-600" />
                                                     <div className="text-gray-700">
-                                                        {formatDateCustom(
-                                                            e.checkout.docDate,
-                                                        )}
+                                                        {formatDateCustom(e?.checkout?.docDate)}
                                                     </div>
                                                 </div>
                                             </div>
