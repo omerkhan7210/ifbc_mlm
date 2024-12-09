@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import Badge from '@/components/ui/Badge'
-import Button from '@/components/ui/Button'
+// import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import Table from '@/components/ui/Table'
 import {
@@ -109,7 +109,7 @@ const columns = [
 ]
 
 const RecentOrder = ({ data = [] }: RecentOrderProps) => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const table = useReactTable({
         data,
@@ -121,12 +121,12 @@ const RecentOrder = ({ data = [] }: RecentOrderProps) => {
         <Card>
             <div className="flex items-center justify-between mb-6">
                 <h4>Recent Orders</h4>
-                <Button
+                {/* <Button
                     size="sm"
                     onClick={() => navigate('/concepts/orders/order-list')}
                 >
                     View Orders
-                </Button>
+                </Button> */}
             </div>
             <Table>
                 <THead>

@@ -11,7 +11,6 @@ const defaultHeaders = {
     Authorization: `Bearer ${USER_TOKEN}`,
 }
 
-console.log(USER_TOKEN)
 // Utility function to make GET requests
 // @param {string} endpoint - API endpoint
 // @param {object} config - Additional axios config (optional)
@@ -24,6 +23,7 @@ export const getData = async (
         const response = await axios.get(`${BASE_API_URL}/${endpoint}`, {
             headers: defaultHeaders,
             ...config,
+            withCredentials: true, // Send cookies with requests
         })
         return response.data
     } catch (error) {
@@ -46,6 +46,7 @@ export const postData = async (
         const response = await axios.post(`${BASE_API_URL}/${endpoint}`, data, {
             headers: defaultHeaders,
             ...config,
+            withCredentials: true, // Send cookies with requests
         })
         return response.data
     } catch (error) {

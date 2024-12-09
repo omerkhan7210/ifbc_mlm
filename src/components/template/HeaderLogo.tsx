@@ -6,10 +6,14 @@ import type { Mode } from '@/@types/theme'
 
 const HeaderLogo = ({ mode }: { mode?: Mode }) => {
     const defaultMode = useThemeStore((state) => state.mode)
-
+    console.log({ defaultMode })
     return (
         <Link to={appConfig.authenticatedEntryPath}>
-            <Logo imgClass="max-h-10" mode={mode || defaultMode} className="hidden lg:block" />
+            <Logo
+                imgClass="max-h-10"
+                mode={mode || defaultMode}
+                className="hidden lg:block"
+            />
         </Link>
     )
 }
