@@ -451,7 +451,7 @@ const StepColumn = ({
             <AnimatePresence>
                 {isModalVisible && (
                     <motion.div
-                        className="fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-9"
+                        className="fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-0"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}

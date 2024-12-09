@@ -6,10 +6,11 @@ interface FitlerHandlerProps {
     itemsPerPage?: number;
     handleItemsPerPageChange?: (e: any) => void;
     placeholder: string;
+    noOfItems: number;
 
 }
 
-export default function FiltersHandler({ searchQuery, setSearchQuery, handleItemsPerPageChange, itemsPerPage, placeholder }: FitlerHandlerProps) {
+export default function FiltersHandler({ searchQuery, setSearchQuery, handleItemsPerPageChange, itemsPerPage, placeholder, noOfItems }: FitlerHandlerProps) {
     return (
         <div className="mb-4 flex justify-between items-center flex-wrap">
             {/* Search Input */}
@@ -22,7 +23,7 @@ export default function FiltersHandler({ searchQuery, setSearchQuery, handleItem
             />
 
             {/* Items Per Page Selector */}
-            <select
+            {noOfItems > itemsPerPage && <select
                 value={itemsPerPage}
                 onChange={(e) => handleItemsPerPageChange(e)}
                 className="p-3 border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-auto "
@@ -32,7 +33,7 @@ export default function FiltersHandler({ searchQuery, setSearchQuery, handleItem
                 <option value={9}>9 Items per Page</option>
                 <option value={12}>12 Items per Page</option>
                 <option value={15}>15 Items per Page</option>
-            </select>
+            </select>}
         </div>
     )
 }
