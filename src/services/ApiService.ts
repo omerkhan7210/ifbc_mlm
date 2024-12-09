@@ -15,11 +15,10 @@ const ApiService = {
         return new Promise<Response>((resolve, reject) => {
             AxiosBase(param)
                 .then((response: AxiosResponse<Response>) => {
-                    console.log(response)
                     resolve(response.data)
                 })
                 .catch((errors: AxiosError) => {
-                    console.log(errors)
+                    console.error(errors)
                     reject(errors)
                 })
         })
@@ -27,4 +26,3 @@ const ApiService = {
 }
 
 export default ApiService
-
