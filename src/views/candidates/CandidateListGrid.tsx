@@ -15,9 +15,11 @@ import BarLoader from '../../../src/Charts/BarLoader.jsx'
 import { PiEnvelope, PiPhoneCallLight } from 'react-icons/pi'
 import { toast } from 'react-toastify'
 import { HiOutlineLightBulb } from 'react-icons/hi'
-
+import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
 import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
+import useWindowSize from '@/components/ui/hooks/useWindowSize.js'
+import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.js'
 
 const containerVariants = {
     hidden: { opacity: 0, x: -100 },
@@ -43,6 +45,10 @@ const steps = [
 const CandidateListGrid = () => {
     const { user } = useAuth()
     const [cands, setCands] = useState()
+    const [showTable, setShowTable] = useState(false)
+    const handleToggleCandidatesTable = () => {
+        setShowTable(!showTable)
+    }
 
     console.log(cands, 'cands')
 
@@ -218,7 +224,7 @@ const CandidateListGrid = () => {
         try {
             const formData = {
                 ...cand,
-                pipelineStep: newStep, // Update the pipeline step
+                pipelineStep: newStep,
             }
 
             const response = await axios.put(
@@ -290,6 +296,20 @@ const CandidateListGrid = () => {
     </div>
     // }
 
+    const headerConfig = {
+        title: 'Inbox',
+        buttonText: 'New email',
+        placeholderText: 'Search User',
+        buttonAction: () => {
+            // setShowEmailModel(true)
+
+            console.log('Button action triggered')
+        },
+        onchangeAction: () => {
+            console.log('Onchange details')
+        },
+    }
+
     return (
         <motion.div
             className={`relative bg-blue-100 flex flex-col gap-1 rounded-xl`}
@@ -318,7 +338,7 @@ const CandidateListGrid = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             onClick={() => setCloseHint(true)}
-                            className="absolute  top-1 right-2 z-[99999999] cursor-pointer"
+                            className="absolute  top-1 right-2 z-[5] cursor-pointer"
                         >
                             <HiOutlineLightBulb size={30} color="#E49B0F	" />
                         </motion.span>
@@ -334,8 +354,26 @@ const CandidateListGrid = () => {
                 stepOptions={stepOptions}
                 switchFormat={switchFormat}
                 filteredCandidates={filteredCandidates}
+                setShowTable={handleToggleCandidatesTable}
+                showTable={showTable}
             />
-            {switchFormat ? (
+            {/* Conditional rendering of table */}
+            {showTable ? (
+                <FullScreen handle={handle}>
+                    <motion.div
+                        className="w-full bg-white p-4"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                    >
+                        <DownlineMembersTable
+                            data={filteredCandidates}
+                            headerConfig={headerConfig}
+                        />
+                    </motion.div>
+                </FullScreen>
+            ) : switchFormat ? (
                 <FullScreen handle={handle}>
                     <motion.div
                         className={`w-full bg-white`}
@@ -387,7 +425,7 @@ const HintOptions = ({ setCloseHint }) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-3 right-3 bg-white p-5 rounded-lg shadow-lg z-[999999999]"
+            className="absolute top-3 right-3 bg-white p-5 rounded-lg shadow-lg z-4"
         >
             <button
                 onClick={() => setCloseHint(false)}
@@ -417,6 +455,7 @@ const StepColumn = ({
     handle,
     containerRef,
 }) => {
+    console.log(candidates, 'candidates in StepColumn')
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [droppedItem, setDroppedItem] = useState(null)
 
@@ -471,13 +510,37 @@ const StepColumn = ({
     }))
 
     const navigate = useNavigate()
+    const [showConfettiComponent, setShowConfettiComponent] = useState(false)
+    const [stepTrack, setStepTrack] = useState('')
 
+    useEffect(() => {
+        if (stepTrack === 'Closed Won') {
+            setShowConfettiComponent(true)
+            onDropCandidate()
+            const timer = setTimeout(() => {
+                setShowConfettiComponent(false)
+            }, 10000)
+            return () => clearTimeout(timer)
+        }
+    }, [stepTrack, showConfettiComponent])
+    const headerConfig = {
+        title: 'Downline Members',
+        buttonText: 'View Details',
+        buttonAction: () => {
+            console.log('Navigate to details')
+        },
+        placeholderText: 'Search your Teams',
+        onchangeAction: () => {
+            console.log('Navigate to details')
+        },
+    }
     return (
         <>
             <AnimatePresence>
+                <div>{showConfettiComponent && <ConfettiComponent />}</div>
                 {isModalVisible && (
                     <motion.div
-                        className="fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-0"
+                        className="w-[100%] h-[100vh] fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-[9]"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -518,10 +581,7 @@ const StepColumn = ({
                                                     step,
                                                 )
                                                 setIsModalVisible(false)
-                                                notifyUpdate(
-                                                    droppedItem?.cand,
-                                                    step,
-                                                )
+                                                setStepTrack(step)
                                             }
                                         } else {
                                             console.error('No item to confirm.')
@@ -621,7 +681,7 @@ const DraggableCard = ({ cand, key, containerRef }) => {
             onDrag={handleDrag} // Call drag handling logic
             key={key}
             style={{ opacity: isDragging ? 0.5 : 1 }}
-            className="p-2 rounded-xl border-2 border-[#2176ff]/50 z-9 relative cursor-pointer snap-start bg-gradient-to-r from-blue-50 to-blue-200 flex flex-col items-start justify-start gap-2 transition-all duration-300 group shadow-inner max-w-full"
+            className="p-2 rounded-xl border-2 border-[#2176ff]/50 z-1 relative cursor-pointer snap-start bg-gradient-to-r from-blue-50 to-blue-200 flex flex-col items-start justify-start gap-2 transition-all duration-300 group shadow-inner max-w-full"
         >
             <ReferralRibbon cand={cand} />
             <NavLink
@@ -660,4 +720,5 @@ const DraggableCard = ({ cand, key, containerRef }) => {
         </div>
     )
 }
+
 export default CandidateListGrid

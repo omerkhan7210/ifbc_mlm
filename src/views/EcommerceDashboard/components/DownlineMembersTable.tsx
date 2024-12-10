@@ -10,15 +10,39 @@ import Button from '@/components/ui/Button'
 import Table from '@/components/ui/Table'
 import { Input } from '@/components/ui'
 import { TbBinaryTree } from 'react-icons/tb'
+import PaginationHandler from '@/components/PaginationHandler'
+import { array } from 'zod'
 
 const { Tr, Td, TBody, THead, Th } = Table
 
 type TreeViewItem = {
-    id: number
-    profile: string
-    tittle: string
-    name: string
-    level: string
+    additionalEmail: string
+    additionalFirstName: string
+    additionalLastName: string
+    additionalPhone: string
+    additionalRelationship: string
+    agentUserId: number
+    currentCity: string
+    currentState: string
+    currentZipcode: string
+    docDate: string
+    docid: number
+    email: string
+    firstName: string
+    franchiseInterested: string
+    isArchive: boolean
+    isCompleted: boolean
+    isDeleted: boolean
+    lastName: string
+    lostReason: string
+    phone: string
+    pipelineStep: string
+    refferralId: number | null
+    status: string
+    territoryCity: string
+    territoryState: string
+    territoryZipcode: string
+    updateDt: string | null
 }
 
 type TreeViewTableProps = {
@@ -65,6 +89,7 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
     data,
     headerConfig,
 }) => {
+    console.log(data, 'datadatadata')
     const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
 
     const handleCheckboxChange = (id: number) => {
@@ -104,36 +129,48 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
             cell: (props) => (
                 <input
                     type="checkbox"
-                    checked={selectedIds.has(props.row.original.id)}
-                    onChange={() => handleCheckboxChange(props.row.original.id)}
+                    checked={selectedIds.has(props.row.original?.id)}
+                    onChange={() =>
+                        handleCheckboxChange(props.row.original?.id)
+                    }
                 />
             ),
         }),
-        columnHelper.accessor('id', {
+        columnHelper.accessor('docid', {
             header: 'ID',
-            cell: (props) => <span>{props.row.original.id}</span>,
+            cell: (props) => <span>{props.row.original.docid}</span>,
         }),
-        columnHelper.accessor('profile', {
-            header: 'Profile',
-            cell: (props) => (
-                <img
-                    src={props.row.original.profile}
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full"
-                />
-            ),
+        columnHelper.accessor('firstName', {
+            header: 'First Name',
+            cell: (props) => <span>{props.row.original.firstName}</span>,
         }),
-        columnHelper.accessor('tittle', {
-            header: 'Tittle',
-            cell: (props) => <span>{props.row.original.tittle}</span>,
+        columnHelper.accessor('lastName', {
+            header: 'Last Name',
+            cell: (props) => <span>{props.row.original.lastName}</span>,
         }),
-        columnHelper.accessor('name', {
-            header: 'Name',
-            cell: (props) => <span>{props.row.original.name}</span>,
+        columnHelper.accessor('email', {
+            header: 'Email',
+            cell: (props) => <span>{props.row.original.email}</span>,
         }),
-        columnHelper.accessor('level', {
-            header: 'Level',
-            cell: (props) => <span>{props.row.original.level}</span>,
+        columnHelper.accessor('phone', {
+            header: 'Phone',
+            cell: (props) => <span>{props.row.original.phone}</span>,
+        }),
+        columnHelper.accessor('pipelineStep', {
+            header: 'Deal State',
+            cell: (props) => <span>{props.row.original.pipelineStep}</span>,
+        }),
+        columnHelper.accessor('territoryCity', {
+            header: 'Territory City',
+            cell: (props) => <span>{props.row.original.territoryCity}</span>,
+        }),
+        columnHelper.accessor('territoryState', {
+            header: 'Territory State',
+            cell: (props) => <span>{props.row.original.territoryState}</span>,
+        }),
+        columnHelper.accessor('updateDt', {
+            header: 'Date & Time',
+            cell: (props) => <span>{props.row.original.updateDt}</span>,
         }),
         columnHelper.display({
             id: 'actions',
@@ -161,38 +198,46 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
                 buttonAction={headerConfig.buttonAction}
                 onchangeAction={headerConfig.onchangeAction}
             />
-            <Table>
-                <THead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <Tr key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => (
-                                <Th key={header.id} colSpan={header.colSpan}>
-                                    {flexRender(
-                                        header.column.columnDef.header,
-                                        header.getContext(),
-                                    )}
-                                </Th>
+            <PaginationHandler items={data} itemsPerPage={10}>
+                {(paginatedItems) => (
+                    <Table>
+                        <THead>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <Tr key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => (
+                                        <Th
+                                            key={header.id}
+                                            colSpan={header.colSpan}
+                                        >
+                                            {flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext(),
+                                            )}
+                                        </Th>
+                                    ))}
+                                </Tr>
                             ))}
-                        </Tr>
-                    ))}
-                </THead>
+                        </THead>
 
-                <TBody>
-                    {table.getRowModel().rows.map((row) => (
-                        <Tr key={row.id}>
-                            {row.getVisibleCells().map((cell) => (
-                                <Td key={cell.id}>
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext(),
-                                    )}
-                                </Td>
-                            ))}
-                        </Tr>
-                    ))}
-                </TBody>
-            </Table>
-            <Button onClick={handleGetSelectedIds}>Get Selected IDs</Button>
+                        <TBody>
+                            {paginatedItems.map((row) => {
+                                return (
+                                    <Tr key={row?.docid}>
+                                        {columns.map((column) => (
+                                            <Td key={column?.id}>
+                                                {column?.cell({
+                                                    row: { original: row },
+                                                })}
+                                            </Td>
+                                        ))}
+                                    </Tr>
+                                )
+                            })}
+                        </TBody>
+                    </Table>
+                )}
+            </PaginationHandler>
+            {/* <Button onClick={handleGetSelectedIds}>Get Selected IDs</Button> */}
         </Card>
     )
 }

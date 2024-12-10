@@ -23,5 +23,108 @@
 
 
 .candidate-btn {
-  @apply border-2 text-[0.9rem] text-center text-white md:px-5 max-md:py-2 px-3 rounded-xl bg-[#F79824] hover:bg-[red] transition-all duration-500 py-2 font-medium;
+  @apply border-2 text-[0.9rem] text-center text-white md:px-5 max-md:py-2 px-3 rounded-xl bg-[#001136] hover:bg-[red] transition-all duration-500 py-2 font-medium;
 }
+
+
+
+
+
+.otpoverlay {
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 999;
+  }
+.otp-Form {
+    width: 500px;
+    height: 500px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 30px;
+    gap: 20px;
+    position: absolute;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.082);
+    border-radius: 15px;
+    z-index: 999999;
+    left: 50%;
+    top: 10%;
+    transform: translate(-50%, -10%);
+  }
+.cancel-btn {
+    @apply text-[0.9rem] text-center bg-red-800 text-white md:px-5 max-md:py-2 px-3 rounded-xl hover:bg-red-800/80 transition-all duration-500 py-2 font-medium;
+  }
+.back-btn {
+    @apply duration-500 transition-all w-full text-white rounded-lg capitalize text-sm items-center text-right flex py-2 px-3 justify-between;
+  }
+.ok-btn {
+    @apply text-[0.9rem] text-center bg-green-800 text-white md:px-5 max-md:py-2 px-3 rounded-xl hover:bg-green-800/80 transition-all duration-500 py-2 font-medium;
+  }
+.mainHeading {
+    font-size: 2em;
+    color: rgb(15, 15, 15);
+    font-weight: 700;
+    margin: 0;
+  }
+.otpSubheading {
+    font-size: 1.2em;
+    color: black;
+    text-align: center;
+    margin: 0;
+  }
+.inputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+.otp-input {
+    background-color: rgb(228, 228, 228);
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    border: none;
+    border-radius: 7px;
+    caret-color: rgb(127, 129, 255);
+    color: rgb(44, 44, 44);
+    outline: none;
+    font-weight: 600;
+  }
+.verifyButton {
+    width: 100%;
+    height: 40px;
+    border: none;
+    background-color: rgb(29, 57, 136);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.2s;
+  }
+.resendNote {
+    font-size: 1.1em;
+    color: black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  
+  .resendBtn {
+    background-color: transparent;
+    border: none;
+    color: rgb(60, 99, 207);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 700;
+  }
