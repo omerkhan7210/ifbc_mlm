@@ -2,6 +2,10 @@ import Chart from 'react-apexcharts'
 import { COLORS, COLOR_2 } from '@/constants/chart.constant'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { getData } from '@/services/axios/axiosUtils'
+import { useAuth } from '@/auth'
+import { Card } from '@/components/ui'
+import DealsOverview from './business/components/DealsOverview'
 
 const months = [
     'Jan',
@@ -24,8 +28,8 @@ const apiFetch = async (endpoint: string, decryptedToken: string) => {
             headers: {
                 ...(decryptedToken && decryptedToken !== ''
                     ? {
-                          Authorization: `Bearer ${decryptedToken}`,
-                      }
+                        Authorization: `Bearer ${decryptedToken}`,
+                    }
                     : {}),
                 'X-App-Token': 'your-app-specific-token-ifbc',
             },
@@ -50,6 +54,7 @@ interface MonthlyData {
 }
 
 const Home = () => {
+    const { user } = useAuth();
     const [data, setData] = useState<MonthlyData[]>([])
     const [consultantsData, setConsultantsData] = useState([])
     const [ambassadorsData, setAmbassadorsData] = useState<MonthlyData[]>([])
@@ -119,23 +124,35 @@ const Home = () => {
     }, [])
 
     return (
-        <div className="bg-white p-5 flex  gap-10 ">
-            <div className="w-full ">
-                <h2 className="text-sm text-center mb-2">
-                    Monthly Candidates Data
-                </h2>
-                <BasicLine data={data} />
+        <div className=" flex flex-col gap-5 ">
+
+            <DealsOverview />
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-5' >
+                <Card>
+                    <div className="w-full ">
+                        <h2 className="text-sm text-center mb-2">
+                            Monthly Candidates Data
+                        </h2>
+                        <BasicLine data={data} />
+                    </div>
+                </Card>
+                <Card>
+                    <div className="w-full">
+                        <h2 className="text-sm text-center mb-2">Monthly Users Data</h2>
+                        <SplineArea
+                            consultantData={consultantsData}
+                            ambassadorData={ambassadorsData}
+                        />
+                    </div>
+                </Card>
             </div>
-            <div className="w-full">
-                <h2 className="text-sm text-center mb-2">Monthly Users Data</h2>
-                <SplineArea
-                    consultantData={consultantsData}
-                    ambassadorData={ambassadorsData}
-                />
-            </div>
+
+
         </div>
     )
 }
+export default Home
+
 
 const BasicLine = ({ data: candData }: { data: MonthlyData[] }) => {
     const data = [
@@ -226,4 +243,19 @@ const SplineArea = ({
     )
 }
 
-export default Home
+const ConsultantDeals = ({ user }) => {
+
+    getData(`commissions/consultant/${user?.userId}/completed-deals`).then((response) => {
+        // console.log(response)
+    }).catch(err => console.log(err))
+
+    getData(`commissions/consultant/${user?.userId}/sum-commission`).then((response) => {
+        console.log(response)
+    }).catch(err => console.log(err))
+    return (
+        <div>
+            <h1>Consultant Deals</h1>
+        </div>
+    )
+}
+

@@ -11,12 +11,12 @@ import activities from './data/Activities.json'
 const Business = () => {
     return <div className='flex flex-col  gap-5'>
         <div className='w-full flex-col  md:flex-row md:items-stretch flex gap-5'>
-            <div className='w-full md:w-2/5'>
-                <DealsOverview className='h-full' />
+            <div className='w-full'>
+                <DealsOverview />
             </div>
-            <div className='w-full md:w-3/5'>
+            {/* <div className='w-full md:w-3/5'>
                 <MonthlyDealsChart />
-            </div>
+            </div> */}
         </div>
 
         <Card>
