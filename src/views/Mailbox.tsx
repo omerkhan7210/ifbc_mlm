@@ -84,13 +84,14 @@ const Mailbox = () => {
         placeholderText: 'Search User',
         buttonAction: () => {
             setShowEmailModel(true)
-            console.log('Navigate to details')
+
+            console.log(showEmailModel, 'Button action triggered')
         },
         onchangeAction: () => {
             console.log('Onchange details')
         },
     }
-
+    console.log(showEmailModel, 'showEmailModel')
     return (
         <div>
             {showEmailModel && (

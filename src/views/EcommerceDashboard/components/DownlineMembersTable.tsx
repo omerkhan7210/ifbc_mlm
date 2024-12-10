@@ -1,5 +1,4 @@
-import React from 'react'
-import { TbBinaryTree } from 'react-icons/tb'
+import React, { useState } from 'react'
 import {
     useReactTable,
     getCoreRowModel,
@@ -10,11 +9,10 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Table from '@/components/ui/Table'
 import { Input } from '@/components/ui'
+import { TbBinaryTree } from 'react-icons/tb'
 
-// Define the table structure
 const { Tr, Td, TBody, THead, Th } = Table
 
-// Type for treeView data
 type TreeViewItem = {
     id: number
     profile: string
@@ -33,50 +31,6 @@ type TreeViewTableProps = {
         onchangeAction: () => void
     }
 }
-
-// Column helper for React Table
-const columnHelper = createColumnHelper<TreeViewItem>()
-
-// Define the table columns
-const columns = [
-    columnHelper.accessor('id', {
-        header: 'ID',
-        cell: (props) => <span>{props.row.original.id}</span>,
-    }),
-    columnHelper.accessor('profile', {
-        header: 'Profile',
-        cell: (props) => (
-            <img
-                src={props.row.original.profile}
-                alt="Profile"
-                className="w-10 h-10 rounded-full"
-            />
-        ),
-    }),
-    columnHelper.accessor('tittle', {
-        header: 'Tittle',
-        cell: (props) => <span>{props.row.original.tittle}</span>,
-    }),
-    columnHelper.accessor('name', {
-        header: 'Name',
-        cell: (props) => <span>{props.row.original.name}</span>,
-    }),
-    columnHelper.accessor('level', {
-        header: 'Level',
-        cell: (props) => <span>{props.row.original.level}</span>,
-    }),
-    columnHelper.display({
-        id: 'actions',
-        header: 'Actions',
-        cell: () => (
-            <button className="text-primary hover:text-blue-600">
-                <TbBinaryTree className="w-6 h-6" />
-            </button>
-        ),
-    }),
-]
-
-// Header with Button Component
 const HeaderWithButton: React.FC<{
     title: string
     buttonText: string
@@ -105,11 +59,93 @@ const HeaderWithButton: React.FC<{
     </div>
 )
 
-// Main Component
+const columnHelper = createColumnHelper<TreeViewItem>()
+
 const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
     data,
     headerConfig,
 }) => {
+    const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
+
+    const handleCheckboxChange = (id: number) => {
+        setSelectedIds((prevSelected) => {
+            const updated = new Set(prevSelected)
+            if (updated.has(id)) {
+                updated.delete(id)
+            } else {
+                updated.add(id)
+            }
+            return updated
+        })
+    }
+
+    const handleGetSelectedIds = () => {
+        console.log(Array.from(selectedIds))
+    }
+    console.log(selectedIds, 'temperary')
+
+    const columns = [
+        columnHelper.display({
+            id: 'select',
+            header: () => (
+                <input
+                    type="checkbox"
+                    checked={selectedIds.size === data.length}
+                    onChange={(e) => {
+                        const checked = e.target.checked
+                        setSelectedIds(
+                            checked
+                                ? new Set(data.map((row) => row.id))
+                                : new Set(),
+                        )
+                    }}
+                />
+            ),
+            cell: (props) => (
+                <input
+                    type="checkbox"
+                    checked={selectedIds.has(props.row.original.id)}
+                    onChange={() => handleCheckboxChange(props.row.original.id)}
+                />
+            ),
+        }),
+        columnHelper.accessor('id', {
+            header: 'ID',
+            cell: (props) => <span>{props.row.original.id}</span>,
+        }),
+        columnHelper.accessor('profile', {
+            header: 'Profile',
+            cell: (props) => (
+                <img
+                    src={props.row.original.profile}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full"
+                />
+            ),
+        }),
+        columnHelper.accessor('tittle', {
+            header: 'Tittle',
+            cell: (props) => <span>{props.row.original.tittle}</span>,
+        }),
+        columnHelper.accessor('name', {
+            header: 'Name',
+            cell: (props) => <span>{props.row.original.name}</span>,
+        }),
+        columnHelper.accessor('level', {
+            header: 'Level',
+            cell: (props) => <span>{props.row.original.level}</span>,
+        }),
+        columnHelper.display({
+            id: 'actions',
+            header: 'Actions',
+            cell: () => (
+                <button className="text-primary hover:text-blue-600">
+                    <TbBinaryTree className="w-6 h-6" />
+                </button>
+            ),
+        }),
+    ]
+
     const table = useReactTable({
         data,
         columns,
@@ -141,7 +177,6 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
                     ))}
                 </THead>
 
-                {/* Table Body */}
                 <TBody>
                     {table.getRowModel().rows.map((row) => (
                         <Tr key={row.id}>
@@ -157,6 +192,7 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
                     ))}
                 </TBody>
             </Table>
+            <Button onClick={handleGetSelectedIds}>Get Selected IDs</Button>
         </Card>
     )
 }
