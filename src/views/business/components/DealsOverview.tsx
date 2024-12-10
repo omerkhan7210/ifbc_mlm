@@ -1,12 +1,14 @@
 import classNames from '@/utils/classNames'
 import { TbArrowDownToArc } from 'react-icons/tb'
 import { FaSackDollar, FaCircleDollarToSlot, FaMoneyCheckDollar } from "react-icons/fa6";
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Card } from "@/components/ui"
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { GrInProgress } from "react-icons/gr";
 import { BsMicrosoftTeams } from "react-icons/bs";
 import { GoIssueReopened } from "react-icons/go";
+import { getData } from '@/services/axios/axiosUtils';
+import { useAuth } from '@/auth';
 
 
 type StatisticCardProps = {
@@ -26,12 +28,73 @@ type IncomeOverview = {
     data: Project
 }
 
+
+
+const DealsOverview = () => {
+    const { user } = useAuth();
+    const [allDeals, setAllDeals] = useState(0);
+    const [completedDeals, setCompletedDeals] = useState(0);
+    const [inProgressDeals, setInProgressDeals] = useState(0);
+
+
+    useEffect(() => {
+
+        getData(`commissions/consultant/${user?.userId}/all-deals`).then((response) => {
+            setAllDeals(response.inProgressDeals);
+        }).catch(err => console.log(err))
+
+        getData(`commissions/consultant/${user?.userId}/completed-deals`).then((response) => {
+            setCompletedDeals(response.totalCompletedDeals);
+        }).catch(err => console.log(err))
+
+        getData(`commissions/consultant/${user?.userId}/inprogress-deals`).then((response) => {
+            setInProgressDeals(response.inProgressDeals);
+            console.log('in progress', response)
+        }).catch(err => console.log(err))
+
+
+    }, [])
+
+
+    return (
+        <Card >
+            <div className="flex items-center justify-between mb-5">
+                <h4>Business Overview</h4>
+            </div>
+            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3  gap-4 rounded-2xl mt-4">
+                <StatisticCard
+                    title="All Deals"
+                    className="bg-sky-100 dark:bg-opacity-75"
+                    value={allDeals}
+                    icon={<GrInProgress />}
+                />
+                <StatisticCard
+                    title="In Progress Deals"
+                    className="bg-red-100 dark:bg-opacity-75"
+                    value={inProgressDeals}
+                    icon={<GoIssueReopened />}
+                />
+
+                <StatisticCard
+                    title="Closed Deals"
+                    className="bg-emerald-100 dark:bg-opacity-75"
+                    value={allDeals - inProgressDeals}
+                    icon={<IoCheckmarkDoneCircle />}
+                />
+            </div>
+        </Card>
+    )
+}
+
+export default DealsOverview
+
 const StatisticCard = ({
     title,
     className,
     icon,
     value,
 }: StatisticCardProps) => {
+
     return (
         <div
             className={classNames(
@@ -55,31 +118,3 @@ const StatisticCard = ({
         </div>
     )
 }
-
-const DealsOverview = ({ className }) => {
-    return (
-        <Card className={className}>
-            <div className="flex items-center justify-between mb-5">
-                <h4>Business Overview</h4>
-            </div>
-            <div className="grid grid-cols-1  gap-4 rounded-2xl mt-4">
-                <StatisticCard
-                    title="Completed Deals (Your)"
-                    className="bg-sky-100 dark:bg-opacity-75"
-                    value='12'
-                    icon={<IoCheckmarkDoneCircle />}
-                />
-                <StatisticCard
-                    title="In Progress Deals (Your)"
-                    className="bg-emerald-100 dark:bg-opacity-75"
-                    value='7'
-                    icon={<GoIssueReopened />}
-                />
-
-
-            </div>
-        </Card>
-    )
-}
-
-export default DealsOverview
