@@ -231,13 +231,13 @@ const LeftSideBarProfile = ({
                             <img
                                 src={imgSrc}
                                 alt="User Profile"
-                                className="rounded-full w-44 h-44 object-cover cursor-pointer"
+                                className="rounded-full w-25 h-25 object-cover cursor-pointer"
                                 onError={handleError}
                             />
 
                             <button
                                 type="button"
-                                className="absolute top-2 right-0 bg-custom-dark-blue  rounded-full p-2 flex items-center justify-center"
+                                className="absolute top-3 right-3 bg-[#1E93EB]  rounded-full p-1 flex items-center justify-center"
                                 onClick={handleButtonClick}
                             >
                                 <svg
@@ -246,7 +246,7 @@ const LeftSideBarProfile = ({
                                     viewBox="0 0 24 24"
                                     strokeWidth={1.5}
                                     stroke="white"
-                                    className="size-4"
+                                    className="size-6"
                                 >
                                     <path
                                         strokeLinecap="round"
@@ -525,7 +525,7 @@ const LeftSideBarProfile = ({
             {haveChanges && (
                 <button
                     disabled={loading}
-                    className="candidate-btn w-full mt-5"
+                    className="candidate-btn w-50 mt-5 absolute bottom-0"
                     onClick={handleSubmit}
                 >
                     {loading ? "Loading..." : "Save your profile information"}

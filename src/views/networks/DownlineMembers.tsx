@@ -1,80 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable'
 import profileImage from '../../../public/images/logo/android-chrome-192x192.png'
+import { getData } from '@/services/axios/axiosUtils'
+import { useAuth } from '@/auth'
 
 const DownlineMembers = () => {
-    const treeViewData = [
-        {
-            id: 1,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '1',
-        },
-        {
-            id: 2,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '2',
-        },
-        {
-            id: 3,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '3',
-        },
-        {
-            id: 4,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '2',
-        },
-        {
-            id: 5,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '2',
-        },
-        {
-            id: 6,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '2',
-        },
-        {
-            id: 7,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '1',
-        },
-        {
-            id: 8,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '1',
-        },
-        {
-            id: 9,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '1',
-        },
-        {
-            id: 10,
-            profile: profileImage,
-            tittle: 'INF00123',
-            name: 'Sagar Uphade',
-            level: '3',
-        },
-    ]
+    const { user } = useAuth()
+    const [apiData, setApiData] = useState([])
+    const handleData = () => {
+        getData(`consultants/getconsultanthierarchy/${user?.userId}`)
+            .then((data) => {
+                const cleanedData = {
+                    ...data,
+                    firstName: data.firstName.trim(),
+                    lastName: data.lastName.trim(),
+                    subConsultants: data.subConsultants.map((sub) => ({
+                        ...sub,
+                        firstName: sub.firstName.trim(),
+                        lastName: sub.lastName.trim(),
+                    })),
+                }
+                setApiData([cleanedData])
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    useEffect(() => {
+        handleData()
+    }, [])
 
     const headerConfig = {
         title: 'Downline Members',
@@ -89,11 +44,7 @@ const DownlineMembers = () => {
     }
     return (
         <div>
-            <DownlineMembersTable
-                data={treeViewData}
-                headerConfig={headerConfig}
-            />
-            
+            <DownlineMembersTable data={apiData} headerConfig={headerConfig} />
         </div>
     )
 }

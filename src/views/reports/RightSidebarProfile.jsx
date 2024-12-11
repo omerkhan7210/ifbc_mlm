@@ -365,7 +365,7 @@ const PersonalInfo = ({
                 </div>
             </div>
             {successMsg && (
-                <p className="mt-3 border-2 border-green-800 text-green-800 p-4 flex items-center justify-between">
+                <p className="mt-3 border-2 border-green-800 text-green-800 p-4 flex items-center justify-between ">
                     {successMsg}
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

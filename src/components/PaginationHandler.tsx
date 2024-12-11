@@ -15,7 +15,7 @@ export default function PaginationHandler({ items, itemsPerPage, children }: Pag
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     // Get paginated items for the current page
-    const paginatedItems = items.slice(
+    const paginatedItems = items?.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
@@ -33,7 +33,8 @@ export default function PaginationHandler({ items, itemsPerPage, children }: Pag
                     total={totalItems}
                     pageSize={itemsPerPage}
                     onChange={handlePageChange}
-                />}
+                />
+                }
             </div>
         </div>
     );

@@ -8,9 +8,15 @@ export const TopButtonsSection = ({
     handleStepFilterChange,
     switchFormat,
     filteredCandidates,
+    setShowTable,
+    showTable,
 }) => {
     return (
+<<<<<<< HEAD
+        <div className="grid p-3 max-md:grid-cols-1 md:grid-cols-5 sticky top-0 left-0 gap-2  z-999">
+=======
         <div className="grid p-3 max-md:grid-cols-1 md:grid-cols-5 sticky top-0 left-0 gap-2  z-[99999999]">
+>>>>>>> d803f46b612b0501743d46b616837bfd1dbdcefa
             <div className="flex items-center justify-center w-full bg-[#001136] rounded-sm">
                 <button
                     onClick={handle.enter}
@@ -34,9 +40,21 @@ export const TopButtonsSection = ({
             <Select
                 isMulti
                 options={stepOptions}
+<<<<<<< HEAD
+                className="z-[99999999]"
+=======
                 className="z-[999999999999]"
+>>>>>>> d803f46b612b0501743d46b616837bfd1dbdcefa
                 onChange={handleStepFilterChange}
             />
+            <div className="flex items-center bg-[#001136]">
+                <button
+                    onClick={() => setShowTable(true)}
+                    className=" py-2 px-4 text-center text-sm w-full bg-custom-heading-color text-white rounded"
+                >
+                    {!showTable ? 'Show In table Form' : 'Hide In table Form'}
+                </button>
+            </div>
         </div>
     )
 }
