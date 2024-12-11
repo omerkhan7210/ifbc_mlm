@@ -470,7 +470,6 @@ const SalesDashboard = () => {
                     </div> */}
                 </div>
 
-                <RecentOrder data={data.recentOrders} />
             </div>
         </div>
         // )}
