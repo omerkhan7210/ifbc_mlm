@@ -238,7 +238,7 @@ const CandidateListGrid = () => {
             )
 
             if (response.status === 204) {
-                console.log(response?.data, 'dta')
+                console.log(response, 'dta')
                 setFilteredCandidates((prevCands) =>
                     prevCands.map((c) =>
                         c.docid === cand.docid
