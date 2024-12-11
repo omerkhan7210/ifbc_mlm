@@ -663,28 +663,28 @@
 // export default CandidateListGrid
 
 import axios from 'axios'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { MyCandContext } from '../../../src/Context/CandidatesDataContext.jsx'
 import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant'
-// import { steps } from 'src/Utils/staticdata/data'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-import { FormatRawDate } from '../../../src/utils/FormatRawDate'
+import { FormatRawDate } from '../../utils/FormatRawDate.js'
 import { AnimatePresence, motion } from 'framer-motion'
-import { TopButtonsSection } from './TopSection'
-import CandidateStepGraph from '../../../src/Charts/CandidateStepGraph.jsx'
-import CandidatePieChart from '../../../src/Charts/CandidatePieChart.jsx'
-import BarLoader from '../../../src/Charts/BarLoader.jsx'
+import { TopButtonsSection } from './TopSection.tsx'
+import CandidateStepGraph from '../../Charts/CandidateStepGraph.jsx'
 import { PiEnvelope, PiPhoneCallLight } from 'react-icons/pi'
 // import { toast } from 'react-toastify'
 import { toast, Toaster } from 'react-hot-toast'
 import { HiOutlineLightBulb } from 'react-icons/hi'
+<<<<<<< HEAD:src/views/candidates/CandidateListGrid.tsx
 import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
 import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
 import useWindowSize from '@/components/ui/hooks/useWindowSize.js'
 import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.js'
+=======
+import CandidateDataModel from './CandidateDataModel.jsx'
+>>>>>>> d803f46b612b0501743d46b616837bfd1dbdcefa:src/views/candidates/CandidateListGrid.jsx
 
 const containerVariants = {
     hidden: { opacity: 0, x: -100 },
@@ -707,6 +707,7 @@ const steps = [
     'Closed Lost',
     'On Hold',
 ]
+<<<<<<< HEAD:src/views/candidates/CandidateListGrid.tsx
 const CandidateListGrid = () => {
     const { user } = useAuth()
     const [cands, setCands] = useState()
@@ -730,6 +731,9 @@ const CandidateListGrid = () => {
         getCandidates()
     }, [])
 
+=======
+const CandidateListGrid = ({ cands, completeData }) => {
+>>>>>>> d803f46b612b0501743d46b616837bfd1dbdcefa:src/views/candidates/CandidateListGrid.jsx
     // const { cands, refetch, isLoading } = useContext(MyCandContext)
     const [filteredCandidates, setFilteredCandidates] = useState([])
     const [filterCands, setFilterCands] = useState()
@@ -903,7 +907,10 @@ const CandidateListGrid = () => {
             )
 
             if (response.status === 204) {
+<<<<<<< HEAD:src/views/candidates/CandidateListGrid.tsx
                 console.log(response, 'dta')
+=======
+>>>>>>> d803f46b612b0501743d46b616837bfd1dbdcefa:src/views/candidates/CandidateListGrid.jsx
                 setFilteredCandidates((prevCands) =>
                     prevCands.map((c) =>
                         c.docid === cand.docid
@@ -956,9 +963,9 @@ const CandidateListGrid = () => {
 
     // if (isLoading) {
     // if () {
-    ;<div className={`relative bg-blue-100 flex flex-col gap-1 rounded-xl`}>
-        <BarLoader bgcolor={'blue'} />
-    </div>
+    // ;<div className={`relative bg-blue-100 flex flex-col gap-1 rounded-xl`}>
+    //     <BarLoader bgcolor={'blue'} />
+    // </div>
     // }
 
     const headerConfig = {
@@ -1075,6 +1082,7 @@ const CandidateListGrid = () => {
                                 )}
                                 onDropCandidate={handleDropCandidate}
                                 containerRef={containerRef} // Pass down the container ref
+                                completeData={completeData}
                             />
                         ))}
                     </motion.div>
@@ -1119,6 +1127,7 @@ const StepColumn = ({
     onDropCandidate,
     handle,
     containerRef,
+    completeData,
 }) => {
     console.log(candidates, 'candidates in StepColumn')
     const [isModalVisible, setIsModalVisible] = useState(false)
@@ -1153,13 +1162,10 @@ const StepColumn = ({
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'CANDIDATE',
         drop: (item, monitor) => {
-            console.log(item, monitor, 'moniter')
             // Perform the drop action
             if (monitor.didDrop()) {
                 return
             }
-            // Invoke the onDropCandidate method
-            console.log('working drop down')
             if (item?.cand?.pipelineStep !== step) {
                 setDroppedItem(item)
                 handleConfirmUserIsAddedOrNot()
@@ -1290,11 +1296,14 @@ const StepColumn = ({
                 <div
                     className={`p-3 flex flex-col bg-slate-50 ${handle.active ? 'max-h-screen' : 'max-h-[680px]'}  overflow-y-auto gap-5`}
                 >
+                    {/* Modal for Data Details */}
                     {candidates.map((cand, index) => (
                         <DraggableCard
                             cand={cand}
                             key={index}
                             containerRef={containerRef}
+                            completeData={completeData}
+                            index={index}
                         />
                     ))}
                 </div>
@@ -1314,7 +1323,9 @@ const ReferralRibbon = ({ cand }) => {
     return null
 }
 
-const DraggableCard = ({ cand, key, containerRef }) => {
+const DraggableCard = ({ cand, key, containerRef, completeData, index }) => {
+    const [openModal, setOpen] = useState(false)
+
     const [{ isDragging }, drag, preview] = useDrag(() => ({
         type: 'CANDIDATE',
         item: { cand },
@@ -1385,6 +1396,20 @@ const DraggableCard = ({ cand, key, containerRef }) => {
                     {cand.pipelineStep}
                 </span>
             </div>
+            <button className="bg-blue-900 py-2 px-5 rounded-xl flex items-center">
+                <span
+                    onClick={() => setOpen(true)}
+                    className="text-xs font-semibold text-white cursor-pointer"
+                >
+                    View Details
+                </span>
+            </button>
+            <CandidateDataModel
+                dataObj={completeData[index]}
+                openModal={openModal}
+                setOpenModal={setOpen}
+                title={`${cand.firstName} ${cand.lastName}`}
+            />
         </div>
     )
 }
