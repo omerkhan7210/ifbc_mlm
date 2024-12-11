@@ -1,64 +1,95 @@
 import { Button, Card, Input } from '@/components/ui'
 import classNames from '@/utils/classNames'
 import { BsPersonArmsUp } from "react-icons/bs";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { getData } from '@/services/axios/axiosUtils';
 
 export default function CommissionCalculator() {
     const [amount, setAmount] = useState<any>(0);
+    const [shares, setShares] = useState<any>({
+        consultantShare: 0,
+        seniorConsultantShare: 0,
+        brokerShare: 0,
+        ambassadorAmount: 0,
+    });
     const [commissions, setCommissions] = useState({
-        first: 0,
-        second: 0,
-        third: 0,
-        fourth: 0
+        consultant: 0,
+        seniorConsultant: 0,
+        broker: 0,
+        ambassador: 0
     })
     const calculateCommission = () => {
-        commissions.first = 15 / 100 * amount
-        commissions.second = 5 / 100 * amount
-        commissions.third = 2 / 100 * amount
+        const { consultantShare, seniorConsultantShare, brokerShare } = shares
+        commissions.consultant = consultantShare / 100 * amount
+        commissions.seniorConsultant = seniorConsultantShare / 100 * amount
+        commissions.broker = brokerShare / 100 * amount
 
         setCommissions(
             { ...commissions }
         )
+        // setAmount('')
     }
 
-    return (
-        <Card>
-            <h4>Commission Calculator</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className='flex  gap-5 my-5'>
-                    <Input
-                        placeholder='Enter Franchise Amount'
-                        type='number'
-                        onChange={e => setAmount(e.target.value)}
-                    />
-                    <Button
-                        variant='solid'
-                        onClick={calculateCommission}
-                    >Calculate</Button>
-                </div>
-            </div>
+    useEffect(() => {
+        getData('consultantshares/1').then((response) => {
+            console.log(response)
+            setShares(response)
+        }).catch(err => {
+            console.log(err)
+        })
+    }, [])
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 rounded-2xl my-3 ">
-                <StatisticCard
-                    title="Consultant (15%)"
-                    className="bg-slate-100 dark:bg-opacity-75"
-                    value={commissions.first ? `$${commissions.first.toFixed(2)}` : '15%'}
-                    icon={<BsPersonArmsUp />}
-                />
-                <StatisticCard
-                    title="Senior Consultant  (5%)"
-                    className="bg-slate-100 dark:bg-opacity-75"
-                    value={commissions.second ? `$${commissions.second.toFixed(2)}` : '5%'}
-                    icon={<BsPersonArmsUp />}
-                />
-                <StatisticCard
-                    title="Franchise Broker (2%)"
-                    className="bg-slate-100 dark:bg-opacity-75"
-                    value={commissions.third ? `$${commissions.third.toFixed(2)}` : '2%'}
-                    icon={<BsPersonArmsUp />}
-                />
-            </div>
-        </Card>
+    return (
+        <>
+            <main className="grid grid-cols-12 gap-5 my-4">
+                <section className="md:col-span-4 max-md:col-span-12">
+                    <Card>
+                        <HintOptions shares={shares} />
+
+                    </Card>
+                </section>
+                <section className=" md:col-span-8 max-md:col-span-12 w-full ">
+                    <Card>
+                        <h4>Commission Calculator</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2">
+                            <div className='flex  gap-5 my-5'>
+                                <Input
+                                    placeholder='Enter Franchise Amount'
+                                    type='number'
+                                    onChange={e => setAmount(e.target.value)}
+                                // value={amount}
+                                />
+                                <Button
+                                    variant='solid'
+                                    onClick={calculateCommission}
+                                >Calculate</Button>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-2xl my-3 ">
+                            <StatisticCard
+                                title={`Consultant (${shares?.consultantShare}%)`}
+                                className="bg-slate-100 dark:bg-opacity-75"
+                                value={commissions.consultant ? `$${commissions.consultant.toFixed(2)}` : `${shares?.consultantShare}%`}
+                                icon={<BsPersonArmsUp />}
+                            />
+                            <StatisticCard
+                                title={`Senior Consultant (${shares?.seniorConsultantShare}%)`}
+                                className="bg-slate-100 dark:bg-opacity-75"
+                                value={commissions.seniorConsultant ? `$${commissions.seniorConsultant.toFixed(2)}` : `${shares?.seniorConsultantShare}%`}
+                                icon={<BsPersonArmsUp />}
+                            />
+                            <StatisticCard
+                                title="Franchise Broker (2%)"
+                                className="bg-slate-100 dark:bg-opacity-75"
+                                value={commissions?.broker ? `$${commissions?.broker.toFixed(2)}` : `${shares?.brokerShare}%`}
+                                icon={<BsPersonArmsUp />}
+                            />
+                        </div>
+                    </Card>
+                </section>
+            </main>
+        </>
     )
 }
 
@@ -92,3 +123,26 @@ const StatisticCard = ({
         </div>
     )
 }
+
+
+const HintOptions = ({ shares }) => {
+    return (
+        <div className="">
+            <h2 className="text-base font-bold text-blue-800 mb-2">Hints</h2>
+            <ul className="text-sm text-gray-600 flex flex-col gap-5">
+                <li>
+                    <strong>Franchise Consultant:</strong> Earns {shares.consultantShare}% of the franchise fee for every successful franchise deal they facilitate.
+                </li>
+                <li>
+                    <strong>Senior Franchise Consultant:</strong> After recruiting 5 franchise consultants or successfully referring 5 franchises, earns an additional {shares.seniorConsultantShare}% from their team's earnings while their team retains the standard 15% share.
+                </li>
+                <li>
+                    <strong>Franchise Broker:</strong> After referring 25 franchises or recruiting 25 consultants, earns an additional {shares.brokerShare}% of their team's earnings while their team retains their respective shares (15% and 5%).
+                </li>
+                <li>
+                    <strong>Ambassador:</strong> Receives ${shares.ambassadorAmount} per successful referral resulting in a franchise purchase.
+                </li>
+            </ul>
+        </div>
+    );
+};
