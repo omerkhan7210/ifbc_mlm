@@ -11,77 +11,33 @@ import Table from '@/components/ui/Table'
 import { Input } from '@/components/ui'
 import { TbBinaryTree } from 'react-icons/tb'
 import PaginationHandler from '@/components/PaginationHandler'
-import { array } from 'zod'
 
 const { Tr, Td, TBody, THead, Th } = Table
 
 type TreeViewItem = {
-    additionalEmail: string
-    additionalFirstName: string
-    additionalLastName: string
-    additionalPhone: string
-    additionalRelationship: string
-    agentUserId: number
-    currentCity: string
-    currentState: string
-    currentZipcode: string
-    docDate: string
     docid: number
-    email: string
     firstName: string
-    franchiseInterested: string
-    isArchive: boolean
-    isCompleted: boolean
-    isDeleted: boolean
     lastName: string
-    lostReason: string
+    email: string
     phone: string
     pipelineStep: string
-    refferralId: number | null
-    status: string
     territoryCity: string
     territoryState: string
-    territoryZipcode: string
     updateDt: string | null
 }
 
 type TreeViewTableProps = {
     data: TreeViewItem[]
+    // searchQuery: string
+    // setSearchQuery: React.Dispatch<React.SetStateAction<string>>
     headerConfig: {
         title: string
         buttonText: string
+
         placeholderText: string
         buttonAction: () => void
-        onchangeAction: () => void
     }
 }
-const HeaderWithButton: React.FC<{
-    title: string
-    buttonText: string
-    placeholderText: string
-    onchangeAction: () => void
-    buttonAction: () => void
-}> = ({ title, buttonText, buttonAction, placeholderText, onchangeAction }) => (
-    <div className="flex items-center justify-between mb-6">
-        <h4>{title}</h4>
-        <Input
-            placeholder={placeholderText}
-            onChange={onchangeAction}
-            className="w-[30%] bg-[#E5E5E5]"
-            // {...props}
-            // value={props.value}
-            // suffix={inputSuffix}
-            // prefix={inputPrefix}
-        />
-        <Button
-            size="sm"
-            className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF]"
-            onClick={buttonAction}
-        >
-            {buttonText}
-        </Button>
-    </div>
-)
 
 const columnHelper = createColumnHelper<TreeViewItem>()
 
@@ -89,52 +45,23 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
     data,
     headerConfig,
 }) => {
-    const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
+    const [searchQuery, setSearchQuery] = useState('')
 
-    const handleCheckboxChange = (id: number) => {
-        setSelectedIds((prevSelected) => {
-            const updated = new Set(prevSelected)
-            if (updated.has(id)) {
-                updated.delete(id)
-            } else {
-                updated.add(id)
-            }
-            return updated
-        })
-    }
-
-    const handleGetSelectedIds = () => {
-        console.log(Array.from(selectedIds))
-    }
-    console.log(selectedIds, 'temperary')
+    // Filter logic: Search across all fields
+    const filteredData = data?.filter((item) => {
+        const searchLower = searchQuery?.toLowerCase()
+        return (
+            item.firstName.toLowerCase().includes(searchLower) ||
+            item.lastName.toLowerCase().includes(searchLower) ||
+            item.email.toLowerCase().includes(searchLower) ||
+            item.phone.toLowerCase().includes(searchLower) ||
+            item.pipelineStep.toLowerCase().includes(searchLower) ||
+            item.territoryCity.toLowerCase().includes(searchLower) ||
+            item.territoryState.toLowerCase().includes(searchLower)
+        )
+    })
 
     const columns = [
-        columnHelper.display({
-            id: 'select',
-            header: () => (
-                <input
-                    type="checkbox"
-                    checked={selectedIds.size === data.length}
-                    onChange={(e) => {
-                        const checked = e.target.checked
-                        setSelectedIds(
-                            checked
-                                ? new Set(data.map((row) => row.id))
-                                : new Set(),
-                        )
-                    }}
-                />
-            ),
-            cell: (props) => (
-                <input
-                    type="checkbox"
-                    checked={selectedIds.has(props.row.original?.id)}
-                    onChange={() =>
-                        handleCheckboxChange(props.row.original?.id)
-                    }
-                />
-            ),
-        }),
         columnHelper.accessor('docid', {
             header: 'ID',
             cell: (props) => <span>{props.row.original.docid}</span>,
@@ -171,33 +98,36 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
             header: 'Date & Time',
             cell: (props) => <span>{props.row.original.updateDt}</span>,
         }),
-        columnHelper.display({
-            id: 'actions',
-            header: 'Actions',
-            cell: () => (
-                <button className="text-primary hover:text-blue-600">
-                    <TbBinaryTree className="w-6 h-6" />
-                </button>
-            ),
-        }),
     ]
 
     const table = useReactTable({
-        data,
+        data: filteredData,
         columns,
         getCoreRowModel: getCoreRowModel(),
     })
 
     return (
         <Card>
-            <HeaderWithButton
-                title={headerConfig.title}
-                buttonText={headerConfig.buttonText}
-                placeholderText={headerConfig.placeholderText}
-                buttonAction={headerConfig.buttonAction}
-                onchangeAction={headerConfig.onchangeAction}
-            />
-            <PaginationHandler items={data} itemsPerPage={10}>
+            {/* Search Box */}
+            <div className="flex items-center justify-between mb-6">
+                <h4>{headerConfig.title}</h4>
+                <Input
+                    placeholder={headerConfig.placeholderText}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-[30%] bg-[#E5E5E5]"
+                />
+                <Button
+                    size="sm"
+                    className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF]"
+                    onClick={headerConfig.buttonAction}
+                >
+                    {headerConfig.buttonText}
+                </Button>
+            </div>
+
+            {/* Table with Pagination */}
+            <PaginationHandler items={filteredData} itemsPerPage={10}>
                 {(paginatedItems) => (
                     <Table>
                         <THead>
@@ -236,7 +166,6 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
                     </Table>
                 )}
             </PaginationHandler>
-            {/* <Button onClick={handleGetSelectedIds}>Get Selected IDs</Button> */}
         </Card>
     )
 }

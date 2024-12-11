@@ -6,23 +6,30 @@ import axios from "axios"
 import OptForm from './OptForm';
 import Loading from "../../components/shared/Loading"
 import { apiGetAllUsers } from '@/services/UsersService'
+import { useAuth } from '@/auth'
+import { getData } from '@/services/axios/axiosUtils'
+import { BiHide } from "react-icons/bi";
+import { GrFormView } from "react-icons/gr";
 
 const AddUserInGraph = ({ selectedNode, onClose }) => {
-    const [label, setLabel] = useState(selectedNode.data.label);
+    // const [label, setLabel] = useState(selectedNode.data.label);
+    const { user } = useAuth()
+    const [selectedUser, setSelectedUser] = useState(null)
+    const [showPassword, setShowPassword] = useState(false)
     const [showOtpForm, setShowOtpForm] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [otpValues, setOtpValues] = useState();
-
     const [formErrors, setFormErrors] = useState({});
     const [formFields, setFormFields] = useState({
-        mangerName: selectedNode.data.label,
+        mangerName: user?.firstName,
         firstName: '',
         lastName: '',
         email: '',
         phone: '',
         password: '',
         userName: '',
+        refferralId: '',
         userType: '',
     })
 
@@ -35,11 +42,14 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
         if (!formFields.phone) errors.phone = "Phone number is required";
         if (!formFields.password) errors.password = "Password is required";
         if (!formFields.userType) errors.userType = "User Type is required";
+        if (!formFields?.refferralId) errors.refferralId = "Refferral Name required"
         if (!formFields.userName) errors.userName = "User Name is required";
 
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
+
+    console.log(formFields, "formFields")
 
     const handleOTPData = (val) => {
         setOtpValues(val)
@@ -137,9 +147,9 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
             const userUrl = `${BASE_API_URL}/users`;
 
             const user = {
-                userId: 0,
-                // refferralId: consultant?.docId ?? 0,
-                refferralId: 0,
+                userId: user?.userId,
+                refferralId: user?.docId ?? 0,
+                refferralId: formFields?.refferralId,
                 firstname: formFields?.firstName,
                 lastname: formFields?.lastName,
                 email: formFields?.email,
@@ -155,7 +165,6 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
                 // username: formFields.email.split("@")[0],
                 username: formFields?.userName,
             };
-            console.log(HEADER_TOKEN, "HEADER_TOKEN2")
             const response = await axios.post(userUrl, user, {
                 headers: {
                     "X-App-Token": HEADER_TOKEN,
@@ -170,6 +179,15 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
         }
     };
 
+    const handleData = () => {
+        getData(`consultants/getconsultanthierarchy/${user?.userId}`)
+            .then((data) => setSelectedUser(data))
+            .catch((err) => console.log(err))
+    }
+    useEffect(() => {
+        handleData()
+    }, [])
+    const mainSubConsultants = selectedUser?.subConsultants;
     return (
         <>
             {isLoading && (
@@ -185,13 +203,13 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
                         onClose={onClose} validateOtp={validateOtp} />
                 </div>
             ) : (
-                <div className="w-auto mx-auto font-[sans-serif] absolute top-[5%] left-[5%] right-[5%] p-[20px] z-10 bg-white shadow-2xl">
+                <div className="w-auto rounded-lg mx-auto font-[sans-serif] p-[20px] bg-white shadow-2xl overflow-auto">
                     <div className="text-center mb-16 flex">
                         <a href="javascript:void(0)">
                             <img
                                 src={IFBC} alt="logo" className='w-[50%] inline-block' />
                         </a>
-                        <button type="button"
+                        {/* <button type="button"
                             onClick={onClose}
                         >
                             <RxCross2
@@ -200,7 +218,7 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
                                 onClick={onClose}
                             />
 
-                        </button>
+                        </button> */}
                     </div>
 
                     <form>
@@ -249,20 +267,43 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
                             </div>
                             <div>
                                 <label className="text-gray-800 text-sm mb-2 block">Password</label>
-                                <input type="password" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password"
+                                <input type={showPassword ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password relative"
                                     value={formFields.password}
-                                    onChange={(e) => setFormFields({ ...formFields, password: e.target.value })}
+                                    onChange={(e) => setFormFields({ ...formFields, password: e.target.value })
+                                    }
                                 />
+                                <span
+                                    className="absolute right-[4rem] mt-[1.5rem] transform -translate-y-1/2 cursor-pointer"
+                                    onClick={() => setShowPassword((prew) => !prew)}
+                                >
+                                    {showPassword ? <BiHide size={20} /> : <GrFormView size={30} />}
+                                </span>
                                 {formErrors.password && <p className="text-red-500 text-xs">{formErrors?.password}</p>}
                             </div>
                             <div>
                                 <label className="text-gray-800 text-sm mb-2 block">User Name</label>
                                 <input
-                                    type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
                                     value={formFields.userName}
                                     onChange={(e) => setFormFields({ ...formFields, userName: e.target.value })}
                                 />
                                 {formErrors.userName && <p className="text-red-500 text-xs">{formErrors?.userName}</p>}
+                            </div>
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Select Refferral Name</label>
+                                <select
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    value={formFields.refferralId}
+                                    onChange={(e) => setFormFields({ ...formFields, refferralId: e.target.value })}
+                                >
+                                    <option value="" disabled>Select User Type</option>
+                                    {
+                                        mainSubConsultants?.map((item) => (
+                                            <option value={item?.docId}>{item?.firstName}{item?.lastName}</option>
+                                        ))
+                                    }
+                                </select>
+                                {formErrors.refferralId && <p className="text-red-500 text-xs">{formErrors?.refferralId}</p>}
                             </div>
                             <div>
                                 <label className="text-gray-800 text-sm mb-2 block">User Type</label>
