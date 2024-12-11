@@ -85,7 +85,7 @@ const DealsOverview = () => {
                     icon={<IoCheckmarkDoneCircle />}
                 />
                 <StatisticCard
-                    title="Sub Consultant's Deals"
+                    title="Sub Consultant's Completed Deals"
                     className="bg-slate-100 dark:bg-opacity-75"
                     value={childDeals}
                     icon={<IoCheckmarkDoneCircle />}
