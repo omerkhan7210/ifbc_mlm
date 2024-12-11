@@ -14,9 +14,11 @@ import { MdPriorityHigh } from 'react-icons/md'
 import CardSkeleton from '../../../components/CardSkeleton'
 import PaginationHandler from '@/components/PaginationHandler'
 import FiltersHandler from '@/components/FiltersHandler'
+import useIsAdmin from '../../../hooks/useIsAdmin'
 
 export default function HelpRequest() {
-    const { user } = useAuth()
+    const { user } = useAuth();
+    const isAdmin = useIsAdmin();
     const [data, setData] = useState([])
     const [filteredData, setFilteredData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -27,7 +29,7 @@ export default function HelpRequest() {
 
     const getAllData = () => {
         setIsLoading(true)
-        getData(`SupportRequest/referral/${user?.userId}`)
+        getData(isAdmin ? 'SupportRequest' : `SupportRequest/referral/${user?.userId}`)
             .then((data) => {
                 setIsLoading(false)
                 const fiFoCollection = [...data].reverse()
@@ -84,6 +86,8 @@ export default function HelpRequest() {
                     setSearchQuery={setSearchQuery}
                     itemsPerPage={itemsPerPage}
                     handleItemsPerPageChange={handleItemsPerPageChange}
+                    noOfItems={filteredData?.length}
+
                 />
 
                 {/* Paginated Data */}
@@ -240,7 +244,7 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                         </div>
                         <div className="flex justify-start items-center gap-1">
                             <div className="text-gray-800 font-semibold">
-                                Outher Help:{' '}
+                                Other Help:{' '}
                             </div>
                             <div className="text-gray-600">
                                 {dataObj?.otherHelp
@@ -248,34 +252,36 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                                     : '---'}
                             </div>
                         </div>
-                        <div className="flex justify-start items-center gap-3">
-                            <div className="text-gray-800 font-semibold">
-                                File:{' '}
+                        {dataObj?.file && <>
+                            <div className="flex justify-start items-center gap-3">
+                                <div className="text-gray-800 font-semibold">
+                                    File:{' '}
+                                </div>
+                                <div className="text-white">
+                                    {/* {dataObj?.file ? dataObj?.file : "---"} */}
+                                    {dataObj?.file ? (
+                                        <a
+                                            href={`https://backend.ifbc.co/api/SupportRequest/${dataObj?.id}/file`}
+                                            className="bg-red-700 rounded-sm p-1 text-sm capitalize"
+                                        >
+                                            Download File
+                                        </a>
+                                    ) : (
+                                        '- -'
+                                    )}
+                                </div>
                             </div>
-                            <div className="text-white">
-                                {/* {dataObj?.file ? dataObj?.file : "---"} */}
-                                {dataObj?.file ? (
-                                    <a
-                                        href={`https://backend.ifbc.co/api/SupportRequest/${dataObj?.id}/file`}
-                                        className="bg-red-700 rounded-sm p-1 text-sm capitalize"
-                                    >
-                                        Download File
-                                    </a>
-                                ) : (
-                                    '- -'
-                                )}
+                            <div className="flex justify-start items-center gap-1">
+                                <div className="text-gray-800 font-semibold">
+                                    File Extension:{' '}
+                                </div>
+                                <div className="text-gray-600">
+                                    {dataObj?.fileExtension
+                                        ? dataObj?.fileExtension
+                                        : '---'}
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                File Extension:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.fileExtension
-                                    ? dataObj?.fileExtension
-                                    : '---'}
-                            </div>
-                        </div>
+                        </>}
                     </div>
                     <div className="text-gray-600 text-xs mt-3">
                         {formatDateCustom(dataObj?.docDate)}

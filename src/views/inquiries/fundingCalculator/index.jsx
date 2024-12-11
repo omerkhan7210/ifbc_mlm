@@ -13,9 +13,11 @@ import { CiLocationOn } from 'react-icons/ci'
 import CardSkeleton from '../../../components/CardSkeleton'
 import PaginationHandler from '@/components/PaginationHandler'
 import FiltersHandler from '@/components/FiltersHandler'
+import useIsAdmin from '../../../hooks/useIsAdmin'
 
 export default function FundingCalculator() {
-    const { user } = useAuth()
+    const { user } = useAuth();
+    const isAdmin = useIsAdmin();
     const [data, setData] = useState([])
     const [filteredData, setFilteredData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -26,7 +28,7 @@ export default function FundingCalculator() {
 
     const getAllData = () => {
         setIsLoading(true)
-        getData(`FundCalculator/referral/${user?.userId}`)
+        getData(isAdmin ? 'FundCalculator' : `FundCalculator/referral/${user?.userId}`)
             .then((data) => {
                 setIsLoading(false)
                 const fiFoCollection = [...data].reverse()
@@ -87,6 +89,7 @@ export default function FundingCalculator() {
                     setSearchQuery={setSearchQuery}
                     itemsPerPage={itemsPerPage}
                     handleItemsPerPageChange={handleItemsPerPageChange}
+                    noOfItems={filteredData?.length}
                 />
 
                 {/* Paginated Data */}
@@ -120,11 +123,11 @@ export default function FundingCalculator() {
                                                 </h6>
                                                 <div className="bg-green-100 text-green-700 px-2 py-1 font-bold">
                                                     {e?.debtPayments ===
-                                                    'string'
+                                                        'string'
                                                         ? 'N/A'
                                                         : e?.debtPayments?.toLocaleString(
-                                                              'eng-US',
-                                                          )}
+                                                            'eng-US',
+                                                        )}
                                                 </div>
                                             </div>
 

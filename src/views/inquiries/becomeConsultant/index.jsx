@@ -12,9 +12,11 @@ import {
 import CardSkeleton from '../../../components/CardSkeleton'
 import PaginationHandler from '@/components/PaginationHandler'
 import FiltersHandler from '@/components/FiltersHandler'
+import useIsAdmin from '../../../hooks/useIsAdmin'
 
 export default function BecomeConsultant() {
     const { user } = useAuth()
+    const isAdmin = useIsAdmin();
     const [data, setData] = useState([])
     const [filteredData, setFilteredData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +27,7 @@ export default function BecomeConsultant() {
 
     const getAllData = () => {
         setIsLoading(true)
-        getData(`BecomeConsultant/referral/${user?.userId}`)
+        getData(isAdmin ? 'BecomeConsultant' : `BecomeConsultant/referral/${user?.userId}`)
             .then((data) => {
                 setIsLoading(false)
                 setData(data.reverse())

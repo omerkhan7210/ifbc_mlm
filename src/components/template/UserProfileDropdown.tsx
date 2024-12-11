@@ -25,7 +25,8 @@ const dropdownItemList: DropdownList[] = [
     },
     {
         label: 'Profile',
-        path: '/profile',
+        // path: '/profile',
+        path: '/reports/profile',
         icon: <PiUserCircleGearDuotone />,
     },
 ]

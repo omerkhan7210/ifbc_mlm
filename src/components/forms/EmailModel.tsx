@@ -8,7 +8,7 @@ const EmailModel = ({ onClose }: { onClose: () => void }) => {
             aria-hidden="true"
             className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50"
         >
-            <div className="relative p-4 w-full max-w-md max-h-full bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="relative p-4 w-full min-w-[50%] max-w-md max-h-full bg-white rounded-lg shadow dark:bg-gray-700">
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         New Message
@@ -41,7 +41,7 @@ const EmailModel = ({ onClose }: { onClose: () => void }) => {
                         <div className="col-span-2">
                             <label
                                 htmlFor="name"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                             >
                                 To
                             </label>
@@ -55,7 +55,7 @@ const EmailModel = ({ onClose }: { onClose: () => void }) => {
                         <div className="col-span-2">
                             <label
                                 htmlFor="price"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                             >
                                 from
                             </label>
@@ -69,7 +69,7 @@ const EmailModel = ({ onClose }: { onClose: () => void }) => {
                         <div className="col-span-2">
                             <label
                                 htmlFor="description"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                             >
                                 Message
                             </label>

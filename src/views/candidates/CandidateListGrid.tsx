@@ -1,17 +1,24 @@
 import axios from 'axios'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { MyCandContext } from '../../Context/CandidatesDataContext.jsx'
 import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant'
+// import { steps } from 'src/Utils/staticdata/data'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FormatRawDate } from '../../utils/FormatRawDate.js'
 import { AnimatePresence, motion } from 'framer-motion'
-import { TopButtonsSection } from './TopSection.tsx'
+import { TopButtonsSection } from './TopSection.js'
 import CandidateStepGraph from '../../Charts/CandidateStepGraph.jsx'
+import CandidatePieChart from '../../Charts/CandidatePieChart.jsx'
+import BarLoader from '../../Charts/BarLoader.jsx'
 import { PiEnvelope, PiPhoneCallLight } from 'react-icons/pi'
 import { toast } from 'react-toastify'
 import { HiOutlineLightBulb } from 'react-icons/hi'
-import CandidateDataModel from './CandidateDataModel.jsx'
+import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
+import { useAuth } from '@/auth'
+import { getData } from '@/services/axios/axiosUtils'
+import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.js'
 
 const containerVariants = {
     hidden: { opacity: 0, x: -100 },
@@ -34,7 +41,41 @@ const steps = [
     'Closed Lost',
     'On Hold',
 ]
-const CandidateListGrid = ({ cands, completeData }) => {
+const CandidateListGrid = () => {
+    const { user } = useAuth()
+    const [cands, setCands] = useState()
+    const [showTable, setShowTable] = useState(false)
+    const handleToggleCandidatesTable = () => {
+        setShowTable(!showTable)
+    }
+
+    console.log(cands, 'cands')
+
+    const getCandidates = () => {
+        getData('candidateProfile')
+            .then((data) => {
+                let users = data.filter((e) => e?.refferralId == user?.userId)
+                // console.log(users, 'users')
+                setCands(users)
+            })
+            .catch((error) => console.log(error))
+    }
+    useEffect(() => {
+        getCandidates()
+    }, [])
+
+    const headerConfig = {
+        title: 'Downline Members',
+        buttonText: 'View Details',
+        buttonAction: () => {
+            console.log('Navigate to details')
+        },
+        placeholderText: 'Search your Teams',
+        onchangeAction: () => {
+            console.log('Navigate to details')
+        },
+    }
+
     // const { cands, refetch, isLoading } = useContext(MyCandContext)
     const [filteredCandidates, setFilteredCandidates] = useState([])
     const [filterCands, setFilterCands] = useState()
@@ -208,6 +249,7 @@ const CandidateListGrid = ({ cands, completeData }) => {
             )
 
             if (response.status === 204) {
+                console.log(response?.data, 'dta')
                 setFilteredCandidates((prevCands) =>
                     prevCands.map((c) =>
                         c.docid === cand.docid
@@ -260,9 +302,9 @@ const CandidateListGrid = ({ cands, completeData }) => {
 
     // if (isLoading) {
     // if () {
-    // ;<div className={`relative bg-blue-100 flex flex-col gap-1 rounded-xl`}>
-    //     <BarLoader bgcolor={'blue'} />
-    // </div>
+    ;<div className={`relative bg-blue-100 flex flex-col gap-1 rounded-xl`}>
+        <BarLoader bgcolor={'blue'} />
+    </div>
     // }
 
     return (
@@ -309,8 +351,26 @@ const CandidateListGrid = ({ cands, completeData }) => {
                 stepOptions={stepOptions}
                 switchFormat={switchFormat}
                 filteredCandidates={filteredCandidates}
+                setShowTable={handleToggleCandidatesTable}
+                showTable={showTable}
             />
-            {switchFormat ? (
+            {/* Conditional rendering of table */}
+            {showTable ? (
+                <FullScreen handle={handle}>
+                    <motion.div
+                        className="w-full bg-white p-4"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                    >
+                        <DownlineMembersTable
+                            data={filteredCandidates}
+                            headerConfig={headerConfig}
+                        />
+                    </motion.div>
+                </FullScreen>
+            ) : switchFormat ? (
                 <FullScreen handle={handle}>
                     <motion.div
                         className={`w-full bg-white`}
@@ -347,7 +407,7 @@ const CandidateListGrid = ({ cands, completeData }) => {
                                 )}
                                 onDropCandidate={handleDropCandidate}
                                 containerRef={containerRef} // Pass down the container ref
-                                completeData={completeData}
+                                // completeData={completeData}
                             />
                         ))}
                     </motion.div>
@@ -392,7 +452,6 @@ const StepColumn = ({
     onDropCandidate,
     handle,
     containerRef,
-    completeData,
 }) => {
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [droppedItem, setDroppedItem] = useState(null)
@@ -427,10 +486,13 @@ const StepColumn = ({
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'CANDIDATE',
         drop: (item, monitor) => {
+            console.log(item, monitor, 'moniter')
             // Perform the drop action
             if (monitor.didDrop()) {
                 return
             }
+            // Invoke the onDropCandidate method
+            console.log('working drop down')
             if (item?.cand?.pipelineStep !== step) {
                 setDroppedItem(item)
                 handleConfirmUserIsAddedOrNot()
@@ -445,13 +507,26 @@ const StepColumn = ({
     }))
 
     const navigate = useNavigate()
+    const [showConfettiComponent, setShowConfettiComponent] = useState(false)
+    const [stepTrack, setStepTrack] = useState('')
 
+    useEffect(() => {
+        if (stepTrack === 'Closed Won') {
+            setShowConfettiComponent(true)
+            onDropCandidate()
+            const timer = setTimeout(() => {
+                setShowConfettiComponent(false)
+            }, 10000)
+            return () => clearTimeout(timer)
+        }
+    }, [stepTrack, showConfettiComponent])
     return (
         <>
             <AnimatePresence>
+                <div>{showConfettiComponent && <ConfettiComponent />}</div>
                 {isModalVisible && (
                     <motion.div
-                        className="fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-0"
+                        className="fixed inset-0 bg-blue-500/50 backdrop-blur-[1px] flex items-center justify-center z-[999999999999999]"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -491,11 +566,12 @@ const StepColumn = ({
                                                     droppedItem?.cand,
                                                     step,
                                                 )
-                                                setIsModalVisible(false)
                                                 notifyUpdate(
                                                     droppedItem?.cand,
                                                     step,
                                                 )
+                                                setIsModalVisible(false)
+                                                setStepTrack(step)
                                             }
                                         } else {
                                             console.error('No item to confirm.')
@@ -536,14 +612,11 @@ const StepColumn = ({
                 <div
                     className={`p-3 flex flex-col bg-slate-50 ${handle.active ? 'max-h-screen' : 'max-h-[680px]'}  overflow-y-auto gap-5`}
                 >
-                    {/* Modal for Data Details */}
                     {candidates.map((cand, index) => (
                         <DraggableCard
                             cand={cand}
                             key={index}
                             containerRef={containerRef}
-                            completeData={completeData}
-                            index={index}
                         />
                     ))}
                 </div>
@@ -563,9 +636,7 @@ const ReferralRibbon = ({ cand }) => {
     return null
 }
 
-const DraggableCard = ({ cand, key, containerRef, completeData, index }) => {
-    const [openModal, setOpen] = useState(false)
-
+const DraggableCard = ({ cand, key, containerRef }) => {
     const [{ isDragging }, drag, preview] = useDrag(() => ({
         type: 'CANDIDATE',
         item: { cand },
@@ -636,20 +707,6 @@ const DraggableCard = ({ cand, key, containerRef, completeData, index }) => {
                     {cand.pipelineStep}
                 </span>
             </div>
-            <button className="bg-blue-900 py-2 px-5 rounded-xl flex items-center">
-                <span
-                    onClick={() => setOpen(true)}
-                    className="text-xs font-semibold text-white cursor-pointer"
-                >
-                    View Details
-                </span>
-            </button>
-            <CandidateDataModel
-                dataObj={completeData[index]}
-                openModal={openModal}
-                setOpenModal={setOpen}
-                title={`${cand.firstName} ${cand.lastName}`}
-            />
         </div>
     )
 }

@@ -52,7 +52,6 @@ const SideNav = ({
 
     const userAuthority = useSessionUser((state) => state.user.authority)
 
-    console.log(sideNavCollapse)
 
     return (
         <div
@@ -70,7 +69,7 @@ const SideNav = ({
                 style={{ height: HEADER_HEIGHT }}
             >
                 <Logo
-                sideNavCollapse={sideNavCollapse}
+                    sideNavCollapse={sideNavCollapse}
                     imgClass="max-h-10"
                     mode={mode || defaultMode}
                     type={sideNavCollapse ? 'streamline' : 'full'}

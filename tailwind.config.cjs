@@ -6,7 +6,7 @@ module.exports = {
 	mode: 'jit',
 	content:  [
 		"./index.html",
-    	"./src/**/*.{js,ts,jsx,tsx}", 
+    	"./src/**/*.{js,jsx,ts,tsx,html,vue}", 
 		'./safelist.txt'
 	],
 	darkMode: 'class',
