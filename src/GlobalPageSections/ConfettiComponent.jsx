@@ -1,4 +1,3 @@
-// ConfettiComponent.js
 import React from 'react';
 import { useWindowSize } from 'react-use'; // Correct import with curly braces
 import Confetti from 'react-confetti';

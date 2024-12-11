@@ -11,10 +11,10 @@ const cookiesStorage: StateStorage = {
         return Cookies.get(name) ?? null
     },
     setItem: (name: string, value: string, expires: number | Date = 1) => {
-        Cookies.set(name, value, { expires })
+        Cookies.set(name, value, { expires, domain: '.ifbc.co' })
     },
     removeItem: (name: string) => {
-        Cookies.remove(name)
+        Cookies.remove(name, { domain: '.ifbc.co' })
     },
 }
 
