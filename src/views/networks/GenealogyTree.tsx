@@ -133,13 +133,13 @@ const Business = () => {
     const layout = applyDagreLayout(nodes, edges)
 
     const nodeTypes = useMemo(() => ({ custom: CustomNode }), [])
-    const [selectedNode, setSelectedNode] = useState(null)
-    const [isFormOpen, setIsFormOpen] = useState(false)
+    // const [selectedNode, setSelectedNode] = useState(null)
+    // const [isFormOpen, setIsFormOpen] = useState(false)
 
-    const handleNodeClick = (event, node) => {
-        setSelectedNode(node)
-        setIsFormOpen(true)
-    }
+    // const handleNodeClick = (event, node) => {
+    //     setSelectedNode(node)
+    //     setIsFormOpen(true)
+    // }
 
     return (
         <>
@@ -152,7 +152,7 @@ const Business = () => {
                     nodes={layout.nodes}
                     edges={layout.edges}
                     fitView
-                    onNodeClick={handleNodeClick}
+                    // onNodeClick={handleNodeClick}
                     nodeTypes={nodeTypes}
                 >
                     <MiniMap />
@@ -160,12 +160,12 @@ const Business = () => {
                     <Background />
                 </ReactFlow>
 
-                {isFormOpen && (
+                {/* {isFormOpen && (
                     <AddUserInGraph
                         selectedNode={selectedNode}
                         onClose={() => setIsFormOpen(false)}
                     />
-                )}
+                )} */}
             </div>
         </>
     )

@@ -4,7 +4,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { MyCandContext } from '../../Context/CandidatesDataContext.jsx'
 import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant'
-// import { steps } from 'src/Utils/staticdata/data'
+import { steps } from '../../utils/staticdata/data.js'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FormatRawDate } from '../../utils/FormatRawDate.js'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -19,6 +19,7 @@ import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
 import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
 import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.js'
+import FilterDropdowns from '../EcommerceDashboard/components/FilterDropdowns'
 
 const containerVariants = {
     hidden: { opacity: 0, x: -100 },
@@ -26,21 +27,6 @@ const containerVariants = {
     exit: { opacity: 0, x: 100 },
 }
 
-const steps = [
-    'New Deal',
-    'Initial Call Attempt',
-    'Connected',
-    'Spoton/Candidate Research',
-    'Research & Prep Presentation',
-    'Present Franchise Review',
-    'Intro to Zor',
-    'Franchise Due Diligence',
-    'Validation - FSO',
-    'Discovery Day/Award - FSO',
-    'Closed Won',
-    'Closed Lost',
-    'On Hold',
-]
 const CandidateListGrid = () => {
     const { user } = useAuth()
     const [cands, setCands] = useState()
@@ -54,7 +40,7 @@ const CandidateListGrid = () => {
     const getCandidates = () => {
         getData('candidateProfile')
             .then((data) => {
-                let users = data.filter((e) => e?.refferralId == user?.userId)
+                let users = data?.filter((e) => e?.refferralId == user?.userId)
                 // console.log(users, 'users')
                 setCands(users)
             })
@@ -65,7 +51,7 @@ const CandidateListGrid = () => {
     }, [])
 
     const headerConfig = {
-        title: 'Downline Members',
+        title: 'Candidate List',
         buttonText: 'View Details',
         buttonAction: () => {
             console.log('Navigate to details')
@@ -83,6 +69,7 @@ const CandidateListGrid = () => {
     const handle = useFullScreenHandle()
     const [switchFormat, setSwitchFormat] = useState(false)
     const [closeHint, setCloseHint] = useState(false)
+    const [selectedFranchises, setSelectedFranchises] = useState([])
 
     useEffect(() => {
         const filterCandidates = () => {
@@ -364,6 +351,7 @@ const CandidateListGrid = () => {
                         animate="visible"
                         exit="exit"
                     >
+                        {/* Table Section */}
                         <DownlineMembersTable
                             data={filteredCandidates}
                             headerConfig={headerConfig}
@@ -406,7 +394,7 @@ const CandidateListGrid = () => {
                                     (cand) => cand.pipelineStep === step,
                                 )}
                                 onDropCandidate={handleDropCandidate}
-                                containerRef={containerRef} // Pass down the container ref
+                                containerRef={containerRef}
                                 // completeData={completeData}
                             />
                         ))}
