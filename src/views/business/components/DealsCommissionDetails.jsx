@@ -32,9 +32,9 @@ export default function DealsCommissionDetails() {
     useEffect(() => {
         setIsLoading(true);
         getData(isAdmin ? 'commissions' : `commissions/consultant/${user?.userId}/completed-deals-with-details`).then((response) => {
-            console.log(response.totalCompletedDeals)
+            console.log(response)
             setIsLoading(false);
-            setData(response?.totalCompletedDeals);
+            isAdmin ? setData(response) : setData(response?.totalCompletedDeals);
         }).catch(err => {
             setIsLoading(false);
             console.log(err)
@@ -45,7 +45,7 @@ export default function DealsCommissionDetails() {
         const query = searchQuery.toLowerCase()
 
 
-        const filtered = data.filter((item) => {
+        const filtered = data?.filter((item) => {
             const date = formatDateCustom(item?.commissionDate)?.toLowerCase();
             const name = (`${item?.candidateDetails?.firstName} ${item?.candidateDetails?.lastName}`).toLowerCase();
             const email = item?.candidateDetails?.email?.toLowerCase();
