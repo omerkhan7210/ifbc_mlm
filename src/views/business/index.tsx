@@ -4,8 +4,7 @@ import MonthlyDealsChart from './components/MonthlyDealsChart';
 import DealsCommissionDetails from './components/DealsCommissionDetails';
 const Business = () => {
     return <div className='flex flex-col  gap-5'>
-        <DealsOverview />
-        <MonthlyDealsChart />
+
         <DealsCommissionDetails />
 
         {/* <div className='w-full md:w-3/5'>

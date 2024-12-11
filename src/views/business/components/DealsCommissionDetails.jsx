@@ -8,11 +8,13 @@ import {
     PiEnvelopeThin,
     PiPhoneCallLight,
     PiCalendarDotsLight,
+    PiBuildingOfficeThin
 } from 'react-icons/pi'
 import CardSkeleton from '../../../components/CardSkeleton'
 import PaginationHandler from '@/components/PaginationHandler'
 import FiltersHandler from '@/components/FiltersHandler'
 import useIsAdmin from '../../../hooks/useIsAdmin'
+import { set } from 'lodash'
 
 export default function DealsCommissionDetails() {
     const { user } = useAuth()
@@ -28,39 +30,39 @@ export default function DealsCommissionDetails() {
 
 
     useEffect(() => {
-        getData(`commissions/consultant/${user?.userId}/completed-deals-with-details`).then((response) => {
-            setData(response.totalCompletedDeals);
+        setIsLoading(true);
+        getData(isAdmin ? 'commissions' : `commissions/consultant/${user?.userId}/completed-deals-with-details`).then((response) => {
             console.log(response.totalCompletedDeals)
-        }).catch(err => console.log(err));
+            setIsLoading(false);
+            setData(response?.totalCompletedDeals);
+        }).catch(err => {
+            setIsLoading(false);
+            console.log(err)
+        });
     }, [user]);
 
     const handleSearch = () => {
         const query = searchQuery.toLowerCase()
 
-        /**
-         * Filters the data array based on the query string.
-         *
-         * @param {Array} data - The array of contact objects to be filtered.
-         * @param {string} query - The search query string used to filter the data.
-         * @returns {Array} - The filtered array of contact objects that match the query.
-         *
-         * Each contact object is expected to have the following properties:
-         * - contactName {string}: The name of the contact.
-         * - contactEmail {string}: The email of the contact.
-         * - contactPhone {string}: The phone number of the contact.
-         * - contactDate {string}: The date associated with the contact.
-         *
-         * The function performs a case-insensitive search on the contactName, contactEmail, contactPhone, and contactDate fields.
-         */
-        const filtered = data.filter((item) => {
-            // const amount = item.amount
-            // const email = item?.contactEmail?.toLowerCase()
-            // const phone = item?.contactPhone?.toLowerCase()
-            const date = formatDateCustom(item?.commissionDate)?.toLowerCase()
-            // const reason = item?.contactReason?.toLowerCase()
 
+        const filtered = data.filter((item) => {
+            const date = formatDateCustom(item?.commissionDate)?.toLowerCase();
+            const name = (`${item?.candidateDetails?.firstName} ${item?.candidateDetails?.lastName}`).toLowerCase();
+            const email = item?.candidateDetails?.email?.toLowerCase();
+            const phone = item?.candidateDetails?.phone?.toLowerCase();
+            const listingName = item?.listingDetails?.name?.toLowerCase();
+            const category = item?.listingDetails?.category?.toLowerCase();
+            const amount = item?.amount?.toLocaleString('eng-US',).toLowerCase();
+            const amountSimple = toString(item?.amount)?.toLowerCase();
             return (
-                date.includes(query)
+                date.includes(query) ||
+                name.includes(query) ||
+                email.includes(query) ||
+                phone.includes(query) ||
+                listingName.includes(query) ||
+                category.includes(query) ||
+                amount.includes(query) ||
+                amountSimple.includes(query)
             )
         })
 
@@ -80,10 +82,10 @@ export default function DealsCommissionDetails() {
     return (
         <div>
             <Card>
-                <h4 className="mb-4">Completed Deals Details</h4>
+                <h4 className="mb-4">All Completed Deals Details</h4>
 
                 <FiltersHandler
-                    placeholder="Search by Name, Email, Phone, Contact Reason, or Date"
+                    placeholder="Search by Amount, Company Name, Name, Email, Phone, or Date"
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                     itemsPerPage={itemsPerPage}
@@ -97,7 +99,7 @@ export default function DealsCommissionDetails() {
                     itemsPerPage={itemsPerPage}
                 >
                     {(currentData) => (
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-5">
                             {isLoading ? (
                                 Array(6)
                                     .fill(0)
@@ -125,6 +127,12 @@ export default function DealsCommissionDetails() {
                                                 </div>
                                             </div>
                                             <div className="flex flex-col gap-1">
+                                                <div className="flex justify-start items-center gap-2">
+                                                    <PiBuildingOfficeThin className="text-gray-600" />
+                                                    <div className="text-gray-700 cursor-pointer">
+                                                        {e?.listingDetails?.name}
+                                                    </div>
+                                                </div>
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiEnvelopeThin className="text-gray-600" />
                                                     <div className="text-gray-700 cursor-pointer">
@@ -176,76 +184,77 @@ export default function DealsCommissionDetails() {
 const DataModal = ({ dataObj, openModal, setOpenModal }) => {
     return (
         <ModalInternalScroll
-            title="Consultant Inquiry Details"
+            title="Franchise Inquiry Details"
             open={openModal}
             setOpen={setOpenModal}
+            width={800}
         >
             {dataObj && (
-                <div>
-                    <div className="flex flex-col gap-1">
-                        <div className="flex justify-start items-center gap-1 capitalize">
-                            <div className="text-gray-800 font-semibold">
-                                Name:{' '}
+                <div className="grid grid-cols-1 md:grid-cols-2 ">
+                    <div className="h-full flex flex-col justify-between gap-5">
+                        <div className="flex flex-col gap-1 border-gray-200 border-r-2 mr-10 ">
+                            <h5 className="mb-2">Candidate Details</h5>
+
+                            <div className="flex justify-start items-center gap-1 capitalize">
+                                <div className="text-gray-800 font-semibold ">
+                                    Name:{' '}
+                                </div>
+                                {`${dataObj?.candidateDetails?.firstName} ${dataObj?.candidateDetails?.lastName}`}
                             </div>
-                            {dataObj?.contactName || '- -'}
+
+                            <div className="flex justify-start items-center gap-1">
+                                <div className="text-gray-800 font-semibold">
+                                    Email:{' '}
+                                </div>
+                                <a
+                                    href={`mailto:${dataObj?.candidateDetails?.email}`}
+                                    className="text-gray-600 cursor-pointer"
+                                >
+                                    {dataObj?.candidateDetails?.email}
+                                </a>
+                            </div>
+                            <div className="flex justify-start items-center gap-1">
+                                <div className="text-gray-800 font-semibold ">
+                                    Phone:{' '}
+                                </div>
+                                <a
+                                    href={`tel:${dataObj?.candidateDetails?.phone}`}
+                                    className="text-gray-600"
+                                >
+                                    {dataObj?.candidateDetails?.phone}
+                                </a>
+                            </div>
+
+
+
                         </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Email:{' '}
-                            </div>
-                            <a
-                                href={`mailto:${dataObj?.email}`}
-                                className="text-gray-600 cursor-pointer"
-                            >
-                                {dataObj?.contactEmail || '- -'}
-                            </a>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Phone:{' '}
-                            </div>
-                            <a
-                                href={`tel:${dataObj?.phone}`}
-                                className="text-gray-600"
-                            >
-                                {dataObj?.contactPhone || '- -'}
-                            </a>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Contact Path:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.contactPath || '- -'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Contact Company:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.contactCompany || '- -'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Contact Reason:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.contactReason || '- -'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Comments:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.contactComments || '- -'}
-                            </div>
+
+                        <div className="text-gray-600 text-xs">
+                            {formatDateCustom(dataObj?.commissionDate)}
                         </div>
                     </div>
-                    <div className="text-gray-600 text-xs mt-3">
-                        {formatDateCustom(dataObj?.contactDate)}
+
+                    <div>
+                        <h5 className="mb-3">Franchise Details</h5>
+
+                        <div className="flex justify-start items-center gap-5">
+                            <img
+                                src={
+                                    'https://ifbc.co/' + dataObj?.listingDetails?.imgUrl}
+                                className="w-40 "
+                                alt="img"
+                            />
+                            <div>
+                                <div className="text-gray-700 text-sm font-semibold">
+                                    {dataObj?.listingDetails?.name}
+                                </div>
+                                <div className="text-gray-700 text-xs">
+                                    {dataObj?.listingDetails?.category}
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+
                     </div>
                 </div>
             )}

@@ -8,6 +8,7 @@ import {
     PiEnvelopeThin,
     PiPhoneCallLight,
     PiCalendarDotsLight,
+
 } from 'react-icons/pi'
 import { CiLocationOn } from 'react-icons/ci'
 import CardSkeleton from '../../../components/CardSkeleton'
@@ -132,6 +133,7 @@ export default function FundingCalculator() {
                                             </div>
 
                                             <div className="flex flex-col gap-1">
+
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiEnvelopeThin className="text-gray-600" />
                                                     <div className="text-gray-700 cursor-pointer">

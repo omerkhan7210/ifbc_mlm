@@ -13,7 +13,8 @@ const MonthlyDealsChart = () => {
 
     useEffect(() => {
         getData(`commissions/consultant/${user?.userId}/completed-deals-with-details`).then((response) => {
-            setData(response.totalCompletedDeals);
+
+            setData(response?.totalCompletedDeals);
         }).catch(err => console.log(err));
     }, [user]);
 
@@ -50,6 +51,9 @@ const MonthlyDealsChart = () => {
                     <option key={y} value={y}>{y}</option>
                 ))}
             </Select> */}
+            <h2 className="text-sm text-center mb-2">
+                Monthly Completed Deals Data
+            </h2>
             <Chart
                 options={{
                     chart: {
