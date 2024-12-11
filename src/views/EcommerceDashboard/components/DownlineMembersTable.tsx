@@ -45,7 +45,7 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
     data,
     headerConfig,
 }) => {
-    const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
+    const [searchQuery, setSearchQuery] = useState('')
 
     // Filter logic: Search across all fields
     const filteredData = data?.filter((item) => {
