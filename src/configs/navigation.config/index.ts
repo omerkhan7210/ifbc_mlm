@@ -14,6 +14,7 @@ import {
     REPORTS_PREFIX_PATH,
     SETTINGS_PREFIX_PATH,
     SIGNUP_PREFIX_PATH,
+    USER_MANAGeMENT_PREFIX_PATH,
     // TOOLS_PREFIX_PATH,
 } from '@/constants/route.constant'
 
@@ -80,7 +81,7 @@ const userManagementNavigation: NavigationTree[] = [
         subMenu: [
             {
                 key: 'members',
-                path: `/userManagement/members`,
+                path: `${USER_MANAGeMENT_PREFIX_PATH}/members`,
                 title: 'Members',
                 translateKey: 'nav.members',
                 icon: 'members',
@@ -100,7 +101,7 @@ const userManagementNavigation: NavigationTree[] = [
             // },
             {
                 key: 'register',
-                path: `${SIGNUP_PREFIX_PATH}/register`,
+                path: `${USER_MANAGeMENT_PREFIX_PATH}/register`,
                 title: 'Register a Member',
                 translateKey: 'nav.register',
                 icon: 'register',
