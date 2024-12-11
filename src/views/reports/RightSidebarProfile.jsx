@@ -144,7 +144,7 @@ const RightSideBarProfile = ({
     return (
         <div
             id="right-sidebar-profile"
-            className=" w-full max-md:max-w-full col-span-8 bg-blue-100 max-md:p-5 md:p-5  rounded-xl"
+            className=" w-full max-md:max-w-full col-span-8 bg-[#FFFFFF] border-gray-200 border max-md:p-5 md:p-5  rounded-xl"
         >
             {formErrors.error && (
                 <p className="border-2 mb-5 border-red-600 text-red-600 p-4 flex justify-between">
@@ -242,7 +242,7 @@ const PersonalInfo = ({
     successMsg,
 }) => {
     return (
-        <div id="personal" className="flex flex-col bg-blue-200 p-5 rounded-xl">
+        <div id="personal" className="flex flex-col bg-[#FFFFFF] p-5 rounded-xl">
             <h1 className="text-custom-heading-color font-bold text-xl text-left">
                 Your Personal Information
             </h1>
@@ -412,7 +412,7 @@ const AddressInfo = ({
     return (
         <div
             id="address"
-            className="flex flex-col bg-blue-200 p-5  rounded-xl my-5"
+            className="flex flex-col bg-[#FFFFFF] p-5  rounded-xl my-5"
         >
             <h1 className="text-custom-heading-color font-bold text-xl text-left">
                 Your Address Information
@@ -518,7 +518,7 @@ const CorporateInfo = ({ userDetails, handleInputChange, formErrors }) => {
     return (
         <div
             id="corporate"
-            className="flex flex-col bg-blue-200 p-5  rounded-xl my-5"
+            className="flex flex-col bg-[#FFFFFF] p-5  rounded-xl my-5"
         >
             <h1 className="text-custom-heading-color font-bold text-xl text-left">
                 Your Corporate and Meeting Information
@@ -614,7 +614,7 @@ const ProfileOverview = ({ userDetails, handleInputChange, formErrors }) => {
     return (
         <div
             id="profile-overview"
-            className="flex flex-col bg-blue-200 p-5  rounded-xl my-5"
+            className="flex flex-col bg-[#FFFFFF] p-5  rounded-xl my-5"
         >
             <h1 className="text-custom-heading-color font-bold text-xl text-left">
                 Profile Overview and Preferences

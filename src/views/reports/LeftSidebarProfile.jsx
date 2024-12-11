@@ -163,7 +163,7 @@ const LeftSideBarProfile = ({
     return (
         <div
             id="left-sidebar"
-            className="h-full w-full col-span-4 bg-blue-100 p-5  rounded-xl relative"
+            className="h-full w-full col-span-4 bg-[#FFFFFF] border-gray-200 border p-5  rounded-xl relative"
         >
             <div
                 id="user-container"

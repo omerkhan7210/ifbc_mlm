@@ -295,7 +295,7 @@ const Profile = () => {
         <form
             onSubmit={handleSubmit}
             id="main-profile-section"
-            className="w-full md:grid max-md:flex flex-col grid-cols-12 py-5 gap-5 min-h-custom max-md:w-full md:max-w-[100%] mx-auto"
+            className="w-full bg-[#FFFFFF] md:grid max-md:flex flex-col grid-cols-12 py-5 gap-5 min-h-custom max-md:w-full md:max-w-[100%] mx-auto px-2 rounded-lg"
         >
             {userDetails && (
                 <>
