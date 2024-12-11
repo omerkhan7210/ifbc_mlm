@@ -4,11 +4,13 @@ import {
     HEADER_TOKEN,
     USER_TOKEN,
 } from '@/constants/app.constant'
+import Cookies from 'js-cookie'
 
+const token = Cookies.get('token')
 const defaultHeaders = {
     'X-App-Token': HEADER_TOKEN,
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${USER_TOKEN}`,
+    Authorization: `Bearer ${token}`,
 }
 
 // Utility function to make GET requests
