@@ -49,7 +49,6 @@ const DealsOverview = () => {
 
         getData(`commissions/consultant/${user?.userId}/inprogress-deals`).then((response) => {
             setInProgressDeals(response.inProgressDeals);
-            console.log('in progress', response)
         }).catch(err => console.log(err))
 
 

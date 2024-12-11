@@ -9,14 +9,13 @@ import {
     PiPhoneCallLight,
     PiCalendarDotsLight,
 } from 'react-icons/pi'
-import { CiLocationOn } from 'react-icons/ci'
 import CardSkeleton from '../../../components/CardSkeleton'
 import PaginationHandler from '@/components/PaginationHandler'
 import FiltersHandler from '@/components/FiltersHandler'
 import useIsAdmin from '../../../hooks/useIsAdmin'
 
-export default function FundingCalculator() {
-    const { user } = useAuth();
+export default function DealsCommissionDetails() {
+    const { user } = useAuth()
     const isAdmin = useIsAdmin();
     const [data, setData] = useState([])
     const [filteredData, setFilteredData] = useState([])
@@ -26,40 +25,42 @@ export default function FundingCalculator() {
     const [searchQuery, setSearchQuery] = useState('')
     const [itemsPerPage, setItemsPerPage] = useState(6)
 
-    const getAllData = () => {
-        setIsLoading(true)
-        getData(isAdmin ? 'FundCalculator' : `FundCalculator/referral/${user?.userId}`)
-            .then((data) => {
-                setIsLoading(false)
-                const fiFoCollection = [...data].reverse()
-                setData(fiFoCollection)
-                setFilteredData(data)
-            })
-            .catch((error) => {
-                setIsLoading(false)
-                console.error(error)
-            })
-    }
+
+
+    useEffect(() => {
+        getData(`commissions/consultant/${user?.userId}/completed-deals-with-details`).then((response) => {
+            setData(response.totalCompletedDeals);
+            console.log(response.totalCompletedDeals)
+        }).catch(err => console.log(err));
+    }, [user]);
 
     const handleSearch = () => {
         const query = searchQuery.toLowerCase()
 
+        /**
+         * Filters the data array based on the query string.
+         *
+         * @param {Array} data - The array of contact objects to be filtered.
+         * @param {string} query - The search query string used to filter the data.
+         * @returns {Array} - The filtered array of contact objects that match the query.
+         *
+         * Each contact object is expected to have the following properties:
+         * - contactName {string}: The name of the contact.
+         * - contactEmail {string}: The email of the contact.
+         * - contactPhone {string}: The phone number of the contact.
+         * - contactDate {string}: The date associated with the contact.
+         *
+         * The function performs a case-insensitive search on the contactName, contactEmail, contactPhone, and contactDate fields.
+         */
         const filtered = data.filter((item) => {
-            console.log(item, 'item')
-            const name = `${item?.firstName} ${item?.lastName}`.toLowerCase()
-            const email = item?.email.toLowerCase()
-            const phone = item?.phone.toLowerCase()
-            const franchiseLocation = item?.franchiseLocation.toLowerCase()
-            const debtPayments = String(item?.debtPayments ?? '')?.toLowerCase()
-            const date = formatDateCustom(item?.docDate).toLowerCase()
+            // const amount = item.amount
+            // const email = item?.contactEmail?.toLowerCase()
+            // const phone = item?.contactPhone?.toLowerCase()
+            const date = formatDateCustom(item?.commissionDate)?.toLowerCase()
+            // const reason = item?.contactReason?.toLowerCase()
 
             return (
-                name?.includes(query) ||
-                email?.includes(query) ||
-                phone?.includes(query) ||
-                franchiseLocation?.includes(query) ||
-                debtPayments?.includes(query) ||
-                date?.includes(query)
+                date.includes(query)
             )
         })
 
@@ -74,17 +75,15 @@ export default function FundingCalculator() {
         setItemsPerPage(Number(e.target.value))
     }
 
-    useEffect(() => {
-        getAllData()
-    }, [])
 
-    console.log(data, 'datadata')
+
     return (
         <div>
             <Card>
-                <h4 className="mb-4">Funding Calculater Inquires</h4>
+                <h4 className="mb-4">Completed Deals Details</h4>
+
                 <FiltersHandler
-                    placeholder="Search by Name, Email, Phone, or Date"
+                    placeholder="Search by Name, Email, Phone, Contact Reason, or Date"
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                     itemsPerPage={itemsPerPage}
@@ -98,7 +97,7 @@ export default function FundingCalculator() {
                     itemsPerPage={itemsPerPage}
                 >
                     {(currentData) => (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-5">
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                             {isLoading ? (
                                 Array(6)
                                     .fill(0)
@@ -119,43 +118,37 @@ export default function FundingCalculator() {
                                         <div>
                                             <div className="flex justify-between items-center mb-3">
                                                 <h6 className="text-gray-900 font-bold capitalize">
-                                                    {`${e?.firstName} ${e?.lastName}`}
+                                                    {e?.candidateDetails?.firstName}{' '}{e?.candidateDetails?.lastName}
                                                 </h6>
                                                 <div className="bg-green-100 text-green-700 px-2 py-1 font-bold">
-                                                    {e?.debtPayments ===
-                                                        'string'
-                                                        ? 'N/A'
-                                                        : e?.debtPayments?.toLocaleString(
-                                                            'eng-US',
-                                                        )}
+                                                    $ {e?.amount?.toLocaleString('eng-US',)}
                                                 </div>
                                             </div>
-
                                             <div className="flex flex-col gap-1">
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiEnvelopeThin className="text-gray-600" />
                                                     <div className="text-gray-700 cursor-pointer">
-                                                        {e?.email}
+                                                        {e?.candidateDetails?.email}
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiPhoneCallLight className="text-gray-600" />
                                                     <div className="text-gray-700">
-                                                        {e?.phone}
-                                                    </div>
-                                                </div>
-                                                <div className="flex justify-start items-center gap-2">
-                                                    <CiLocationOn className="text-gray-600" />
-                                                    <div className="text-gray-700">
-                                                        {e?.franchiseLocation}
+                                                        {e?.candidateDetails?.phone}
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiCalendarDotsLight className="text-gray-600" />
                                                     <div className="text-gray-700">
                                                         {formatDateCustom(
-                                                            e?.docDate,
+                                                            e?.commissionDate
                                                         )}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex justify-start items-center gap-2">
+                                                    <div className="text-gray-700">
+                                                        {e?.contactReason}
                                                     </div>
                                                 </div>
                                             </div>
@@ -194,7 +187,7 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                             <div className="text-gray-800 font-semibold">
                                 Name:{' '}
                             </div>
-                            {`${dataObj?.firstName} ${dataObj?.lastName}`}
+                            {dataObj?.contactName || '- -'}
                         </div>
                         <div className="flex justify-start items-center gap-1">
                             <div className="text-gray-800 font-semibold">
@@ -204,7 +197,7 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                                 href={`mailto:${dataObj?.email}`}
                                 className="text-gray-600 cursor-pointer"
                             >
-                                {dataObj?.email}
+                                {dataObj?.contactEmail || '- -'}
                             </a>
                         </div>
                         <div className="flex justify-start items-center gap-1">
@@ -215,116 +208,44 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                                 href={`tel:${dataObj?.phone}`}
                                 className="text-gray-600"
                             >
-                                {dataObj?.phone}
+                                {dataObj?.contactPhone || '- -'}
                             </a>
                         </div>
                         <div className="flex justify-start items-center gap-1">
                             <div className="text-gray-800 font-semibold">
-                                Bank Ruptcies:{' '}
+                                Contact Path:{' '}
                             </div>
                             <div className="text-gray-600">
-                                {dataObj?.bankruptcies}
+                                {dataObj?.contactPath || '- -'}
                             </div>
                         </div>
                         <div className="flex justify-start items-center gap-1">
                             <div className="text-gray-800 font-semibold">
-                                Credit History:{' '}
+                                Contact Company:{' '}
                             </div>
                             <div className="text-gray-600">
-                                {dataObj?.creditHistory}
+                                {dataObj?.contactCompany || '- -'}
                             </div>
                         </div>
                         <div className="flex justify-start items-center gap-1">
                             <div className="text-gray-800 font-semibold">
-                                Credit Score:{' '}
+                                Contact Reason:{' '}
                             </div>
                             <div className="text-gray-600">
-                                {dataObj?.creditScore
-                                    ? dataObj?.creditScore
-                                    : '---'}
+                                {dataObj?.contactReason || '- -'}
                             </div>
                         </div>
                         <div className="flex justify-start items-center gap-1">
                             <div className="text-gray-800 font-semibold">
-                                Debt payments:{' '}
+                                Comments:{' '}
                             </div>
                             <div className="text-gray-600">
-                                {dataObj?.debtPayments
-                                    ? dataObj?.debtPayments
-                                    : '---'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Down Payments:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.downPayment
-                                    ? dataObj?.downPayment
-                                    : '---'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Franchise Location:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.franchiseLocation
-                                    ? dataObj?.franchiseLocation
-                                    : '---'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                House Hold:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.houseHold
-                                    ? dataObj?.houseHold
-                                    : '---'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Launching:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.launching
-                                    ? dataObj?.launching
-                                    : '---'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Percentage:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.percentage
-                                    ? dataObj?.percentage
-                                    : '---'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Real State:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.realState
-                                    ? dataObj?.realState
-                                    : '---'}
-                            </div>
-                        </div>
-                        <div className="flex justify-start items-center gap-1">
-                            <div className="text-gray-800 font-semibold">
-                                Message:{' '}
-                            </div>
-                            <div className="text-gray-600">
-                                {dataObj?.message ? dataObj?.message : '---'}
+                                {dataObj?.contactComments || '- -'}
                             </div>
                         </div>
                     </div>
                     <div className="text-gray-600 text-xs mt-3">
-                        {formatDateCustom(dataObj?.docDate)}
+                        {formatDateCustom(dataObj?.contactDate)}
                     </div>
                 </div>
             )}
