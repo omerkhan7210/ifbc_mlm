@@ -89,7 +89,6 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
     data,
     headerConfig,
 }) => {
-    console.log(data, 'datadatadata')
     const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
 
     const handleCheckboxChange = (id: number) => {

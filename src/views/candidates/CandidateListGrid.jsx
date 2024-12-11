@@ -1,24 +1,20 @@
 import axios from 'axios'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { MyCandContext } from '../../Context/CandidatesDataContext.jsx'
 import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant'
-// import { steps } from 'src/Utils/staticdata/data'
 import { FullScreen, useFullScreenHandle } from 'react-full-screen'
 import { FormatRawDate } from '../../utils/FormatRawDate.js'
 import { AnimatePresence, motion } from 'framer-motion'
-import { TopButtonsSection } from './TopSection.js'
+import { TopButtonsSection } from './TopSection.tsx'
 import CandidateStepGraph from '../../Charts/CandidateStepGraph.jsx'
-import CandidatePieChart from '../../Charts/CandidatePieChart.jsx'
-import BarLoader from '../../Charts/BarLoader.jsx'
 import { PiEnvelope, PiPhoneCallLight } from 'react-icons/pi'
 import { toast } from 'react-toastify'
 import { HiOutlineLightBulb } from 'react-icons/hi'
 import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
 import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
-import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.js'
+import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.tsx'
 
 const containerVariants = {
     hidden: { opacity: 0, x: -100 },
@@ -44,12 +40,6 @@ const steps = [
 const CandidateListGrid = () => {
     const { user } = useAuth()
     const [cands, setCands] = useState()
-    const [showTable, setShowTable] = useState(false)
-    const handleToggleCandidatesTable = () => {
-        setShowTable(!showTable)
-    }
-
-    console.log(cands, 'cands')
 
     const getCandidates = () => {
         getData('candidateProfile')
@@ -81,7 +71,7 @@ const CandidateListGrid = () => {
     const [filterCands, setFilterCands] = useState()
     const [loading, setLoading] = useState(false)
     const handle = useFullScreenHandle()
-    const [switchFormat, setSwitchFormat] = useState(false)
+    const [switchFormat, setSwitchFormat] = useState('')
     const [closeHint, setCloseHint] = useState(false)
 
     useEffect(() => {
@@ -249,7 +239,6 @@ const CandidateListGrid = () => {
             )
 
             if (response.status === 204) {
-                console.log(response?.data, 'dta')
                 setFilteredCandidates((prevCands) =>
                     prevCands.map((c) =>
                         c.docid === cand.docid
@@ -257,7 +246,7 @@ const CandidateListGrid = () => {
                             : c,
                     ),
                 )
-                // refetch()
+                getCandidates()
             }
         } catch (error) {
             console.error('Error updating pipeline step:', error.message)
@@ -300,50 +289,106 @@ const CandidateListGrid = () => {
         window.addEventListener('mouseup', onMouseUp)
     }
 
-    // if (isLoading) {
-    // if () {
-    ;<div className={`relative bg-blue-100 flex flex-col gap-1 rounded-xl`}>
-        <BarLoader bgcolor={'blue'} />
-    </div>
-    // }
+    const SwitchFormatHandler = () => {
+        switch (switchFormat) {
+            case 'graph':
+                return (
+                    <FullScreen handle={handle}>
+                        <motion.div
+                            className="w-full bg-white"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            <CandidateStepGraph
+                                steps={steps}
+                                candidates={filteredCandidates}
+                            />
+                        </motion.div>
+                    </FullScreen>
+                )
+            case 'table':
+                return (
+                    <FullScreen handle={handle}>
+                        <motion.div
+                            className="w-full bg-white p-4"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            <DownlineMembersTable
+                                data={filteredCandidates}
+                                headerConfig={headerConfig}
+                            />
+                        </motion.div>
+                    </FullScreen>
+                )
+            default:
+                return (
+                    <FullScreen handle={handle}>
+                        <motion.div
+                            ref={containerRef}
+                            id="container"
+                            className="max-w-screen mx-auto overflow-x-scroll divide-x-2 flex snap-mandatory snap-x bg-white cursor-grab"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            {steps.map((step, index) => (
+                                <StepColumn
+                                    key={index}
+                                    step={step}
+                                    handle={handle}
+                                    candidates={filteredCandidates.filter(
+                                        (cand) => cand.pipelineStep === step,
+                                    )}
+                                    onDropCandidate={handleDropCandidate}
+                                    containerRef={containerRef}
+                                />
+                            ))}
+                        </motion.div>
+                    </FullScreen>
+                )
+        }
+    }
 
     return (
         <motion.div
-            className={`relative bg-blue-100 flex flex-col gap-1 rounded-xl`}
+            className="relative bg-blue-100 flex flex-col gap-1 rounded-xl"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
             onMouseDown={handleMouseDown}
         >
-            {' '}
             <div className="px-4 pt-4">
                 <h1 className="text-2xl font-bold text-left text-blue-800 mb-1">
                     Candidate List
                 </h1>
-                <p className="text-left text-sm text-gray-600 ">
+                <p className="text-left text-sm text-gray-600">
                     Here you can find the list of candidates and their current
                     status in the pipeline. Use the filters to narrow down your
                     search.
                 </p>
             </div>
-            {
-                <AnimatePresence mode="wait">
-                    {!closeHint ? (
-                        <motion.span
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            onClick={() => setCloseHint(true)}
-                            className="absolute  top-1 right-2 z-[99999999] cursor-pointer"
-                        >
-                            <HiOutlineLightBulb size={30} color="#E49B0F	" />
-                        </motion.span>
-                    ) : (
-                        <HintOptions setCloseHint={setCloseHint} />
-                    )}
-                </AnimatePresence>
-            }
+            <AnimatePresence mode="wait">
+                {!closeHint ? (
+                    <motion.span
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        onClick={() => setCloseHint(true)}
+                        className="absolute top-1 right-2 z-[9] cursor-pointer"
+                    >
+                        <HiOutlineLightBulb size={30} color="#E49B0F" />
+                    </motion.span>
+                ) : (
+                    <HintOptions setCloseHint={setCloseHint} />
+                )}
+            </AnimatePresence>
             <TopButtonsSection
                 handle={handle}
                 setSwitchFormat={setSwitchFormat}
@@ -351,68 +396,8 @@ const CandidateListGrid = () => {
                 stepOptions={stepOptions}
                 switchFormat={switchFormat}
                 filteredCandidates={filteredCandidates}
-                setShowTable={handleToggleCandidatesTable}
-                showTable={showTable}
             />
-            {/* Conditional rendering of table */}
-            {showTable ? (
-                <FullScreen handle={handle}>
-                    <motion.div
-                        className="w-full bg-white p-4"
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                    >
-                        <DownlineMembersTable
-                            data={filteredCandidates}
-                            headerConfig={headerConfig}
-                        />
-                    </motion.div>
-                </FullScreen>
-            ) : switchFormat ? (
-                <FullScreen handle={handle}>
-                    <motion.div
-                        className={`w-full bg-white`}
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                    >
-                        <CandidateStepGraph
-                            steps={steps}
-                            candidates={filteredCandidates}
-                        />
-                        {/* <CandidatePieChart steps={steps} candidates={filteredCandidates} /> */}
-                    </motion.div>
-                </FullScreen>
-            ) : (
-                <FullScreen handle={handle}>
-                    <motion.div
-                        ref={containerRef}
-                        id="container"
-                        className={`max-w-screen mx-auto overflow-x-scroll divide-x-2 flex snap-mandatory snap-x bg-white cursor-grab`}
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                    >
-                        {steps.map((step, index) => (
-                            <StepColumn
-                                key={index}
-                                step={step}
-                                handle={handle}
-                                candidates={filteredCandidates.filter(
-                                    (cand) => cand.pipelineStep === step,
-                                )}
-                                onDropCandidate={handleDropCandidate}
-                                containerRef={containerRef} // Pass down the container ref
-                                // completeData={completeData}
-                            />
-                        ))}
-                    </motion.div>
-                </FullScreen>
-            )}
+            {SwitchFormatHandler()}
         </motion.div>
     )
 }
@@ -480,9 +465,6 @@ const StepColumn = ({
         )
     }
 
-    // const handleConfirmUserIsAddedOrNot = () => {
-    //   // onDropCandidate(item.cand, step);
-    // }
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'CANDIDATE',
         drop: (item, monitor) => {
@@ -491,13 +473,13 @@ const StepColumn = ({
             if (monitor.didDrop()) {
                 return
             }
-            // Invoke the onDropCandidate method
-            console.log('working drop down')
             if (item?.cand?.pipelineStep !== step) {
                 setDroppedItem(item)
                 handleConfirmUserIsAddedOrNot()
             } else {
-                notifyUpdate('Your still same State Please chage your state')
+                notifyUpdate(
+                    'The candidate is already in this pipeline step. Please choose a different step.',
+                )
             }
             // onDropCandidate(item.cand, step);
         },
@@ -513,13 +495,16 @@ const StepColumn = ({
     useEffect(() => {
         if (stepTrack === 'Closed Won') {
             setShowConfettiComponent(true)
-            onDropCandidate()
+            // onDropCandidate()
             const timer = setTimeout(() => {
                 setShowConfettiComponent(false)
             }, 10000)
-            return () => clearTimeout(timer)
+            return () => {
+                clearTimeout(timer)
+            }
         }
     }, [stepTrack, showConfettiComponent])
+
     return (
         <>
             <AnimatePresence>
@@ -556,23 +541,16 @@ const StepColumn = ({
                                 <button
                                     onClick={() => {
                                         if (droppedItem) {
-                                            if (
-                                                onDropCandidate(
-                                                    droppedItem?.cand,
-                                                    step,
-                                                )
-                                            ) {
-                                                onDropCandidate(
-                                                    droppedItem?.cand,
-                                                    step,
-                                                )
-                                                notifyUpdate(
-                                                    droppedItem?.cand,
-                                                    step,
-                                                )
-                                                setIsModalVisible(false)
-                                                setStepTrack(step)
-                                            }
+                                            onDropCandidate(
+                                                droppedItem?.cand,
+                                                step,
+                                            )
+                                            notifyUpdate(
+                                                droppedItem?.cand,
+                                                step,
+                                            )
+                                            setIsModalVisible(false)
+                                            setStepTrack(step)
                                         } else {
                                             console.error('No item to confirm.')
                                         }
@@ -588,9 +566,9 @@ const StepColumn = ({
             </AnimatePresence>
             <div
                 ref={drop}
-                className={`flex-1 min-w-[350px] ${isOver ? 'bg-blue-200' : ''}`}
+                className={`flex-1 min-w-[350px] !z-0 ${isOver ? 'bg-blue-200' : ''}`}
             >
-                <div className="relative group">
+                <div className="relative group ">
                     <div className="rounded-xl w-full">
                         <h1 className="text-white p-3 text-center text-lg bg-[#2176ff]">
                             {step}
@@ -602,7 +580,7 @@ const StepColumn = ({
                                 state: { step },
                             })
                         }}
-                        className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        className="absolute z-10 top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     >
                         <span className="text-white text-xs font-bold capitalize">
                             Click here to apply the filter
@@ -661,6 +639,19 @@ const DraggableCard = ({ cand, key, containerRef }) => {
             container.scrollLeft += 10 // Adjust speed
         }
     }
+
+    useEffect(() => {
+        const handleMouseUp = () => {
+            window.removeEventListener('mousemove', handleDrag)
+            window.removeEventListener('mouseup', handleMouseUp)
+        }
+
+        window.addEventListener('mouseup', handleMouseUp)
+
+        return () => {
+            window.removeEventListener('mouseup', handleMouseUp)
+        }
+    }, [])
 
     return (
         <div
