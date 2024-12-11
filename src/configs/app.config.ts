@@ -13,8 +13,8 @@ const appConfig: AppConfig = {
     authenticatedEntryPath: '/home',
     unAuthenticatedEntryPath: '/sign-in',
     locale: 'en',
-    accessTokenPersistStrategy: 'localStorage',
-    enableMock: true,
+    accessTokenPersistStrategy: 'cookies',
+    enableMock: false,
 }
 
 export default appConfig

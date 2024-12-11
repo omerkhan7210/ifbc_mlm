@@ -13,9 +13,11 @@ import { CiMapPin } from 'react-icons/ci'
 import CardSkeleton from '../../../components/CardSkeleton'
 import PaginationHandler from '@/components/PaginationHandler'
 import FiltersHandler from '@/components/FiltersHandler'
+import useIsAdmin from '../../../hooks/useIsAdmin'
 
 export default function ContactUs() {
     const { user } = useAuth()
+    const isAdmin = useIsAdmin();
     const [data, setData] = useState([])
     const [filteredData, setFilteredData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -26,7 +28,7 @@ export default function ContactUs() {
 
     const getAllData = () => {
         setIsLoading(true)
-        getData(`ContactUs/referral/${user?.userId}`)
+        getData(isAdmin ? 'ContactUs' : `ContactUs/referral/${user?.userId}`)
             .then((data) => {
                 setIsLoading(false)
                 const reversedData = data.reverse()
@@ -100,6 +102,7 @@ export default function ContactUs() {
                     setSearchQuery={setSearchQuery}
                     itemsPerPage={itemsPerPage}
                     handleItemsPerPageChange={handleItemsPerPageChange}
+                    noOfItems={filteredData?.length}
                 />
 
                 {/* Paginated Data */}

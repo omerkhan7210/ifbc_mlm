@@ -25,7 +25,6 @@ const Logo = (props: LogoProps) => {
         sideNavCollapse,
     } = props
     const defaultLayout = useThemeStore((state) => state.layout)
-    console.log(defaultLayout)
     const getLogo = (layoutType: string) => {
         switch (layoutType) {
             case 'full':

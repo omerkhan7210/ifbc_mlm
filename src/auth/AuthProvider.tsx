@@ -37,12 +37,13 @@ const IsolatedNavigator = forwardRef<IsolatedNavigatorRef>((_, ref) => {
 function AuthProvider({ children }: AuthProviderProps) {
     const signedIn = useSessionUser((state) => state.session.signedIn)
     const user = useSessionUser((state) => state.user)
+
+    const isAdmin = user?.docId === 87
     const setUser = useSessionUser((state) => state.setUser)
     const setSessionSignedIn = useSessionUser(
         (state) => state.setSessionSignedIn,
     )
     const { token, setToken } = useToken()
-    
 
     const authenticated = Boolean(token && signedIn)
 
@@ -147,6 +148,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 signUp,
                 signOut,
                 oAuthSignIn,
+                isAdmin,
             }}
         >
             {children}

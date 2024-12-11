@@ -7,6 +7,7 @@ import { profileManagement } from './profileManagement'
 import { reports } from './reports'
 import { settings } from './settings'
 import { inquiriesRoutes } from './inquiriesRoutes'
+import { userManagementRoutes } from './userManagementRoutes'
 
 export const publicRoutes: Routes = [...authRoute]
 
@@ -56,6 +57,7 @@ export const protectedRoutes: Routes = [
     },
 
     ...inquiriesRoutes,
+    ...userManagementRoutes,
     ...networkRoutes,
     ...profileManagement,
     ...reports,
