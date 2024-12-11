@@ -1,9 +1,7 @@
 import { useAuth } from '@/auth'
-import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant'
 import { getData } from '@/services/axios/axiosUtils'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import CandidateListGrid from './CandidateListGrid'
+import { useEffect, useState } from 'react'
+import CandidateListGrid from './CandidateListGrid.jsx'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 

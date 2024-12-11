@@ -35,6 +35,7 @@ const DealsOverview = () => {
     const [allDeals, setAllDeals] = useState(0);
     const [completedDeals, setCompletedDeals] = useState(0);
     const [inProgressDeals, setInProgressDeals] = useState(0);
+    const [childDeals, setChildDeals] = useState(0);
 
 
     useEffect(() => {
@@ -49,7 +50,10 @@ const DealsOverview = () => {
 
         getData(`commissions/consultant/${user?.userId}/inprogress-deals`).then((response) => {
             setInProgressDeals(response.inProgressDeals);
-            console.log('in progress', response)
+        }).catch(err => console.log(err))
+
+        getData(`commissions/consultant/${user?.userId}/all-child-deals`).then((response) => {
+            setChildDeals(response.childDeals);
         }).catch(err => console.log(err))
 
 
@@ -61,7 +65,7 @@ const DealsOverview = () => {
             <div className="flex items-center justify-between mb-5">
                 <h4>Business Overview</h4>
             </div>
-            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3  gap-4 rounded-2xl mt-4">
+            <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-4  gap-4 rounded-2xl mt-4">
                 <StatisticCard
                     title="All Deals"
                     className="bg-sky-100 dark:bg-opacity-75"
@@ -71,14 +75,19 @@ const DealsOverview = () => {
                 <StatisticCard
                     title="In Progress Deals"
                     className="bg-red-100 dark:bg-opacity-75"
-                    value={inProgressDeals}
+                    value={inProgressDeals || allDeals - completedDeals}
                     icon={<GoIssueReopened />}
                 />
-
                 <StatisticCard
                     title="Closed Deals"
                     className="bg-emerald-100 dark:bg-opacity-75"
-                    value={allDeals - inProgressDeals}
+                    value={completedDeals}
+                    icon={<IoCheckmarkDoneCircle />}
+                />
+                <StatisticCard
+                    title="Sub Consultant's Completed Deals"
+                    className="bg-slate-100 dark:bg-opacity-75"
+                    value={childDeals}
                     icon={<IoCheckmarkDoneCircle />}
                 />
             </div>

@@ -23,10 +23,16 @@ export const TopButtonsSection = ({
             </div>
             <div className="flex items-center justify-center w-full bg-[#001136] rounded-sm">
                 <button
-                    onClick={() => setSwitchFormat(!switchFormat)}
+                    onClick={() =>
+                        setSwitchFormat(
+                            switchFormat === 'graph' ? 'grid' : 'graph',
+                        )
+                    }
                     className=" py-2 px-4 text-sm  w-full bg-custom-heading-color text-white rounded"
                 >
-                    {switchFormat ? 'Switch to Grid' : 'Switch to Graph'}
+                    {switchFormat === 'graph'
+                        ? 'Switch to Grid'
+                        : 'Switch to Graph'}
                 </button>
             </div>{' '}
             <ExportButtons
@@ -36,15 +42,17 @@ export const TopButtonsSection = ({
             <Select
                 isMulti
                 options={stepOptions}
-                className="z-[99999999]"
+                className="z-[99]"
                 onChange={handleStepFilterChange}
             />
             <div className="flex items-center bg-[#001136]">
                 <button
-                    onClick={() => setShowTable(true)}
+                    onClick={() =>
+                        setSwitchFormat(switchFormat === 'table' ? '' : 'table')
+                    }
                     className=" py-2 px-4 text-center text-sm w-full bg-custom-heading-color text-white rounded"
                 >
-                    {!showTable ? 'Show In table Form' : 'Hide In table Form'}
+                    {switchFormat !== 'table' ? 'Show Table' : 'Hide Table'}
                 </button>
             </div>
         </div>

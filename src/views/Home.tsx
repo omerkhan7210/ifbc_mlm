@@ -6,6 +6,7 @@ import { getData } from '@/services/axios/axiosUtils'
 import { useAuth } from '@/auth'
 import { Card } from '@/components/ui'
 import DealsOverview from './business/components/DealsOverview'
+import MonthlyDealsChart from './business/components/MonthlyDealsChart'
 
 const months = [
     'Jan',
@@ -127,7 +128,10 @@ const Home = () => {
         <div className=" flex flex-col gap-5 ">
 
             <DealsOverview />
+
             <div className='grid grid-cols-1 md:grid-cols-2 gap-5' >
+                <MonthlyDealsChart />
+
                 <Card>
                     <div className="w-full ">
                         <h2 className="text-sm text-center mb-2">
