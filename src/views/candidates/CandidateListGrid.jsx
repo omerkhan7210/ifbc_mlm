@@ -61,7 +61,7 @@ const CandidateListGrid = () => {
     }, [])
 
     const headerConfig = {
-        title: 'Downline Members',
+        title: 'Candidate List',
         buttonText: 'View Details',
         buttonAction: () => {
             console.log('Navigate to details')
