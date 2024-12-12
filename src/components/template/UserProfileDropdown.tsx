@@ -84,7 +84,7 @@ const _UserDropdown = () => {
                     </span>
                 </a>
             </Dropdown.Item>
-            {dropdownItemList.map((item) => (
+            {/* {dropdownItemList.map((item) => (
                 <Dropdown.Item
                     key={item.label}
                     eventKey={item.label}
@@ -97,7 +97,7 @@ const _UserDropdown = () => {
                         </span>
                     </Link>
                 </Dropdown.Item>
-            ))}
+            ))} */}
             <Dropdown.Item
                 eventKey="Sign Out"
                 className="gap-2 px-2"
