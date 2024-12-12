@@ -10,6 +10,7 @@ import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
 import { BiHide } from "react-icons/bi";
 import { GrFormView } from "react-icons/gr";
+import toast from 'react-hot-toast';
 
 const AddUserInGraph = ({ selectedNode, onClose }) => {
     // const [label, setLabel] = useState(selectedNode.data.label);
@@ -210,6 +211,7 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
             })
             .then((response) => {
                 console.log(response, "responce")
+                toast.success("User Add Succesfully!")
                 setFormFields({
                     mangerName: "",
                     firstName: '',
@@ -221,9 +223,11 @@ const AddUserInGraph = ({ selectedNode, onClose }) => {
                     refferralId: '',
                     userType: '',
                 })
+                setIsLoading(false);
             })
             .catch((error) => {
                 console.error("Error:", error);
+                toast.error(error, "some Thing want wrong")
                 // setFormErrors({ error: error?.response?.data?.message });
                 window.scrollTo(0, 0);
                 setIsLoading(false);
