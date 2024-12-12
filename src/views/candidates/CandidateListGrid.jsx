@@ -15,6 +15,7 @@ import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
 import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
 import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.tsx'
+import CandidateListSkeleton from '../../components/ui/CandidateListSkeleton.jsx'
 
 const containerVariants = {
     hidden: { opacity: 0, x: -100 },
@@ -42,13 +43,18 @@ const CandidateListGrid = () => {
     const [cands, setCands] = useState()
 
     const getCandidates = () => {
+        setLoading(true)
         getData('candidateProfile')
             .then((data) => {
                 let users = data.filter((e) => e?.refferralId == user?.userId)
                 // console.log(users, 'users')
                 setCands(users)
+                setLoading(false)
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {
+                console.log(error)
+                setLoading(false)
+            })
     }
     useEffect(() => {
         getCandidates()
@@ -77,7 +83,6 @@ const CandidateListGrid = () => {
     useEffect(() => {
         const filterCandidates = () => {
             if (!cands || cands.length === 0) return []
-
             return cands
                 ?.sort((a, b) => {
                     // Convert 'docDate' to Date objects, ensuring valid dates
@@ -99,15 +104,15 @@ const CandidateListGrid = () => {
                     const selectedStepsMatch =
                         filterCands?.selectedSteps.length > 0
                             ? filterCands?.selectedSteps.includes(
-                                  cand.pipelineStep,
-                              )
+                                cand.pipelineStep,
+                            )
                             : true
 
                     // Check all filter conditions
                     const statusMatch =
                         filterCands?.status &&
-                        filterCands.status !== 'Select Deal Stage' &&
-                        filterCands.status !== 'All'
+                            filterCands.status !== 'Select Deal Stage' &&
+                            filterCands.status !== 'All'
                             ? cand.pipelineStep === filterCands.status
                             : true
 
@@ -121,60 +126,60 @@ const CandidateListGrid = () => {
                     const searchMatch =
                         filterCands?.search && filterCands.search !== ''
                             ? cand.firstName
-                                  .toLowerCase()
-                                  .includes(filterCands.search.toLowerCase())
+                                .toLowerCase()
+                                .includes(filterCands.search.toLowerCase())
                             : true
 
                     const dateMatch = filterCands?.selectedRange
                         ? (() => {
-                              const { startDate, endDate } =
-                                  filterCands.selectedRange
+                            const { startDate, endDate } =
+                                filterCands.selectedRange
 
-                              if (startDate && endDate) {
-                                  // Both start and end dates are present
-                                  return (
-                                      new Date(candDocDate) >=
-                                          new Date(startDate) &&
-                                      new Date(candDocDate) <= new Date(endDate)
-                                  )
-                              } else if (startDate) {
-                                  // Only start date is present
-                                  return (
-                                      new Date(candDocDate).getTime() ===
-                                      new Date(startDate).getTime()
-                                  ) // Compare time values
-                              } else if (endDate) {
-                                  // Only end date is present
-                                  return (
-                                      new Date(candDocDate).getTime() ===
-                                      new Date(endDate).getTime()
-                                  ) // Compare time values
-                              }
+                            if (startDate && endDate) {
+                                // Both start and end dates are present
+                                return (
+                                    new Date(candDocDate) >=
+                                    new Date(startDate) &&
+                                    new Date(candDocDate) <= new Date(endDate)
+                                )
+                            } else if (startDate) {
+                                // Only start date is present
+                                return (
+                                    new Date(candDocDate).getTime() ===
+                                    new Date(startDate).getTime()
+                                ) // Compare time values
+                            } else if (endDate) {
+                                // Only end date is present
+                                return (
+                                    new Date(candDocDate).getTime() ===
+                                    new Date(endDate).getTime()
+                                ) // Compare time values
+                            }
 
-                              return true // Neither date is present, show all data
-                          })()
+                            return true // Neither date is present, show all data
+                        })()
                         : true // If selectedRange is not defined, show all data
 
                     const franchiseMatch =
                         filterCands?.franchise &&
-                        filterCands.franchise.length > 0
+                            filterCands.franchise.length > 0
                             ? (() => {
-                                  const franchiseIds =
-                                      filterCands.franchise.map(
-                                          (fc) => fc.docId,
-                                      )
-                                  if (cand.franchiseInterested) {
-                                      const parsedFranchises = JSON.parse(
-                                          cand.franchiseInterested,
-                                      )
-                                      return parsedFranchises.some(
-                                          (franchiseId) =>
-                                              franchiseIds.includes(
-                                                  franchiseId,
-                                              ),
-                                      )
-                                  }
-                              })()
+                                const franchiseIds =
+                                    filterCands.franchise.map(
+                                        (fc) => fc.docId,
+                                    )
+                                if (cand.franchiseInterested) {
+                                    const parsedFranchises = JSON.parse(
+                                        cand.franchiseInterested,
+                                    )
+                                    return parsedFranchises.some(
+                                        (franchiseId) =>
+                                            franchiseIds.includes(
+                                                franchiseId,
+                                            ),
+                                    )
+                                }
+                            })()
                             : true
 
                     const consultantMatch = filterCands?.consultantid
@@ -191,8 +196,8 @@ const CandidateListGrid = () => {
                         ? filterCands.selectedApprovalStatus === 'isArchived'
                             ? cand.isArchived
                             : filterCands.selectedApprovalStatus === 'isDeleted'
-                              ? cand.isDeleted
-                              : true
+                                ? cand.isDeleted
+                                : true
                         : !cand.isDeleted
 
                     // Apply both conditions together
@@ -326,31 +331,37 @@ const CandidateListGrid = () => {
                     </FullScreen>
                 )
             default:
-                return (
-                    <FullScreen handle={handle}>
-                        <motion.div
-                            ref={containerRef}
-                            id="container"
-                            className="max-w-screen mx-auto overflow-x-scroll divide-x-2 flex snap-mandatory snap-x bg-white cursor-grab"
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                        >
-                            {steps.map((step, index) => (
-                                <StepColumn
-                                    key={index}
-                                    step={step}
-                                    handle={handle}
-                                    candidates={filteredCandidates.filter(
-                                        (cand) => cand.pipelineStep === step,
-                                    )}
-                                    onDropCandidate={handleDropCandidate}
-                                    containerRef={containerRef}
-                                />
-                            ))}
-                        </motion.div>
-                    </FullScreen>
+                return (<>
+                    {loading ? <CandidateListSkeleton /> :
+                        (filteredCandidates && filteredCandidates.length > 0) ?
+                            <FullScreen handle={handle}>
+                                <motion.div
+                                    ref={containerRef}
+                                    id="container"
+                                    className="max-w-screen mx-auto overflow-x-scroll divide-x-2 flex snap-mandatory snap-x bg-white cursor-grab"
+                                    variants={containerVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    exit="exit"
+                                >
+
+                                    {steps.map((step, index) => (
+                                        <StepColumn
+                                            key={index}
+                                            step={step}
+                                            handle={handle}
+                                            candidates={filteredCandidates.filter(
+                                                (cand) => cand.pipelineStep === step,
+                                            )}
+                                            onDropCandidate={handleDropCandidate}
+                                            containerRef={containerRef}
+                                        />
+                                    ))}
+                                </motion.div>
+                            </FullScreen>
+                            :
+                            <h3 className='my-5 mx-4' >Sorry! You don't have any Candidates.</h3>}
+                </>
                 )
         }
     }
