@@ -23,12 +23,12 @@ const dropdownItemList: DropdownList[] = [
         path: 'https://ifbc.co',
         icon: <PiGlobeSimpleDuotone />,
     },
-    {
-        label: 'Profile',
-        // path: '/profile',
-        path: '/reports/profile',
-        icon: <PiUserCircleGearDuotone />,
-    },
+    // {
+    //     label: 'Profile',
+    //     // path: '/profile',
+    //     path: '/reports/profile',
+    //     icon: <PiUserCircleGearDuotone />,
+    // },
 ]
 
 const _UserDropdown = () => {

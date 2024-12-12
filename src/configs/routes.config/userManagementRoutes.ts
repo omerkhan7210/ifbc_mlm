@@ -11,10 +11,8 @@ export const userManagementRoutes: Routes = [
     },
     {
         key: 'members',
-        path: `${USER_MANAGeMENT_PREFIX_PATH}/register`,
-        component: lazy(
-            () => import('@/views/userManagement/RegisterUser/RegisterUser'),
-        ),
+        path: `${USER_MANAGeMENT_PREFIX_PATH}/registeruser`,
+        component: lazy(() => import('@/views/userManagement/RegisterUser')),
         authority: [],
     },
 ]
