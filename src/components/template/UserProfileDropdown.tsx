@@ -19,11 +19,6 @@ type DropdownList = {
 
 const dropdownItemList: DropdownList[] = [
     {
-        label: 'Go to Website',
-        path: 'https://ifbc.co',
-        icon: <PiGlobeSimpleDuotone />,
-    },
-    {
         label: 'Profile',
         // path: '/profile',
         path: '/reports/profile',
@@ -73,6 +68,22 @@ const _UserDropdown = () => {
                 </div>
             </Dropdown.Item>
             <Dropdown.Item variant="divider" />
+            <Dropdown.Item
+                key='Go to Website'
+                eventKey='Go to Website'
+                className="px-0"
+            >
+                <a className="flex h-full w-full px-2"
+                    href='https://ifbc.co'
+                    target='_blank'
+                    rel='noreferrer noopener'
+                >
+                    <span className="flex gap-2 items-center w-full">
+                        <span className="text-xl"><PiGlobeSimpleDuotone /></span>
+                        <span>Go to Website</span>
+                    </span>
+                </a>
+            </Dropdown.Item>
             {dropdownItemList.map((item) => (
                 <Dropdown.Item
                     key={item.label}
