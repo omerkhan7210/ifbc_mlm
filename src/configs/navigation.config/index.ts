@@ -293,75 +293,7 @@ const reportsNavigation: NavigationTree[] = [
     },
 ]
 
-const settingsNavigation: NavigationTree[] = [
-    {
-        key: 'settings',
-        path: `${SETTINGS_PREFIX_PATH}`,
-        title: 'Settings',
-        translateKey: 'nav.settings',
-        icon: 'settings',
-        type: NAV_ITEM_TYPE_COLLAPSE,
-        authority: [],
-        meta: {
-            horizontalMenu: {
-                layout: 'columns',
-                columns: 4,
-            },
-        },
-        subMenu: [
-            {
-                key: 'collapseMenu.commissionsettings',
-                path: `${SETTINGS_PREFIX_PATH}/commission-settings`,
-                title: 'Commission Settings  ',
-                translateKey: 'nav.collapseMenu.commissionsettings',
-                icon: 'commissionsettings',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            // {
-            //     key: 'collapseMenu.advancesettings',
-            //     path: `${SETTINGS_PREFIX_PATH}/advance-settings`,
-            //     title: ' Advance Settings ',
-            //     translateKey: 'nav.collapseMenu.advancesettings',
-            //     icon: 'advancesettings',
-            //     type: NAV_ITEM_TYPE_ITEM,
-            //     authority: [],
-            //     subMenu: [],
-            // },
-            {
-                key: 'collapseMenu.companyprofile',
-                path: `${SETTINGS_PREFIX_PATH}/company-profile`,
-                title: 'Company Profile  ',
-                translateKey: 'nav.collapseMenu.companyprofile',
-                icon: 'companyprofile',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
-            // {
-            //     key: 'collapseMenu.contentmanagement',
-            //     path: `${SETTINGS_PREFIX_PATH}/content-management`,
-            //     title: ' Content Management ',
-            //     translateKey: 'nav.collapseMenu.contentmanagement',
-            //     icon: 'contentmanagement',
-            //     type: NAV_ITEM_TYPE_ITEM,
-            //     authority: [],
-            //     subMenu: [],
-            // },
-            // {
-            //     key: 'collapseMenu.mailcontent',
-            //     path: `${SETTINGS_PREFIX_PATH}/mail-content`,
-            //     title: 'Mail Content  ',
-            //     translateKey: 'nav.collapseMenu.mailcontent',
-            //     icon: 'mailcontent',
-            //     type: NAV_ITEM_TYPE_ITEM,
-            //     authority: [],
-            //     subMenu: [],
-            // },
-        ],
-    },
-]
+
 
 const inquiriesNavigation: NavigationTree[] = [
     {
@@ -547,7 +479,6 @@ const navigationConfig: NavigationTree[] = [
     // ...profileManagementNavigation,
     ...reportsNavigation,
     ...toolsNavigation,
-    ...settingsNavigation,
 ]
 
 export default navigationConfig
