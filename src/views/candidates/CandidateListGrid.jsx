@@ -8,7 +8,7 @@ import { FormatRawDate } from '../../utils/FormatRawDate.js'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TopButtonsSection } from './TopSection.tsx'
 import CandidateStepGraph from '../../Charts/CandidateStepGraph.jsx'
-import { PiEnvelope, PiPhoneCallLight } from 'react-icons/pi'
+import { PiEnvelope, PiPhoneCallLight, PiBuildingApartmentLight } from 'react-icons/pi'
 import { toast } from 'react-toastify'
 import { HiOutlineLightBulb } from 'react-icons/hi'
 import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
@@ -44,11 +44,22 @@ const CandidateListGrid = () => {
 
     const getCandidates = () => {
         setLoading(true)
-        getData('candidateProfile')
+        getData(`candidateProfile/referral/${user?.userId}`)
             .then((data) => {
-                let users = data.filter((e) => e?.refferralId == user?.userId)
-                // console.log(users, 'users')
-                setCands(users)
+                // let users = data.filter((e) => e?.refferralId == user?.userId)
+
+                const candidates = data.flatMap(d =>
+                    d?.listings.map(list => ({
+                        ...d.candidate,
+                        listingName: list.name,
+                        listingCategory: list.category,
+                        imgUrl: list.imgUrl,
+                        franchiseFee: list.franchiseFee,
+                        documents: list.documents,
+                    }))
+                )
+                console.log('users', candidates)
+                setCands(candidates)
                 setLoading(false)
             })
             .catch((error) => {
@@ -516,6 +527,17 @@ const StepColumn = ({
         }
     }, [stepTrack, showConfettiComponent])
 
+    const totalFranchiseFee = candidates.reduce((total, cand) => {
+        const fee = parseFloat(cand.franchiseFee.replace(/[$,]/g, '')) || 0;
+        return total + fee;
+    }, 0).toLocaleString();
+    const totalCommission = candidates.reduce((total, cand) => {
+        const fee = parseFloat(cand.franchiseFee.replace(/[$,]/g, '')) || 0;
+        return total + (fee * 0.15);
+    }, 0).toLocaleString();
+
+    const totalCandidates = candidates.length;
+
     return (
         <>
             <AnimatePresence>
@@ -577,15 +599,35 @@ const StepColumn = ({
             </AnimatePresence>
             <div
                 ref={drop}
-                className={`flex-1 min-w-[350px] !z-0 ${isOver ? 'bg-blue-200' : ''}`}
+                className={`flex-1 min-w-[370px] !z-0 ${isOver ? 'bg-blue-200' : ''}`}
             >
-                <div className="relative group ">
-                    <div className="rounded-xl w-full">
-                        <h1 className="text-white p-3 text-center text-lg bg-[#2176ff]">
+                <div className="relative group  ">
+                    <div className=" flex items-center justify-between w-full bg-[#2176ff] p-2 ">
+                        <h1 className="text-white flex flex-col gap-1  text-left text-sm ">
                             {step}
+                            <span className='text-xs'>{totalCandidates}</span>
                         </h1>
+
+                        <div className="flex  text-white gap-1 text-xs">
+                            <p className='flex items-center'>
+                                {/* <span className="font-light text-[8px]">Total Franchise Fee: </span> */}
+                                <span title="This is the total franchise fee calculated from all candidates."
+                                    className='text-green-700 bg-green-50 rounded-full px-2 py-1' >
+                                    ${totalFranchiseFee}
+                                </span>
+
+                            </p>
+
+                            <p className='flex items-center'>
+                                {/* <span className="font-light text-[8px]">Total Commission: </span> */}
+                                <span title="This is the total commission amount."
+                                    className='text-green-700 bg-green-50  rounded-full px-2 py-1'>
+                                    ${totalCommission}
+                                </span>
+                            </p>
+                        </div>
                     </div>
-                    <button
+                    {/* <button
                         onClick={() => {
                             navigate('/dashboard/candidates-list', {
                                 state: { step },
@@ -596,7 +638,7 @@ const StepColumn = ({
                         <span className="text-white text-xs font-bold capitalize">
                             Click here to apply the filter
                         </span>
-                    </button>
+                    </button> */}
                 </div>
                 <div
                     className={`p-3 flex flex-col bg-slate-50 ${handle.active ? 'max-h-screen' : 'max-h-[680px]'}  overflow-y-auto gap-5`}
@@ -678,11 +720,12 @@ const DraggableCard = ({ cand, key, containerRef }) => {
             <ReferralRibbon cand={cand} />
             <NavLink
                 to={`/dashboard/candidate-profile/${cand.docid}`}
-                className="text-lg text-left font-semibold text-custom-heading-color capitalize"
+                className="text-lg text-left text-black/90 font-semibold text-custom-heading-color capitalize"
             >
                 {cand.firstName} {cand.lastName}
             </NavLink>
-            <ul className="flex flex-col items-start gap-2 border-b-[1.5px] border-b-stone-700 border-dotted pb-3 text-xs max-w-full">
+            {/* <ul className="flex flex-col items-start gap-2 border-b-[1.5px] border-b-stone-700 border-dotted pb-3 text-xs max-w-full">
+
                 <li className="flex items-start gap-1">
                     <PiPhoneCallLight
                         size={15}
@@ -690,17 +733,37 @@ const DraggableCard = ({ cand, key, containerRef }) => {
                         strokeWidth="5px"
                     />
 
-                    <p className="text-xs font-semibold text-black/70">
-                        <a href={`tel:${cand.phone}`}> {cand.phone}</a>
+                    <p className="text-xs font-semibold ">
+                        <a href={`tel:${cand.phone}`} className='text-black/70'> {cand.phone}</a>
                     </p>
                 </li>
                 <li className="flex items-start gap-1">
                     <PiEnvelope size={15} color="black" strokeWidth="2px" />
-                    <p className="text-xs font-semibold text-black/70">
-                        <a href={`mailto:${cand.email}`}>{cand.email}</a>
+                    <p className="text-xs font-semibold ">
+                        <a href={`mailto:${cand.email}`} className='text-black/70'>{cand.email}</a>
                     </p>
                 </li>
-            </ul>
+            </ul> */}
+            <div className='border-b-stone-700 border-dotted border-b-[1.5px] pb-3'>
+                <li className="flex flex-col justify-start items-start gap-1 ">
+                    <div className="flex gap-2 items-center">
+                        <img
+                            className='size-10 rounded'
+                            src={"https://ifbc.co/" + cand?.imgUrl} alt="" />
+
+                        <div className="flex flex-col gap-1">
+                            <p className="text-sm font-semibold text-black/70">
+                                {cand?.listingName}
+                            </p>
+                            <p className='text-xs' >Fee: {cand?.franchiseFee}</p>
+                        </div>
+                    </div>
+                    {/* <p className='text-xs' >Category: {cand?.listingCategory}</p> */}
+
+
+
+                </li>
+            </div>
             <div className="flex items-center gap-2 mt-2">
                 <span className="text-xs font-semibold text-gray-600">
                     Status:
