@@ -93,22 +93,22 @@ const userManagementNavigation: NavigationTree[] = [
                 key: 'collapseMenu.registeruser',
                 path: `${USER_MANAGeMENT_PREFIX_PATH}/registeruser`,
                 title: 'Register User',
-                translateKey: 'nav.collapseMenu.register',
+                translateKey: 'nav.register',
                 icon: 'register',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
                 subMenu: [],
             },
-            // {
-            //     key: 'register',
-            //     path: `${USER_MANAGeMENT_PREFIX_PATH}/register`,
-            //     title: 'Register a Member',
-            //     translateKey: 'nav.register',
-            //     icon: 'register',
-            //     type: NAV_ITEM_TYPE_ITEM,
-            //     authority: [],
-            //     subMenu: [],
-            // },
+            {
+                key: 'collapseMenu.consultantregister',
+                path: `${USER_MANAGeMENT_PREFIX_PATH}/consultantregister`,
+                title: 'Register as Consultant',
+                translateKey: 'nav.consultantregister',
+                icon: 'register',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
             // {
             //     key: 'createTeam',
             //     path: '/create-team',
@@ -293,7 +293,79 @@ const reportsNavigation: NavigationTree[] = [
     },
 ]
 
+<<<<<<< HEAD
+const settingsNavigation: NavigationTree[] = [
+    {
+        key: 'settings',
+        path: `${SETTINGS_PREFIX_PATH}`,
+        title: 'Settings',
+        translateKey: 'nav.settings',
+        icon: 'settings',
+        type: NAV_ITEM_TYPE_COLLAPSE,
+        authority: [],
+        meta: {
+            horizontalMenu: {
+                layout: 'columns',
+                columns: 4,
+            },
+        },
+        subMenu: [
+            {
+                key: 'collapseMenu.commissionsettings',
+                path: `${SETTINGS_PREFIX_PATH}/commission-settings`,
+                title: 'Commission Settings  ',
+                translateKey: 'nav.collapseMenu.commissionsettings',
+                icon: 'commissionsettings',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            // {
+            //     key: 'collapseMenu.advancesettings',
+            //     path: `${SETTINGS_PREFIX_PATH}/advance-settings`,
+            //     title: ' Advance Settings ',
+            //     translateKey: 'nav.collapseMenu.advancesettings',
+            //     icon: 'advancesettings',
+            //     type: NAV_ITEM_TYPE_ITEM,
+            //     authority: [],
+            //     subMenu: [],
+            // },
+            {
+                key: 'collapseMenu.companyprofile',
+                path: `${SETTINGS_PREFIX_PATH}/company-profile`,
+                title: 'Company Profile  ',
+                translateKey: 'nav.collapseMenu.companyprofile',
+                icon: 'companyprofile',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            {
+                key: 'collapseMenu.referrallink',
+                path: `${SETTINGS_PREFIX_PATH}/referral-link`,
+                title: 'All Referral Link',
+                translateKey: 'nav.collapseMenu.referrallink',
+                icon: 'contentmanagement',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            // {
+            //     key: 'collapseMenu.mailcontent',
+            //     path: `${SETTINGS_PREFIX_PATH}/mail-content`,
+            //     title: 'Mail Content  ',
+            //     translateKey: 'nav.collapseMenu.mailcontent',
+            //     icon: 'mailcontent',
+            //     type: NAV_ITEM_TYPE_ITEM,
+            //     authority: [],
+            //     subMenu: [],
+            // },
+        ],
+    },
+]
+=======
 
+>>>>>>> e8337e7eef5dc5e96623abcdea45da70e3ee0dd4
 
 const inquiriesNavigation: NavigationTree[] = [
     {

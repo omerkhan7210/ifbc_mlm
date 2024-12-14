@@ -3,6 +3,10 @@ import DownlineMembersTable from '../views/EcommerceDashboard/components/Downlin
 import profileImage from '../../public/images/logo/android-chrome-192x192.png'
 import EmailModel from '../components/forms/EmailModel'
 
+type BulkEmailNameType = {
+    [key: string]: { docid: number; firstName: string; lastName: string }
+}
+
 const Mailbox = () => {
     const filteredCandidates = [
         {
@@ -84,7 +88,9 @@ const Mailbox = () => {
         },
     ]
     const [showEmailModel, setShowEmailModel] = useState<boolean>(false)
-
+    const [allBulkEmailName, setAllBulkEmailName] = useState<BulkEmailNameType>(
+        {},
+    )
     const headerConfig = {
         title: 'Inbox',
         buttonText: 'New email',
@@ -98,16 +104,22 @@ const Mailbox = () => {
             console.log('Onchange details')
         },
     }
-    console.log(showEmailModel, 'showEmailModel')
+    const handleGetValue = (val) => {
+        setAllBulkEmailName(val)
+    }
     return (
         <div>
             {showEmailModel && (
-                <EmailModel onClose={() => setShowEmailModel(false)} />
+                <EmailModel
+                    onClose={() => setShowEmailModel(false)}
+                    allBulkEmailName={allBulkEmailName}
+                />
             )}
 
             <DownlineMembersTable
                 data={filteredCandidates}
                 headerConfig={headerConfig}
+                handleGetValue={handleGetValue}
             />
         </div>
     )

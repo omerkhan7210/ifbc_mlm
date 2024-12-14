@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { getData } from '@/services/axios/axiosUtils';
 import { useAuth } from '@/auth';
 
-const RegisterUser = () => {
+const ConsultantRegister = () => {
     const { user } = useAuth();
 
     const [formFields, setFormFields] = useState({
@@ -18,9 +18,8 @@ const RegisterUser = () => {
         password: '',
         userName: '',
         refferralId: user?.userId,
-        userType: 'Ambassador',
+        userType: 'Consultant',
     });
-    console.log(formFields, "formFields")
     const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     // const [selectedUser, setSelectedUser] = useState(null);
@@ -66,7 +65,7 @@ const RegisterUser = () => {
             lastname: formFields?.lastName,
             email: formFields?.email,
             phone: formFields?.phone,
-            usertype: "A",
+            usertype: "C",
             profileimage: formFields.profileimage ?? "",
             coverimage: formFields.coverimage ?? "",
             isVerified: true,
@@ -84,7 +83,6 @@ const RegisterUser = () => {
                 },
             })
             .then((response) => {
-                console.log(response , "amb responce")
                 toast.success("User added successfully!");
                 setFormFields({
                     mangerName: "",
@@ -121,4 +119,4 @@ const RegisterUser = () => {
     );
 };
 
-export default RegisterUser;
+export default ConsultantRegister;
