@@ -293,7 +293,6 @@ const reportsNavigation: NavigationTree[] = [
     },
 ]
 
-<<<<<<< HEAD
 const settingsNavigation: NavigationTree[] = [
     {
         key: 'settings',
@@ -363,9 +362,6 @@ const settingsNavigation: NavigationTree[] = [
         ],
     },
 ]
-=======
-
->>>>>>> e8337e7eef5dc5e96623abcdea45da70e3ee0dd4
 
 const inquiriesNavigation: NavigationTree[] = [
     {
@@ -520,10 +516,20 @@ const dealsNavigation: NavigationTree[] = [
                 subMenu: [],
             },
             {
-                key: 'allDeals',
-                path: '/all-deals', // Updated path
-                title: 'All Deals', // Updated title
-                translateKey: 'nav.allDeals',
+                key: 'completedDeals',
+                path: '/completed-deals', // Updated path
+                title: 'Completed Deals', // Updated title
+                translateKey: 'nav.completedDeals',
+                icon: 'business', // Retain the same icon for now
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            {
+                key: 'teamDeals',
+                path: '/team-deals', // Updated path
+                title: "Team's Completed Deals", // Updated title
+                translateKey: 'nav.teamDeals',
                 icon: 'business', // Retain the same icon for now
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],

@@ -31,9 +31,15 @@ export const protectedRoutes: Routes = [
         authority: [],
     },
     {
-        key: 'allDeals',
-        path: '/all-deals',
+        key: 'completedDeals',
+        path: '/completed-deals',
         component: lazy(() => import('@/views/business')),
+        authority: [],
+    },
+    {
+        key: 'teamDeals',
+        path: '/team-deals',
+        component: lazy(() => import('@/views/teamDeals/TeamDeals')),
         authority: [],
     },
     {
