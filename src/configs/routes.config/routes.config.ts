@@ -5,7 +5,6 @@ import type { Routes } from '@/@types/routes'
 import { networkRoutes } from './networkRoutes'
 import { profileManagement } from './profileManagement'
 import { reports } from './reports'
-import { settings } from './settings'
 import { inquiriesRoutes } from './inquiriesRoutes'
 import { userManagementRoutes } from './userManagementRoutes'
 
@@ -61,6 +60,5 @@ export const protectedRoutes: Routes = [
     ...networkRoutes,
     ...profileManagement,
     ...reports,
-    ...settings,
     ...othersRoute,
 ]
