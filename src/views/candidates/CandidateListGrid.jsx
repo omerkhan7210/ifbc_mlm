@@ -8,7 +8,6 @@ import { FormatRawDate } from '../../utils/FormatRawDate.js'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TopButtonsSection } from './TopSection.tsx'
 import CandidateStepGraph from '../../Charts/CandidateStepGraph.jsx'
-import { PiEnvelope, PiPhoneCallLight, PiBuildingApartmentLight } from 'react-icons/pi'
 import { toast } from 'react-toastify'
 import { HiOutlineLightBulb } from 'react-icons/hi'
 import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
@@ -46,19 +45,19 @@ const CandidateListGrid = () => {
         setLoading(true)
         getData(`candidateProfile/referral/${user?.userId}`)
             .then((data) => {
-                // let users = data.filter((e) => e?.refferralId == user?.userId)
-
                 const candidates = data.flatMap(d =>
-                    d?.listings.map(list => ({
-                        ...d.candidate,
-                        listingName: list.name,
-                        listingCategory: list.category,
-                        imgUrl: list.imgUrl,
-                        franchiseFee: list.franchiseFee,
-                        documents: list.documents,
+                    d?.dealStages.map(dealStage => ({
+                        ...d,
+                        listingName: dealStage.name,
+                        listingId: dealStage.listingId,
+                        listingCategory: dealStage.category,
+                        imgUrl: dealStage.imgUrl,
+                        pipelineStep: dealStage.pipelineStep,
+                        dealStageId: dealStage.dealStageId,
+                        franchiseFee: dealStage.franchiseFee ? dealStage.franchiseFee : "0",
+                        documents: dealStage.documents ? dealStage.documents : [],
                     }))
                 )
-                console.log('users', candidates)
                 setCands(candidates)
                 setLoading(false)
             })
@@ -240,12 +239,14 @@ const CandidateListGrid = () => {
         setLoading(true)
         try {
             const formData = {
-                ...cand,
+                docId: cand?.dealStageId,
+                listingId: cand?.listingId,
+                candidateId: cand.docid,
                 pipelineStep: newStep, // Update the pipeline step
             }
 
             const response = await axios.put(
-                `${BASE_API_URL}/candidateprofile/${cand.docid}`,
+                `${BASE_API_URL}/candidateprofile/deal-stage/${cand?.dealStageId}`,
                 formData,
                 {
                     headers: {
@@ -253,7 +254,6 @@ const CandidateListGrid = () => {
                     },
                 },
             )
-
             if (response.status === 204) {
                 setFilteredCandidates((prevCands) =>
                     prevCands.map((c) =>
@@ -265,7 +265,7 @@ const CandidateListGrid = () => {
                 getCandidates()
             }
         } catch (error) {
-            console.error('Error updating pipeline step:', error.message)
+            console.error('Error updating pipeline step:', error)
         } finally {
             setLoading(false)
         }
@@ -490,7 +490,6 @@ const StepColumn = ({
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'CANDIDATE',
         drop: (item, monitor) => {
-            console.log(item, monitor, 'moniter')
             // Perform the drop action
             if (monitor.didDrop()) {
                 return
@@ -748,7 +747,7 @@ const DraggableCard = ({ cand, key, containerRef }) => {
                 <li className="flex flex-col justify-start items-start gap-1 ">
                     <div className="flex gap-2 items-center">
                         <img
-                            className='size-10 rounded'
+                            className='size-10 rounded object-contain'
                             src={"https://ifbc.co/" + cand?.imgUrl} alt="" />
 
                         <div className="flex flex-col gap-1">

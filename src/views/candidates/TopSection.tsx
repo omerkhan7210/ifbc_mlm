@@ -45,7 +45,7 @@ export const TopButtonsSection = ({
                 className="z-[99]"
                 onChange={handleStepFilterChange}
             />
-            <div className="flex items-center bg-[#001136]">
+            {/* <div className="flex items-center bg-[#001136]">
                 <button
                     onClick={() =>
                         setSwitchFormat(switchFormat === 'table' ? '' : 'table')
@@ -54,7 +54,7 @@ export const TopButtonsSection = ({
                 >
                     {switchFormat !== 'table' ? 'Show Table' : 'Hide Table'}
                 </button>
-            </div>
+            </div> */}
         </div>
     )
 }
