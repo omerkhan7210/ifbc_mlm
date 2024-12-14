@@ -8,13 +8,14 @@ import { FormatRawDate } from '../../utils/FormatRawDate.js'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TopButtonsSection } from './TopSection.tsx'
 import CandidateStepGraph from '../../Charts/CandidateStepGraph.jsx'
-import { PiEnvelope, PiPhoneCallLight } from 'react-icons/pi'
+import { PiEnvelope, PiPhoneCallLight, PiBuildingApartmentLight } from 'react-icons/pi'
 import { toast } from 'react-toastify'
 import { HiOutlineLightBulb } from 'react-icons/hi'
 import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
 import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
 import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.tsx'
+import CandidateListSkeleton from '../../components/ui/CandidateListSkeleton.jsx'
 
 const containerVariants = {
     hidden: { opacity: 0, x: -100 },
@@ -42,20 +43,36 @@ const CandidateListGrid = () => {
     const [cands, setCands] = useState()
 
     const getCandidates = () => {
-        getData('candidateProfile')
+        setLoading(true)
+        getData(`candidateProfile/referral/${user?.userId}`)
             .then((data) => {
-                let users = data.filter((e) => e?.refferralId == user?.userId)
-                // console.log(users, 'users')
-                setCands(users)
+                // let users = data.filter((e) => e?.refferralId == user?.userId)
+
+                const candidates = data.flatMap(d =>
+                    d?.listings.map(list => ({
+                        ...d.candidate,
+                        listingName: list.name,
+                        listingCategory: list.category,
+                        imgUrl: list.imgUrl,
+                        franchiseFee: list.franchiseFee,
+                        documents: list.documents,
+                    }))
+                )
+                console.log('users', candidates)
+                setCands(candidates)
+                setLoading(false)
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {
+                console.log(error)
+                setLoading(false)
+            })
     }
     useEffect(() => {
         getCandidates()
     }, [])
 
     const headerConfig = {
-        title: 'Downline Members',
+        title: 'Candidate List',
         buttonText: 'View Details',
         buttonAction: () => {
             console.log('Navigate to details')
@@ -77,7 +94,6 @@ const CandidateListGrid = () => {
     useEffect(() => {
         const filterCandidates = () => {
             if (!cands || cands.length === 0) return []
-
             return cands
                 ?.sort((a, b) => {
                     // Convert 'docDate' to Date objects, ensuring valid dates
@@ -99,15 +115,15 @@ const CandidateListGrid = () => {
                     const selectedStepsMatch =
                         filterCands?.selectedSteps.length > 0
                             ? filterCands?.selectedSteps.includes(
-                                  cand.pipelineStep,
-                              )
+                                cand.pipelineStep,
+                            )
                             : true
 
                     // Check all filter conditions
                     const statusMatch =
                         filterCands?.status &&
-                        filterCands.status !== 'Select Deal Stage' &&
-                        filterCands.status !== 'All'
+                            filterCands.status !== 'Select Deal Stage' &&
+                            filterCands.status !== 'All'
                             ? cand.pipelineStep === filterCands.status
                             : true
 
@@ -121,60 +137,60 @@ const CandidateListGrid = () => {
                     const searchMatch =
                         filterCands?.search && filterCands.search !== ''
                             ? cand.firstName
-                                  .toLowerCase()
-                                  .includes(filterCands.search.toLowerCase())
+                                .toLowerCase()
+                                .includes(filterCands.search.toLowerCase())
                             : true
 
                     const dateMatch = filterCands?.selectedRange
                         ? (() => {
-                              const { startDate, endDate } =
-                                  filterCands.selectedRange
+                            const { startDate, endDate } =
+                                filterCands.selectedRange
 
-                              if (startDate && endDate) {
-                                  // Both start and end dates are present
-                                  return (
-                                      new Date(candDocDate) >=
-                                          new Date(startDate) &&
-                                      new Date(candDocDate) <= new Date(endDate)
-                                  )
-                              } else if (startDate) {
-                                  // Only start date is present
-                                  return (
-                                      new Date(candDocDate).getTime() ===
-                                      new Date(startDate).getTime()
-                                  ) // Compare time values
-                              } else if (endDate) {
-                                  // Only end date is present
-                                  return (
-                                      new Date(candDocDate).getTime() ===
-                                      new Date(endDate).getTime()
-                                  ) // Compare time values
-                              }
+                            if (startDate && endDate) {
+                                // Both start and end dates are present
+                                return (
+                                    new Date(candDocDate) >=
+                                    new Date(startDate) &&
+                                    new Date(candDocDate) <= new Date(endDate)
+                                )
+                            } else if (startDate) {
+                                // Only start date is present
+                                return (
+                                    new Date(candDocDate).getTime() ===
+                                    new Date(startDate).getTime()
+                                ) // Compare time values
+                            } else if (endDate) {
+                                // Only end date is present
+                                return (
+                                    new Date(candDocDate).getTime() ===
+                                    new Date(endDate).getTime()
+                                ) // Compare time values
+                            }
 
-                              return true // Neither date is present, show all data
-                          })()
+                            return true // Neither date is present, show all data
+                        })()
                         : true // If selectedRange is not defined, show all data
 
                     const franchiseMatch =
                         filterCands?.franchise &&
-                        filterCands.franchise.length > 0
+                            filterCands.franchise.length > 0
                             ? (() => {
-                                  const franchiseIds =
-                                      filterCands.franchise.map(
-                                          (fc) => fc.docId,
-                                      )
-                                  if (cand.franchiseInterested) {
-                                      const parsedFranchises = JSON.parse(
-                                          cand.franchiseInterested,
-                                      )
-                                      return parsedFranchises.some(
-                                          (franchiseId) =>
-                                              franchiseIds.includes(
-                                                  franchiseId,
-                                              ),
-                                      )
-                                  }
-                              })()
+                                const franchiseIds =
+                                    filterCands.franchise.map(
+                                        (fc) => fc.docId,
+                                    )
+                                if (cand.franchiseInterested) {
+                                    const parsedFranchises = JSON.parse(
+                                        cand.franchiseInterested,
+                                    )
+                                    return parsedFranchises.some(
+                                        (franchiseId) =>
+                                            franchiseIds.includes(
+                                                franchiseId,
+                                            ),
+                                    )
+                                }
+                            })()
                             : true
 
                     const consultantMatch = filterCands?.consultantid
@@ -191,8 +207,8 @@ const CandidateListGrid = () => {
                         ? filterCands.selectedApprovalStatus === 'isArchived'
                             ? cand.isArchived
                             : filterCands.selectedApprovalStatus === 'isDeleted'
-                              ? cand.isDeleted
-                              : true
+                                ? cand.isDeleted
+                                : true
                         : !cand.isDeleted
 
                     // Apply both conditions together
@@ -326,31 +342,37 @@ const CandidateListGrid = () => {
                     </FullScreen>
                 )
             default:
-                return (
-                    <FullScreen handle={handle}>
-                        <motion.div
-                            ref={containerRef}
-                            id="container"
-                            className="max-w-screen mx-auto overflow-x-scroll divide-x-2 flex snap-mandatory snap-x bg-white cursor-grab"
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                        >
-                            {steps.map((step, index) => (
-                                <StepColumn
-                                    key={index}
-                                    step={step}
-                                    handle={handle}
-                                    candidates={filteredCandidates.filter(
-                                        (cand) => cand.pipelineStep === step,
-                                    )}
-                                    onDropCandidate={handleDropCandidate}
-                                    containerRef={containerRef}
-                                />
-                            ))}
-                        </motion.div>
-                    </FullScreen>
+                return (<>
+                    {loading ? <CandidateListSkeleton /> :
+                        (filteredCandidates && filteredCandidates.length > 0) ?
+                            <FullScreen handle={handle}>
+                                <motion.div
+                                    ref={containerRef}
+                                    id="container"
+                                    className="max-w-screen mx-auto overflow-x-scroll divide-x-2 flex snap-mandatory snap-x bg-white cursor-grab"
+                                    variants={containerVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    exit="exit"
+                                >
+
+                                    {steps.map((step, index) => (
+                                        <StepColumn
+                                            key={index}
+                                            step={step}
+                                            handle={handle}
+                                            candidates={filteredCandidates.filter(
+                                                (cand) => cand.pipelineStep === step,
+                                            )}
+                                            onDropCandidate={handleDropCandidate}
+                                            containerRef={containerRef}
+                                        />
+                                    ))}
+                                </motion.div>
+                            </FullScreen>
+                            :
+                            <h3 className='my-5 mx-4' >Sorry! You don't have any Candidates.</h3>}
+                </>
                 )
         }
     }
@@ -494,16 +516,24 @@ const StepColumn = ({
 
     useEffect(() => {
         if (stepTrack === 'Closed Won') {
-            setShowConfettiComponent(true)
-            // onDropCandidate()
-            const timer = setTimeout(() => {
-                setShowConfettiComponent(false)
-            }, 10000)
-            return () => {
-                clearTimeout(timer)
-            }
+            setTimeout(() => {
+                setShowConfettiComponent(true);
+            }, 1000);
+            setShowConfettiComponent(false);
         }
-    }, [stepTrack, showConfettiComponent])
+    }, [stepTrack]);
+
+
+    const totalFranchiseFee = candidates.reduce((total, cand) => {
+        const fee = parseFloat(cand.franchiseFee.replace(/[$,]/g, '')) || 0;
+        return total + fee;
+    }, 0).toLocaleString();
+    const totalCommission = candidates.reduce((total, cand) => {
+        const fee = parseFloat(cand.franchiseFee.replace(/[$,]/g, '')) || 0;
+        return total + (fee * 0.15);
+    }, 0).toLocaleString();
+
+    const totalCandidates = candidates.length;
 
     return (
         <>
@@ -541,18 +571,12 @@ const StepColumn = ({
                                 <button
                                     onClick={() => {
                                         if (droppedItem) {
-                                            onDropCandidate(
-                                                droppedItem?.cand,
-                                                step,
-                                            )
-                                            notifyUpdate(
-                                                droppedItem?.cand,
-                                                step,
-                                            )
-                                            setIsModalVisible(false)
-                                            setStepTrack(step)
+                                            onDropCandidate(droppedItem?.cand, step);
+                                            setStepTrack(step);
+                                            notifyUpdate(droppedItem?.cand, step);
+                                            setIsModalVisible(false);
                                         } else {
-                                            console.error('No item to confirm.')
+                                            console.error('No item to confirm.');
                                         }
                                     }}
                                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -566,15 +590,35 @@ const StepColumn = ({
             </AnimatePresence>
             <div
                 ref={drop}
-                className={`flex-1 min-w-[350px] !z-0 ${isOver ? 'bg-blue-200' : ''}`}
+                className={`flex-1 min-w-[370px] !z-0 ${isOver ? 'bg-blue-200' : ''}`}
             >
-                <div className="relative group ">
-                    <div className="rounded-xl w-full">
-                        <h1 className="text-white p-3 text-center text-lg bg-[#2176ff]">
+                <div className="relative group  ">
+                    <div className=" flex items-center justify-between w-full bg-[#2176ff] p-2 ">
+                        <h1 className="text-white flex flex-col gap-1  text-left text-sm ">
                             {step}
+                            <span className='text-xs'>{totalCandidates}</span>
                         </h1>
+
+                        <div className="flex  text-white gap-1 text-xs">
+                            <p className='flex items-center'>
+                                {/* <span className="font-light text-[8px]">Total Franchise Fee: </span> */}
+                                <span title="This is the total franchise fee calculated from all candidates."
+                                    className='text-green-700 bg-green-50 rounded-full px-2 py-1' >
+                                    ${totalFranchiseFee}
+                                </span>
+
+                            </p>
+
+                            <p className='flex items-center'>
+                                {/* <span className="font-light text-[8px]">Total Commission: </span> */}
+                                <span title="This is the total commission amount."
+                                    className='text-green-700 bg-green-50  rounded-full px-2 py-1'>
+                                    ${totalCommission}
+                                </span>
+                            </p>
+                        </div>
                     </div>
-                    <button
+                    {/* <button
                         onClick={() => {
                             navigate('/dashboard/candidates-list', {
                                 state: { step },
@@ -585,7 +629,7 @@ const StepColumn = ({
                         <span className="text-white text-xs font-bold capitalize">
                             Click here to apply the filter
                         </span>
-                    </button>
+                    </button> */}
                 </div>
                 <div
                     className={`p-3 flex flex-col bg-slate-50 ${handle.active ? 'max-h-screen' : 'max-h-[680px]'}  overflow-y-auto gap-5`}
@@ -667,11 +711,12 @@ const DraggableCard = ({ cand, key, containerRef }) => {
             <ReferralRibbon cand={cand} />
             <NavLink
                 to={`/dashboard/candidate-profile/${cand.docid}`}
-                className="text-lg text-left font-semibold text-custom-heading-color capitalize"
+                className="text-lg text-left text-black/90 font-semibold text-custom-heading-color capitalize"
             >
                 {cand.firstName} {cand.lastName}
             </NavLink>
-            <ul className="flex flex-col items-start gap-2 border-b-[1.5px] border-b-stone-700 border-dotted pb-3 text-xs max-w-full">
+            {/* <ul className="flex flex-col items-start gap-2 border-b-[1.5px] border-b-stone-700 border-dotted pb-3 text-xs max-w-full">
+
                 <li className="flex items-start gap-1">
                     <PiPhoneCallLight
                         size={15}
@@ -679,17 +724,37 @@ const DraggableCard = ({ cand, key, containerRef }) => {
                         strokeWidth="5px"
                     />
 
-                    <p className="text-xs font-semibold text-black/70">
-                        <a href={`tel:${cand.phone}`}> {cand.phone}</a>
+                    <p className="text-xs font-semibold ">
+                        <a href={`tel:${cand.phone}`} className='text-black/70'> {cand.phone}</a>
                     </p>
                 </li>
                 <li className="flex items-start gap-1">
                     <PiEnvelope size={15} color="black" strokeWidth="2px" />
-                    <p className="text-xs font-semibold text-black/70">
-                        <a href={`mailto:${cand.email}`}>{cand.email}</a>
+                    <p className="text-xs font-semibold ">
+                        <a href={`mailto:${cand.email}`} className='text-black/70'>{cand.email}</a>
                     </p>
                 </li>
-            </ul>
+            </ul> */}
+            <div className='border-b-stone-700 border-dotted border-b-[1.5px] pb-3'>
+                <li className="flex flex-col justify-start items-start gap-1 ">
+                    <div className="flex gap-2 items-center">
+                        <img
+                            className='size-10 rounded'
+                            src={"https://ifbc.co/" + cand?.imgUrl} alt="" />
+
+                        <div className="flex flex-col gap-1">
+                            <p className="text-sm font-semibold text-black/70">
+                                {cand?.listingName}
+                            </p>
+                            <p className='text-xs' >Fee: {cand?.franchiseFee}</p>
+                        </div>
+                    </div>
+                    {/* <p className='text-xs' >Category: {cand?.listingCategory}</p> */}
+
+
+
+                </li>
+            </div>
             <div className="flex items-center gap-2 mt-2">
                 <span className="text-xs font-semibold text-gray-600">
                     Status:

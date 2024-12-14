@@ -5,7 +5,7 @@ import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembe
 import profileImage from '../../../public/images/logo/android-chrome-192x192.png'
 
 const TotalBonus = () => {
-    // const [searchQuery, setSearchQuery] = useState('')
+    const [allBulkEmailName, setAllBulkEmailName] = useState([])
     const filteredCandidates = [
         {
             additionalEmail: '',
@@ -98,6 +98,10 @@ const TotalBonus = () => {
             console.log('Onchange details')
         },
     }
+
+    const handleGetValue = (val) => {
+        setAllBulkEmailName(val)
+    }
     return (
         <>
             <div>
@@ -182,6 +186,7 @@ const TotalBonus = () => {
                         // searchQuery={searchQuery}
                         // setSearchQuery={setSearchQuery}
                         headerConfig={headerConfig}
+                        handleGetValue={handleGetValue}
                     />
                 </div>
                 {/* </div> */}

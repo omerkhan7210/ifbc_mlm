@@ -8,7 +8,7 @@ import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_COLLAPSIBLE_SIDE } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
 import LanguageSelector from '@/components/template/LanguageSelector'
-// import Notification from '@/components/template/Notification'
+import Notification from '@/components/template/Notification'
 import SidePanel from '@/components/template/SidePanel'
 
 const CollapsibleSide = ({ children }: CommonProps) => {
@@ -33,7 +33,7 @@ const CollapsibleSide = ({ children }: CommonProps) => {
                         headerEnd={
                             <>
                                 <LanguageSelector />
-                                {/* <Notification /> */}
+                                <Notification />
                                 <SidePanel />
                                 <UserProfileDropdown hoverable={false} />
                             </>

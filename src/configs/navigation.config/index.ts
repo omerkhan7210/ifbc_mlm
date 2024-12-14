@@ -14,6 +14,7 @@ import {
     REPORTS_PREFIX_PATH,
     SETTINGS_PREFIX_PATH,
     SIGNUP_PREFIX_PATH,
+    USER_MANAGeMENT_PREFIX_PATH,
     // TOOLS_PREFIX_PATH,
 } from '@/constants/route.constant'
 
@@ -79,30 +80,30 @@ const userManagementNavigation: NavigationTree[] = [
         authority: [],
         subMenu: [
             {
-                key: 'members',
-                path: `/userManagement/members`,
+                key: 'collapseMenu.members',
+                path: `${USER_MANAGeMENT_PREFIX_PATH}/members`,
                 title: 'Members',
-                translateKey: 'nav.members',
+                translateKey: 'nav.collapseMenu.members',
                 icon: 'members',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
                 subMenu: [],
             },
-            // {
-            //     key: 'teams',
-            //     path: '/teams',
-            //     title: 'Teams',
-            //     translateKey: 'nav.teams',
-            //     icon: 'teams',
-            //     type: NAV_ITEM_TYPE_ITEM,
-            //     authority: [],
-            //     subMenu: [],
-            // },
             {
-                key: 'register',
-                path: `${SIGNUP_PREFIX_PATH}/register`,
-                title: 'Register a Member',
+                key: 'collapseMenu.registeruser',
+                path: `${USER_MANAGeMENT_PREFIX_PATH}/registeruser`,
+                title: 'Register User',
                 translateKey: 'nav.register',
+                icon: 'register',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            {
+                key: 'collapseMenu.consultantregister',
+                path: `${USER_MANAGeMENT_PREFIX_PATH}/consultantregister`,
+                title: 'Register as Consultant',
+                translateKey: 'nav.consultantregister',
                 icon: 'register',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
@@ -292,6 +293,7 @@ const reportsNavigation: NavigationTree[] = [
     },
 ]
 
+<<<<<<< HEAD
 const settingsNavigation: NavigationTree[] = [
     {
         key: 'settings',
@@ -338,16 +340,16 @@ const settingsNavigation: NavigationTree[] = [
                 authority: [],
                 subMenu: [],
             },
-            // {
-            //     key: 'collapseMenu.contentmanagement',
-            //     path: `${SETTINGS_PREFIX_PATH}/content-management`,
-            //     title: ' Content Management ',
-            //     translateKey: 'nav.collapseMenu.contentmanagement',
-            //     icon: 'contentmanagement',
-            //     type: NAV_ITEM_TYPE_ITEM,
-            //     authority: [],
-            //     subMenu: [],
-            // },
+            {
+                key: 'collapseMenu.referrallink',
+                path: `${SETTINGS_PREFIX_PATH}/referral-link`,
+                title: 'All Referral Link',
+                translateKey: 'nav.collapseMenu.referrallink',
+                icon: 'contentmanagement',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
             // {
             //     key: 'collapseMenu.mailcontent',
             //     path: `${SETTINGS_PREFIX_PATH}/mail-content`,
@@ -361,6 +363,9 @@ const settingsNavigation: NavigationTree[] = [
         ],
     },
 ]
+=======
+
+>>>>>>> e8337e7eef5dc5e96623abcdea45da70e3ee0dd4
 
 const inquiriesNavigation: NavigationTree[] = [
     {
@@ -546,7 +551,6 @@ const navigationConfig: NavigationTree[] = [
     // ...profileManagementNavigation,
     ...reportsNavigation,
     ...toolsNavigation,
-    ...settingsNavigation,
 ]
 
 export default navigationConfig
