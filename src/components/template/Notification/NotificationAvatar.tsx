@@ -6,7 +6,7 @@ import {
     HiOutlineClipboardCheck,
     HiOutlineBan,
 } from 'react-icons/hi'
-
+import Profile from '../../../../public/images/logo/android-chrome-192x192.png'
 const imagePath = '/img/avatars/'
 
 const GeneratedAvatar = ({ target }: { target: string }) => {
@@ -30,7 +30,7 @@ const NotificationAvatar = (props: {
             if (image) {
                 return <Avatar shape="circle" src={`${imagePath}${image}`} />
             } else {
-                return <GeneratedAvatar target={target} />
+                return <Avatar shape="circle" src={Profile} />
             }
         case 1:
             return (

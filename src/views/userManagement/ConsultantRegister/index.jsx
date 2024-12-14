@@ -16,13 +16,24 @@ const ConsultantRegister = () => {
         email: '',
         phone: '',
         password: '',
-        userName: '',
+        confirmpassword: '',
+        userName: "",
+        street: "",
+        city: "",
+        postal: "",
+        state: "",
+        geographical: "",
+        employed: "",
+        presentations: "",
+        networking: "",
+        hearAbout: "",
+        // hearAboutSpecify: "",
         refferralId: user?.userId,
         userType: 'Consultant',
     });
+    // console.log(formFields, "formFields")
     const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    // const [selectedUser, setSelectedUser] = useState(null);
 
     // Fetch consultants data
     // const fetchConsultants = () => {
@@ -40,13 +51,23 @@ const ConsultantRegister = () => {
         const errors = {};
         if (!formFields.firstName) errors.firstName = "First Name is required";
         if (!formFields.lastName) errors.lastName = "Last Name is required";
-        if (!formFields.email) errors.email = "Email is required";
-        if (!formFields.phone) errors.phone = "Phone number is required";
-        if (!formFields.password) errors.password = "Password is required";
-        if (!formFields.userType) errors.userType = "User Type is required";
-        // if (!formFields?.refferralId) errors.refferralId = "Referral Name required";
-        if (!formFields.userName) errors.userName = "User Name is required";
-
+        // Validation for Required Fields
+        if (!formFields.firstName) errors.firstName = "First name is required. Please enter your first name.";
+        if (!formFields.lastName) errors.lastName = "Last name is required. Please enter your last name.";
+        if (!formFields.email) errors.email = "Email address is required. Please provide a valid email.";
+        if (!formFields.phone) errors.phone = "Phone number is required. Please enter your mobile number.";
+        if (!formFields.password) errors.password = "Password is required. Please create a strong password.";
+        if (!formFields.confirmpassword) errors.confirmpassword = "Confirmation password is required. Please re-enter your password.";
+        if (!formFields.city) errors.city = "City is required. Please provide your current city.";
+        if (!formFields.employed) errors.employed = "Employment status is required. Please select your employment status.";
+        if (!formFields.geographical) errors.geographical = "Geographical region is required. Please specify your region.";
+        if (!formFields.hearAbout) errors.hearAbout = "Please let us know how you heard about us.";
+        if (!formFields.hearAboutSpecify) errors.hearAboutSpecify = "Details about how you heard about us are required.";
+        if (!formFields.networking) errors.networking = "Networking information is required. Please provide relevant details.";
+        if (!formFields.postal) errors.postal = "Postal code is required. Please provide a valid postal code.";
+        if (!formFields.presentations) errors.presentations = "Presentation details are required. Please fill in the necessary details.";
+        if (!formFields.state) errors.state = "State is required. Please select your state.";
+        if (!formFields.street) errors.street = "Street address is required. Please provide your street name or address.";
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -54,26 +75,37 @@ const ConsultantRegister = () => {
     // Submit form data after validation
     const handleSubmitAfterValidation = () => {
         if (!validateForm()) return;
-
         setIsLoading(true);
-        const userUrl = `${BASE_API_URL}/users`;
+        // const userUrl = `${}/users`;
+
+        const userUrl = `${BASE_API_URL}/consultants`;
         const data = {
-            userId: user?.userId,
-            refferralId: user?.docId ?? 0,
-            refferralId: formFields?.refferralId,
+            userId: 0,
+            refferralId: user?.userId ?? 0,
             firstname: formFields?.firstName,
             lastname: formFields?.lastName,
             email: formFields?.email,
-            phone: formFields?.phone,
+            companyPhoneNumber: formFields?.phone,
             usertype: "C",
-            profileimage: formFields.profileimage ?? "",
-            coverimage: formFields.coverimage ?? "",
+            // profileimage: formFields.profileimage ?? "",
+            // coverimage: formFields.coverimage ?? "",
             isVerified: true,
             password: formFields?.password,
             gettingStartedStep: "1",
-            isApproved: false,
-            alreadyApproved: false,
-            username: formFields?.userName,
+            isApproved: true,
+            alreadyApproved: true,
+            username: formFields?.email?.split('@')[0] || "",
+            street: formFields?.street,
+            city: formFields?.city,
+            zipPostalCode: formFields?.postal,
+            states: formFields?.state,
+            geographical: formFields?.geographical,
+            employed: formFields?.employed,
+            presentations: formFields?.presentations,
+            networking: formFields?.networking,
+            hearAbout: formFields?.hearAbout,
+            isDeleted: false,
+            isArchived: false,
         };
 
         axios
@@ -83,6 +115,7 @@ const ConsultantRegister = () => {
                 },
             })
             .then((response) => {
+                console.log(response, "esponce")
                 toast.success("User added successfully!");
                 setFormFields({
                     mangerName: "",
@@ -91,8 +124,18 @@ const ConsultantRegister = () => {
                     email: '',
                     phone: '',
                     password: '',
+                    confirmpassword: '',
                     userName: '',
                     refferralId: '',
+                    street: "",
+                    city: "",
+                    postal: "",
+                    state: "",
+                    geographical: "",
+                    employed: "",
+                    presentations: "",
+                    networking: "",
+                    hearAbout: "",
                     // userType: "",
                 });
                 setIsLoading(false);

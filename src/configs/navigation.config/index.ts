@@ -92,7 +92,7 @@ const userManagementNavigation: NavigationTree[] = [
             {
                 key: 'collapseMenu.registeruser',
                 path: `${USER_MANAGeMENT_PREFIX_PATH}/registeruser`,
-                title: 'Register User',
+                title: 'Register a Ambassador',
                 translateKey: 'nav.register',
                 icon: 'register',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -102,7 +102,7 @@ const userManagementNavigation: NavigationTree[] = [
             {
                 key: 'collapseMenu.consultantregister',
                 path: `${USER_MANAGeMENT_PREFIX_PATH}/consultantregister`,
-                title: 'Register as Consultant',
+                title: 'Register a Consultant',
                 translateKey: 'nav.consultantregister',
                 icon: 'register',
                 type: NAV_ITEM_TYPE_ITEM,
