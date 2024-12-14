@@ -47,12 +47,13 @@ export const TopButtonsSection = ({
             />
             <div className="flex items-center justify-center w-full bg-[#001136] rounded-sm">
                 <button
-                    onClick={() =>
-                        setSwitchFormat(switchFormat === 'table' ? '' : 'table')
-                    }
+                    // onClick={() =>
+                    //     setSwitchFormat(switchFormat === 'table' ? '' : 'table')
+                    // }
                     className=" py-2 px-4 text-center text-sm w-full bg-custom-heading-color text-white rounded"
                 >
-                    {switchFormat == 'table' ? 'Hide Table' : 'Show Table'}
+                    {/* {switchFormat == 'table' ? 'Hide Table' : 'Show Table'} */}
+                    {'Show Table'}
                 </button>
             </div>
         </div>
