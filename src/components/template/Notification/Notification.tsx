@@ -29,6 +29,7 @@ type NotificationList = {
     message: string
     isRead: boolean
     recipient: string
+    formattedNotifications: string
 }
 
 const notificationHeight = 'h-[280px]'
@@ -102,7 +103,21 @@ const _Notification = ({ className }: { className?: string }) => {
     useEffect(() => {
         handleGetNotification()
     }, [])
-    console.log(notificationList, 'notificationList')
+
+    const formatDate = (isoDate) => {
+        const date = new Date(isoDate)
+        const options = { hour: '2-digit', minute: '2-digit', hour12: true }
+        const time = date.toLocaleTimeString('en-US', options)
+        const formattedDate = date
+            .toLocaleDateString('en-GB')
+            .replace(/\//g, '/')
+        return `${time} ${formattedDate}`
+    }
+
+    const formattedNotifications = notificationList.map((notification) => ({
+        ...notification,
+        formattedDate: formatDate(notification.createdAt),
+    }))
 
     const [unreadNotification, setUnreadNotification] = useState(false)
     const [noResult, setNoResult] = useState(false)
@@ -179,7 +194,7 @@ const _Notification = ({ className }: { className?: string }) => {
                     className={className}
                 />
             }
-            menuClass="min-w-[280px] md:min-w-[340px]"
+            menuClass="min-w-[280px] md:min-w-[400px]"
             placement={larger.md ? 'bottom-end' : 'bottom'}
             onOpen={onNotificationOpen}
         >
@@ -200,11 +215,11 @@ const _Notification = ({ className }: { className?: string }) => {
             <ScrollBar
                 className={classNames('overflow-y-auto', notificationHeight)}
             >
-                {notificationList.length > 0 &&
-                    notificationList.map((item, index) => (
+                {formattedNotifications.length > 0 &&
+                    formattedNotifications.map((item, index) => (
                         <div key={item.id}>
                             <div
-                                className={`relative rounded-xl flex px-4 py-3 cursor-pointer hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-gray-700`}
+                                className={`relative rounded-xl flex py-2 cursor-pointer hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-gray-700`}
                                 onClick={() => onMarkAsRead(item.id)}
                             >
                                 <div>{<NotificationAvatar {...item} />}</div>
@@ -221,6 +236,8 @@ const _Notification = ({ className }: { className?: string }) => {
                                         {item.message}
                                         <br></br>
                                         {item.notificationType}
+                                        <br></br>
+                                        <span className='flex justify-end'>{item.formattedDate}</span>
                                     </span>
                                 </div>
                                 <Badge
