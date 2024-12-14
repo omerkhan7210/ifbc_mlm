@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     useReactTable,
     getCoreRowModel,
@@ -28,6 +28,7 @@ type TreeViewItem = {
 
 type TreeViewTableProps = {
     data: TreeViewItem[]
+    handleGetValue: any
     // searchQuery: string
     // setSearchQuery: React.Dispatch<React.SetStateAction<string>>
     headerConfig: {
@@ -44,9 +45,19 @@ const columnHelper = createColumnHelper<TreeViewItem>()
 const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
     data,
     headerConfig,
+    handleGetValue,
 }) => {
     const [searchQuery, setSearchQuery] = useState('')
-
+    const [selectRowName, setSelectRowName] = useState<
+        {
+            docId: number
+            firstName: string
+            lastName: string
+        }[]
+    >([])
+    useEffect(() => {
+        handleGetValue(selectRowName)
+    }, [selectRowName])
     // Filter logic: Search across all fields
     const filteredData = data?.filter((item) => {
         const searchLower = searchQuery?.toLowerCase()
@@ -60,8 +71,56 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
             item.territoryState.toLowerCase().includes(searchLower)
         )
     })
+    const toggleRowSelection = (item: TreeViewItem) => {
+        setSelectRowName((prev) => {
+            const exist = prev.some((row) => row.docId === item?.docid)
+            return exist
+                ? prev.filter((row) => row.docId !== item?.docid)
+                : [
+                      ...prev,
+                      {
+                          docId: item?.docid,
+                          firstName: item?.firstName,
+                          lastName: item?.lastName,
+                      },
+                  ]
+        })
+    }
 
+    const toggleSelectAll = (isChecked: boolean) => {
+        setSelectRowName(
+            isChecked
+                ? filteredData.map((item) => ({
+                      docId: item?.docid,
+                      firstName: item?.firstName,
+                      lastName: item?.lastName,
+                  }))
+                : [],
+        )
+    }
     const columns = [
+        columnHelper.display({
+            id: 'select',
+            header: ({ table }) => (
+                <input
+                    type="checkbox"
+                    checked={
+                        selectRowName.length === filteredData.length &&
+                        filteredData.length > 0
+                    }
+                    onChange={(e) => toggleSelectAll(e.target.checked)}
+                />
+            ),
+            cell: (props) => (
+                <input
+                    type="checkbox"
+                    checked={selectRowName.some(
+                        (row) => row?.docId === props.row.original.docid,
+                    )}
+                    onChange={() => toggleRowSelection(props.row.original)}
+                />
+            ),
+        }),
         columnHelper.accessor('docid', {
             header: 'ID',
             cell: (props) => <span>{props.row.original.docid}</span>,

@@ -7,6 +7,8 @@ import { useAuth } from '@/auth'
 const DownlineMembers = () => {
     const { user } = useAuth()
     const [apiData, setApiData] = useState([])
+    const [allBulkEmailName, setAllBulkEmailName] = useState([])
+
     const handleData = () => {
         getData(`consultants/getconsultanthierarchy/${user?.userId}`)
             .then((data) => {
@@ -31,6 +33,9 @@ const DownlineMembers = () => {
         handleData()
     }, [])
 
+    const handleGetValue = (val) => {
+        setAllBulkEmailName(val)
+    }
     const headerConfig = {
         title: 'Downline Members',
         buttonText: 'View Details',
@@ -44,7 +49,11 @@ const DownlineMembers = () => {
     }
     return (
         <div>
-            <DownlineMembersTable data={apiData} headerConfig={headerConfig} />
+            <DownlineMembersTable
+                data={apiData}
+                headerConfig={headerConfig}
+                handleGetValue={handleGetValue}
+            />  
         </div>
     )
 }

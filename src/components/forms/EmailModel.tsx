@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 
-const EmailModel = ({ onClose }: { onClose: () => void }) => {
+const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
+    const [emailText, setEmailText] = useState<string>('')
+    const handleChange = (value: string) => {
+        setEmailText(value)
+    }
+    console.log(emailText, 'emailText')
     return (
         <div
             id="crud-modal"
@@ -43,16 +50,24 @@ const EmailModel = ({ onClose }: { onClose: () => void }) => {
                                 htmlFor="name"
                                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                             >
-                                To
+                                To All Selected Members
                             </label>
+
                             <input
                                 type="text"
                                 id="name"
+                                value={allBulkEmailName
+                                    ?.map(
+                                        (item) =>
+                                            `@${item.firstName} ${item.lastName}`,
+                                    )
+                                    .join(', ')}
+                                disabled={true}
                                 className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:text-white"
                                 placeholder="Enter Your email"
                             />
                         </div>
-                        <div className="col-span-2">
+                        {/* <div className="col-span-2">
                             <label
                                 htmlFor="price"
                                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
@@ -65,7 +80,7 @@ const EmailModel = ({ onClose }: { onClose: () => void }) => {
                                 className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:text-white"
                                 placeholder="Enter Email"
                             />
-                        </div>
+                        </div> */}
                         <div className="col-span-2">
                             <label
                                 htmlFor="description"
@@ -73,12 +88,26 @@ const EmailModel = ({ onClose }: { onClose: () => void }) => {
                             >
                                 Message
                             </label>
-                            <textarea
+                            {/* <textarea
                                 id="description"
                                 rows={6}
                                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Enter your Message"
-                            ></textarea>
+                            ></textarea> */}
+                            <div>
+                                <ReactQuill
+                                    theme="snow"
+                                    value={emailText}
+                                    onChange={handleChange}
+                                    placeholder="Write something here..."
+                                />
+                                <p>Editor Content:</p>
+                                {/* <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: emailText,
+                                    }}
+                                />{' '} */}
+                            </div>
                         </div>
                     </div>
                     <button

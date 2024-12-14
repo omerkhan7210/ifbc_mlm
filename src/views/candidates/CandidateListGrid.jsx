@@ -71,7 +71,7 @@ const CandidateListGrid = () => {
     }, [])
 
     const headerConfig = {
-        title: 'Downline Members',
+        title: 'Candidate List',
         buttonText: 'View Details',
         buttonAction: () => {
             console.log('Navigate to details')
@@ -515,16 +515,13 @@ const StepColumn = ({
 
     useEffect(() => {
         if (stepTrack === 'Closed Won') {
-            setShowConfettiComponent(true)
-            // onDropCandidate()
-            const timer = setTimeout(() => {
-                setShowConfettiComponent(false)
-            }, 10000)
-            return () => {
-                clearTimeout(timer)
-            }
+            setTimeout(() => {
+                setShowConfettiComponent(true);
+            }, 1000);
+            setShowConfettiComponent(false);
         }
-    }, [stepTrack, showConfettiComponent])
+    }, [stepTrack]);
+
 
     const totalFranchiseFee = candidates.reduce((total, cand) => {
         const fee = parseFloat(cand.franchiseFee.replace(/[$,]/g, '')) || 0;
@@ -573,18 +570,12 @@ const StepColumn = ({
                                 <button
                                     onClick={() => {
                                         if (droppedItem) {
-                                            onDropCandidate(
-                                                droppedItem?.cand,
-                                                step,
-                                            )
-                                            notifyUpdate(
-                                                droppedItem?.cand,
-                                                step,
-                                            )
-                                            setIsModalVisible(false)
-                                            setStepTrack(step)
+                                            onDropCandidate(droppedItem?.cand, step);
+                                            setStepTrack(step);
+                                            notifyUpdate(droppedItem?.cand, step);
+                                            setIsModalVisible(false);
                                         } else {
-                                            console.error('No item to confirm.')
+                                            console.error('No item to confirm.');
                                         }
                                     }}
                                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"

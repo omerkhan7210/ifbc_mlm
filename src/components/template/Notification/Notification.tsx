@@ -17,28 +17,93 @@ import {
 import isLastChild from '@/utils/isLastChild'
 import useResponsive from '@/utils/hooks/useResponsive'
 import { useNavigate } from 'react-router-dom'
-
+import Profile from '../../../../public/images/logo/android-chrome-192x192.png'
+import { getData } from '@/services/axios/axiosUtils'
 import type { DropdownRef } from '@/components/ui/Dropdown'
+import { useAuth } from '@/auth'
 
 type NotificationList = {
-    id: string
-    target: string
-    description: string
-    date: string
-    image: string
-    type: number
-    location: string
-    locationLabel: string
-    status: string
-    readed: boolean
+    id: number
+    title: string
+    notificationType: string
+    message: string
+    isRead: boolean
+    recipient: string
 }
 
 const notificationHeight = 'h-[280px]'
 
 const _Notification = ({ className }: { className?: string }) => {
+    const { user } = useAuth()
     const [notificationList, setNotificationList] = useState<
         NotificationList[]
-    >([])
+    >([
+        // {
+        //     id: 1,
+        //     target: 'User Profile',
+        //     description: 'Your profile information has been updated.',
+        //     message: 'Profile update successful.',
+        //     type: 'success',
+        //     timestamp: new Date(),
+        //     image: { Profile },
+        //     location: '/profile',
+        //     locationLabel: 'Go to Profile',
+        //     status: 'completed',
+        //     readed: false,
+        // },
+        // {
+        //     id: 2,
+        //     target: 'Data Sync',
+        //     description: 'There was an issue while syncing your data.',
+        //     message: 'Sync failed.',
+        //     type: 'error',
+        //     timestamp: new Date(),
+        //     image: { Profile },
+        //     location: '/settings',
+        //     locationLabel: 'Fix Sync',
+        //     status: 'failed',
+        //     readed: false,
+        // },
+        // {
+        //     id: 3,
+        //     target: 'Notification Center',
+        //     description: 'You have new notifications.',
+        //     message: 'New notifications are available.',
+        //     type: 'info',
+        //     timestamp: new Date(),
+        //     image: { Profile },
+        //     location: '/notifications',
+        //     locationLabel: 'View Notifications',
+        //     status: 'pending',
+        //     readed: true,
+        // },
+        // {
+        //     id: 4,
+        //     target: 'Notification Center',
+        //     description: 'You have new notifications.',
+        //     message: 'New notifications are available.',
+        //     type: 'info',
+        //     timestamp: new Date(),
+        //     image: { Profile },
+        //     location: '/notifications',
+        //     locationLabel: 'View Notifications',
+        //     status: 'pending',
+        //     readed: true,
+        // },
+    ])
+    const handleGetNotification = () => {
+        getData(`notifications/${user?.username}`)
+            .then((data) => {
+                console.log('User list:', data)
+                setNotificationList(data)
+            })
+            .catch((error) => console.error('Error fetching users:', error))
+    }
+    useEffect(() => {
+        handleGetNotification()
+    }, [])
+    console.log(notificationList, 'notificationList')
+
     const [unreadNotification, setUnreadNotification] = useState(false)
     const [noResult, setNoResult] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -98,12 +163,12 @@ const _Notification = ({ className }: { className?: string }) => {
 
     const notificationDropdownRef = useRef<DropdownRef>(null)
 
-    const handleViewAllActivity = () => {
-        navigate('/concepts/account/activity-log')
-        if (notificationDropdownRef.current) {
-            notificationDropdownRef.current.handleDropdownClose()
-        }
-    }
+    // const handleViewAllActivity = () => {
+    //     navigate('/concepts/account/activity-log')
+    //     if (notificationDropdownRef.current) {
+    //         notificationDropdownRef.current.handleDropdownClose()
+    //     }
+    // }
 
     return (
         <Dropdown
@@ -142,26 +207,29 @@ const _Notification = ({ className }: { className?: string }) => {
                                 className={`relative rounded-xl flex px-4 py-3 cursor-pointer hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-gray-700`}
                                 onClick={() => onMarkAsRead(item.id)}
                             >
-                                <div>
-                                    <NotificationAvatar {...item} />
-                                </div>
+                                <div>{<NotificationAvatar {...item} />}</div>
                                 <div className="mx-3">
                                     <div>
-                                        {item.target && (
-                                            <span className="font-semibold heading-text">
-                                                {item.target}{' '}
-                                            </span>
-                                        )}
-                                        <span>{item.description}</span>
+                                        {/* {item.target && ( */}
+                                        <span className="font-semibold heading-text">
+                                            {item.recipient} <br></br>
+                                        </span>
+                                        {/* )} */}
+                                        <span>{item.title}</span>
                                     </div>
-                                    <span className="text-xs">{item.date}</span>
+                                    <span className="text-xs">
+                                        {item.message}
+                                        <br></br>
+                                        {item.notificationType}
+                                    </span>
                                 </div>
                                 <Badge
                                     className="absolute top-4 ltr:right-4 rtl:left-4 mt-1.5"
-                                    innerClass={`${item.readed
+                                    innerClass={`${
+                                        item.isRead
                                             ? 'bg-gray-300 dark:bg-gray-600'
                                             : 'bg-primary'
-                                        } `}
+                                    } `}
                                 />
                             </div>
                             {!isLastChild(notificationList, index) ? (
@@ -200,7 +268,7 @@ const _Notification = ({ className }: { className?: string }) => {
                     </div>
                 )}
             </ScrollBar>
-            <Dropdown.Item variant="header">
+            {/* <Dropdown.Item variant="header">
                 <div className="pt-4">
                     <Button
                         block
@@ -210,7 +278,7 @@ const _Notification = ({ className }: { className?: string }) => {
                         View All Activity
                     </Button>
                 </div>
-            </Dropdown.Item>
+            </Dropdown.Item> */}
         </Dropdown>
     )
 }
