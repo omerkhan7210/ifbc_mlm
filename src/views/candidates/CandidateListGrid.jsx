@@ -16,6 +16,9 @@ import { getData } from '@/services/axios/axiosUtils'
 import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.tsx'
 import CandidateListSkeleton from '../../components/ui/CandidateListSkeleton.jsx'
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const containerVariants = {
     hidden: { opacity: 0, x: -100 },
     visible: { opacity: 1, x: 0 },
@@ -420,6 +423,7 @@ const CandidateListGrid = () => {
                 filteredCandidates={filteredCandidates}
             />
             {SwitchFormatHandler()}
+            <ToastContainer />
         </motion.div>
     )
 }
@@ -495,8 +499,14 @@ const StepColumn = ({
                 return
             }
             if (item?.cand?.pipelineStep !== step) {
-                setDroppedItem(item)
-                handleConfirmUserIsAddedOrNot()
+                if (item?.cand?.pipelineStep === 'Closed Won') {
+                    toast.error("Sorry, candidates in the 'Closed Won' step cannot be moved.");
+                    return;
+                } else {
+                    setDroppedItem(item);
+                    handleConfirmUserIsAddedOrNot();
+                }
+
             } else {
                 notifyUpdate(
                     'The candidate is already in this pipeline step. Please choose a different step.',
@@ -667,6 +677,7 @@ const DraggableCard = ({ cand, key, containerRef }) => {
     }))
 
     const handleDrag = (event) => {
+
         const container = containerRef.current
         if (!container) return
 
@@ -678,6 +689,7 @@ const DraggableCard = ({ cand, key, containerRef }) => {
         }
 
         // Scroll right if near the end
+
         if (window.innerWidth - clientX < 200) {
             container.scrollLeft += 10 // Adjust speed
         }
@@ -762,6 +774,7 @@ const DraggableCard = ({ cand, key, containerRef }) => {
                     {cand.pipelineStep}
                 </span>
             </div>
+
         </div>
     )
 }

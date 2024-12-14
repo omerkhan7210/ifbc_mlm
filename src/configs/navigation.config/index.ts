@@ -293,7 +293,6 @@ const reportsNavigation: NavigationTree[] = [
     },
 ]
 
-<<<<<<< HEAD
 const settingsNavigation: NavigationTree[] = [
     {
         key: 'settings',
@@ -363,9 +362,6 @@ const settingsNavigation: NavigationTree[] = [
         ],
     },
 ]
-=======
-
->>>>>>> e8337e7eef5dc5e96623abcdea45da70e3ee0dd4
 
 const inquiriesNavigation: NavigationTree[] = [
     {
