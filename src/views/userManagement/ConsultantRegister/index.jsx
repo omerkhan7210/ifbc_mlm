@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import AddUserInGraph from '../../../components/forms/AddUserInGraph';
-import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant'
+import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant';
 import axios from "axios";
 import toast from 'react-hot-toast';
-import { getData } from '@/services/axios/axiosUtils';
+import Loading from "../../../components/shared/Loading";
+import { getData, postData } from '@/services/axios/axiosUtils';
 import { useAuth } from '@/auth';
 
 const ConsultantRegister = () => {
     const { user } = useAuth();
+    // const [loader, setLoader] = useState(false);
 
     const [formFields, setFormFields] = useState({
         mangerName: user?.firstName || '',
@@ -17,69 +19,97 @@ const ConsultantRegister = () => {
         phone: '',
         password: '',
         confirmpassword: '',
-        userName: "",
-        street: "",
-        city: "",
-        postal: "",
-        state: "",
-        geographical: "",
-        employed: "",
-        presentations: "",
-        networking: "",
-        hearAbout: "",
-        // hearAboutSpecify: "",
+        userName: '',
+        street: '',
+        city: '',
+        postal: '',
+        state: '',
+        geographical: '',
+        employed: '',
+        presentations: '',
+        networking: '',
+        hearAbout: '',
+        hearAboutSpecify: "",
+        userType: "Consultants",
         refferralId: user?.userId,
-        userType: 'Consultant',
     });
-    // console.log(formFields, "formFields")
     const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
-    // Fetch consultants data
-    // const fetchConsultants = () => {
-    //     getData(`consultants/getconsultanthierarchy/${user?.userId}`)
-    //         .then((data) => setSelectedUser(data))
-    //         .catch((err) => console.log(err));
-    // };
-
-    // useEffect(() => {
-    //     fetchConsultants();
-    // }, []);
-
-    // Form validation
+    // Validation function
     const validateForm = () => {
         const errors = {};
-        if (!formFields.firstName) errors.firstName = "First Name is required";
-        if (!formFields.lastName) errors.lastName = "Last Name is required";
-        // Validation for Required Fields
-        if (!formFields.firstName) errors.firstName = "First name is required. Please enter your first name.";
-        if (!formFields.lastName) errors.lastName = "Last name is required. Please enter your last name.";
-        if (!formFields.email) errors.email = "Email address is required. Please provide a valid email.";
-        if (!formFields.phone) errors.phone = "Phone number is required. Please enter your mobile number.";
-        if (!formFields.password) errors.password = "Password is required. Please create a strong password.";
-        if (!formFields.confirmpassword) errors.confirmpassword = "Confirmation password is required. Please re-enter your password.";
-        if (!formFields.city) errors.city = "City is required. Please provide your current city.";
-        if (!formFields.employed) errors.employed = "Employment status is required. Please select your employment status.";
-        if (!formFields.geographical) errors.geographical = "Geographical region is required. Please specify your region.";
-        if (!formFields.hearAbout) errors.hearAbout = "Please let us know how you heard about us.";
-        if (!formFields.hearAboutSpecify) errors.hearAboutSpecify = "Details about how you heard about us are required.";
-        if (!formFields.networking) errors.networking = "Networking information is required. Please provide relevant details.";
-        if (!formFields.postal) errors.postal = "Postal code is required. Please provide a valid postal code.";
-        if (!formFields.presentations) errors.presentations = "Presentation details are required. Please fill in the necessary details.";
-        if (!formFields.state) errors.state = "State is required. Please select your state.";
-        if (!formFields.street) errors.street = "Street address is required. Please provide your street name or address.";
+
+        if (!formFields.mangerName.trim()) errors.mangerName = "Manager Name is required.";
+        if (!formFields.firstName.trim()) errors.firstName = "First Name is required.";
+        if (!formFields.lastName.trim()) errors.lastName = "Last Name is required.";
+        if (!formFields.email.trim()) {
+            errors.email = "Email is required.";
+        } else if (!/\S+@\S+\.\S+/.test(formFields.email)) {
+            errors.email = "Invalid email address.";
+        }
+        if (!formFields.phone.trim()) {
+            errors.phone = "Phone number is required.";
+        } else if (!/^\d{10,15}$/.test(formFields.phone)) {
+            errors.phone = "Invalid phone number.";
+        }
+        if (!formFields.password.trim()) {
+            errors.password = "Password is required.";
+        } else if (formFields.password.length < 6) {
+            errors.password = "Password must be at least 6 characters long.";
+        }
+        if (!formFields.confirmpassword.trim()) {
+            errors.confirmpassword = "Confirm Password is required.";
+        } else if (formFields.password !== formFields.confirmpassword) {
+            errors.confirmpassword = "Passwords do not match.";
+        }
+        if (!formFields.street.trim()) errors.street = "Street address is required.";
+        if (!formFields.city.trim()) errors.city = "City is required.";
+        if (!formFields.postal.trim()) {
+            errors.postal = "Postal Code is required.";
+        } else if (!/^\d{4,10}$/.test(formFields.postal)) {
+            errors.postal = "Invalid Postal Code.";
+        }
+        if (!formFields.state.trim()) errors.state = "State/Region is required.";
+        if (!formFields.geographical.trim()) errors.geographical = "Geographical area is required.";
+        if (!formFields.employed.trim()) errors.employed = "Employment status is required.";
+        if (!formFields.presentations.trim()) errors.presentations = "Comfort level with presentations is required.";
+        if (!formFields.networking.trim()) errors.networking = "Networking comfort level is required.";
+        if (!formFields.hearAbout.trim()) errors.hearAbout = "Source of information is required.";
+
+
         setFormErrors(errors);
-        return Object.keys(errors).length === 0;
+        return Object.keys(errors).length === 0; // Return true if no errors
     };
+
+    const notifyUpdate = (formErrors) => {
+        const firstName = capitalizeFirstLetter(formErrors) // Capitalize
+        toast.success(
+            `${formErrors} Please Fill form properly`,
+            {
+                style: {
+                    backgroundColor: 'white', // Custom background color
+                    color: 'rgba(0,0,0,0.8)', // Text color
+                    fontFamily: 'Arial, sans-serif',
+                    fontSize: '12px',
+                    borderRadius: '8px',
+                    padding: '10px',
+                },
+                icon: '🎉', // Add an icon
+            },
+        )
+    }
 
     // Submit form data after validation
     const handleSubmitAfterValidation = () => {
-        if (!validateForm()) return;
-        setIsLoading(true);
-        // const userUrl = `${}/users`;
+        if (!validateForm()) {
+            // toast.error("Some fields are missing!");
+            notifyUpdate()
+            // alert("Some fields are missing! Please Fill form properly");
+        }
 
-        const userUrl = `${BASE_API_URL}/consultants`;
-        const data = {
+        setIsLoading(true);
+        const newUser = {
             userId: 0,
             refferralId: user?.userId ?? 0,
             firstname: formFields?.firstName,
@@ -87,8 +117,6 @@ const ConsultantRegister = () => {
             email: formFields?.email,
             companyPhoneNumber: formFields?.phone,
             usertype: "C",
-            // profileimage: formFields.profileimage ?? "",
-            // coverimage: formFields.coverimage ?? "",
             isVerified: true,
             password: formFields?.password,
             gettingStartedStep: "1",
@@ -104,19 +132,15 @@ const ConsultantRegister = () => {
             presentations: formFields?.presentations,
             networking: formFields?.networking,
             hearAbout: formFields?.hearAbout,
+            hearAboutSpecify: formFields?.hearAboutSpecify || "",
             isDeleted: false,
             isArchived: false,
         };
-
-        axios
-            .post(userUrl, data, {
-                headers: {
-                    "X-App-Token": HEADER_TOKEN,
-                },
-            })
+        console.log(newUser, "newUser");
+        postData('consultants', newUser)
             .then((response) => {
-                console.log(response, "esponce")
-                toast.success("User added successfully!");
+                console.log('User added:', response);
+                toast.success("User registered successfully!");
                 setFormFields({
                     mangerName: "",
                     firstName: '',
@@ -136,13 +160,13 @@ const ConsultantRegister = () => {
                     presentations: "",
                     networking: "",
                     hearAbout: "",
-                    // userType: "",
+                    hearAboutSpecify: "",
                 });
                 setIsLoading(false);
             })
             .catch((error) => {
-                console.error("Error:", error);
-                toast.error("Something went wrong!");
+                console.error('Error adding user:', error);
+                toast.error("Failed to register user. Please try again.");
                 setIsLoading(false);
             });
     };
@@ -153,10 +177,9 @@ const ConsultantRegister = () => {
                 formFields={formFields}
                 setFormFields={setFormFields}
                 formErrors={formErrors}
-                validateForm={validateForm}
-                handleSubmit={handleSubmitAfterValidation}
-                // selectedUser={selectedUser}
+                handleSubmitAfterValidation={handleSubmitAfterValidation}
                 isLoading={isLoading}
+            // loader={loader}
             />
         </div>
     );
