@@ -550,6 +550,7 @@ const navigationConfig: NavigationTree[] = [
         authority: [],
         subMenu: [],
     },
+
     ...dealsNavigation,
     ...inquiriesNavigation,
     ...networksNavigation,

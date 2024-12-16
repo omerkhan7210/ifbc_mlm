@@ -17,6 +17,12 @@ export const protectedRoutes: Routes = [
         component: lazy(() => import('@/views/EcommerceDashboard')),
         authority: [],
     },
+    {
+        key: 'activity-log',
+        path: '/activity-log/:id',
+        component: lazy(() => import('@/views/activityLog/ActivityLogPage')),
+        authority: [],
+    },
 
     {
         key: 'cadidates',
