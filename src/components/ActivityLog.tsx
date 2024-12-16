@@ -49,10 +49,11 @@ interface Candidates {
 }
 
 interface ActivityLogProps {
-    activities: Activity[]
+    activities?: Activity[]
+    id: string
 }
 
-const ActivityLog: React.FC<ActivityLogProps> = () => {
+const ActivityLog: React.FC<ActivityLogProps> = ({ id }) => {
     const [activities, setActivities] = useState<Activity[]>([])
     const [candidates, setCandidates] = useState<Candidates[]>([])
     const { user } = useAuth()
@@ -102,18 +103,10 @@ const ActivityLog: React.FC<ActivityLogProps> = () => {
             pipelineStep: candidate.pipelineStep,
         }))
 
-        console.log('candidates from activities', candidates)
         setCandidates(candidates)
     }
 
-    const handleGetAllUserActivitylog = async (candidateId: number) => {
-        const responseData = await getData(
-            `activitylogcandidate/candidate/${candidateId}`,
-        )
-        const logs = responseData.logs
-        console.log('logs from activities', logs.reverse())
-        setActivities(logs)
-    }
+
 
     useEffect(() => {
         handleGetCandidates()
@@ -124,6 +117,25 @@ const ActivityLog: React.FC<ActivityLogProps> = () => {
             handleGetAllUserActivitylog(selectedCand.docid)
         }
     }, [selectedCand])
+
+    const handleGetAllUserActivitylog = async (candidateId: number) => {
+        const responseData = await getData(
+            `activitylogcandidate/candidate/${candidateId}`,
+        )
+        const logs = responseData.logs.reverse()
+        setActivities([...logs])
+    }
+
+    console.log('activities', activities)
+
+
+    useEffect(() => {
+        handleGetAllUserActivitylog(parseInt(id))
+        const selectedCandidate = candidates.find(
+            (candidate) => candidate.docid === parseInt(id),
+        )
+        setSelectedCand(selectedCandidate)
+    }, [id])
 
     // Map event types to icons
     const getEventIcon = (eventType) => {
@@ -145,7 +157,7 @@ const ActivityLog: React.FC<ActivityLogProps> = () => {
 
     return (
         <div className="max-w-[700px] mx-auto p-4">
-            <div className="mt-4">
+            {/* <div className="mt-4">
                 <label
                     htmlFor="candidateSelect"
                     className="block text-sm font-medium text-gray-700"
@@ -171,15 +183,17 @@ const ActivityLog: React.FC<ActivityLogProps> = () => {
                         </option>
                     ))}
                 </select>
-            </div>
+            </div> */}
             <Timeline>
-                {activities.map((activity, index) => {
+                {(activities && activities.length > 0) ? activities.map((activity, index) => {
                     return (
                         <Timeline.Item
                             key={index}
                             media={
                                 <div className="bg-gray-200 rounded-full overflow-hidden w-10 h-10 flex items-center justify-center">
-                                    {getEventIcon(activity.log.actionType)}
+                                    <span className="text-gray-600">
+                                        {getEventIcon(activity.log.actionType)}
+                                    </span>
                                 </div>
                             }
                         >
@@ -192,14 +206,14 @@ const ActivityLog: React.FC<ActivityLogProps> = () => {
                                         className="mr-2"
                                     />
 
-                                    <span className="text-lg font-semibold text-gray-900">
+                                    <span className="text-base font-semibold text-gray-900">
                                         {activity?.user?.firstName}{' '}
                                         {activity?.user?.lastName}
                                     </span>
                                     {user?.firstName + ' ' + user?.lastName && (
                                         <span className="ml-2 text-gray-600">
                                             with{' '}
-                                            <span className="font-semibold">
+                                            <span className="font-semibold text-base capitalize text-gray-800">
                                                 {selectedCand?.firstName}{' '}
                                                 {selectedCand?.lastName}
                                             </span>
@@ -213,11 +227,17 @@ const ActivityLog: React.FC<ActivityLogProps> = () => {
                                 </div>
                                 <div className="text-sm text-gray-600 mb-2">
                                     <strong>Franchise: </strong>
-                                    {'Franchise Name'}
+                                    {activity?.listings?.[0]?.name}
                                 </div>
-                                <p className="text-gray-700">
-                                    {activity.log.description}
-                                </p>
+                                <div
+                                    className="text-gray-700"
+                                    dangerouslySetInnerHTML={{
+                                        __html: activity.log.description.replace(
+                                            /(\r\n|\n|\r)/gm,
+                                            ' ',
+                                        ).replace(/\s\s+/g, ' ').replace(/,/g, ''),
+                                    }}
+                                />
                                 {/* {activity.details.additionalInfo && (
                             <Card className="mt-3 p-2 bg-gray-50 border border-gray-200 text-gray-600 text-sm">
                                 {activity.details.additionalInfo}
@@ -229,7 +249,7 @@ const ActivityLog: React.FC<ActivityLogProps> = () => {
                             </div>
                         </Timeline.Item>
                     )
-                })}
+                }) : <h5></h5>}
             </Timeline>
         </div>
     )

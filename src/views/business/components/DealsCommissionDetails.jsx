@@ -26,7 +26,8 @@ export default function DealsCommissionDetails() {
     const [dataObj, setDataObj] = useState(null)
     const [openModal, setOpenModal] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
-    const [itemsPerPage, setItemsPerPage] = useState(6)
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+    const [type, setType] = useState('');
 
     useEffect(() => {
         setIsLoading(true);
@@ -39,7 +40,7 @@ export default function DealsCommissionDetails() {
         });
     }, [user]);
 
-    console.log({ data })
+
 
     const [totalAmount, setTotalAmount] = useState(0);
     const [itemCount, setItemCount] = useState(0);
@@ -56,6 +57,7 @@ export default function DealsCommissionDetails() {
     }, [data]);
 
     const handleSearch = () => {
+
         const query = searchQuery.toLowerCase()
         const filtered = data?.filter((item) => {
             const date = formatDateCustom(item?.commissionDate)?.toLowerCase();
@@ -64,8 +66,10 @@ export default function DealsCommissionDetails() {
             const phone = item?.candidateDetails?.phone?.toLowerCase();
             const listingName = item?.listingDetails?.name?.toLowerCase();
             const category = item?.listingDetails?.category?.toLowerCase();
-            const amount = item?.amount?.toLocaleString('eng-US',).toLowerCase();
-            const amountSimple = toString(item?.amount)?.toLowerCase();
+            const amount = item?.amount?.toLocaleString('en-US').toLowerCase();
+            const amountSimple = item?.amount?.toString().toLowerCase();
+
+            console.log('in handle Search', type, item.commissionType?.toLowerCase() === type.toLowerCase(), item.commissionType?.toLowerCase(), type.toLowerCase())
             return (
                 date.includes(query) ||
                 name.includes(query) ||
@@ -83,12 +87,21 @@ export default function DealsCommissionDetails() {
 
     useEffect(() => {
         handleSearch()
-    }, [searchQuery, data])
+    }, [searchQuery, data, type])
+
+    useEffect(() => {
+        if (type === '') return
+        const filtered = data?.filter((item) => {
+            return item.commissionType?.toLowerCase() === type.toLowerCase()
+        })
+        setFilteredData(filtered)
+    }, [type, data])
 
     const handleItemsPerPageChange = (e) => {
         setItemsPerPage(Number(e.target.value))
     }
 
+    console.log(type)
 
 
     return (
@@ -108,6 +121,9 @@ export default function DealsCommissionDetails() {
                     itemsPerPage={itemsPerPage}
                     handleItemsPerPageChange={handleItemsPerPageChange}
                     noOfItems={filteredData?.length}
+                    type={type}
+                    setType={setType}
+                    showType={true}
                 />
 
                 {/* Paginated Data */}
@@ -136,9 +152,14 @@ export default function DealsCommissionDetails() {
                                     >
                                         <div className='text-xs xl:text-sm' >
                                             <div className="flex justify-between items-center mb-3">
-                                                <h6 className="text-gray-900 font-bold capitalize">
-                                                    {e?.candidateDetails?.firstName}{' '}{e?.candidateDetails?.lastName}
-                                                </h6>
+                                                <div className='flex gap-2 items-center' >
+                                                    <h6 className="text-gray-900 font-bold capitalize">
+                                                        {e?.candidateDetails?.firstName}{' '}{e?.candidateDetails?.lastName}
+                                                    </h6>
+                                                    <div className="bg-blue-100 text-blue-700 px-2 py-1 font-bold text-xs rounded">
+                                                        {e?.commissionType === 'Direct' ? 'Direct' : 'Team'}
+                                                    </div>
+                                                </div>
                                                 <div className="bg-green-100 text-green-700 px-2 py-1 font-bold">
                                                     $ {e?.amount?.toLocaleString('eng-US',)}
                                                 </div>
