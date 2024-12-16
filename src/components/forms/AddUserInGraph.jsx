@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BiHide } from "react-icons/bi";
 import { GrFormView } from "react-icons/gr";
 import Loading from "../../components/shared/Loading";
@@ -12,8 +12,8 @@ const AddUserInGraph = ({
     formFields,
     setFormFields,
     formErrors,
-    handleSubmit,
-    isLoading
+    handleSubmitAfterValidation,
+    loader
 }) => {
     const [showPassword, setShowPassword] = useState({
         password: false,
@@ -33,13 +33,13 @@ const AddUserInGraph = ({
 
     return (
         <>
-            {isLoading && (
-                <div className="max-w-4xl mx-auto font-[sans-serif] absolute top-[5%] left-[5%] right-[5%] p-[20px] z-10 bg-white">
-                    <Loading loading={isLoading} />
+            {loader && (
+                <div className="max-w-4xl mx-auto  absolute top-[5%] left-[5%] right-[5%] p-[20px] z-10 bg-white">
+                    <Loading loading={loader} />
                 </div>
             )}
 
-            <div className="w-auto rounded-lg mx-auto font-[sans-serif] p-[20px] bg-white shadow-2xl overflow-auto">
+            <div className="w-auto rounded-lg mx-auto p-[20px] bg-white shadow-2xl overflow-auto">
                 <div className="text-center mb-8 flex">
                     <a href="javascript:void(0)">
                         <img
@@ -117,7 +117,7 @@ const AddUserInGraph = ({
                             >
                                 {showPassword?.confirmpassword ? <BiHide size={20} /> : <GrFormView size={30} />}
                             </span>
-                            {formErrors.password && <p className="text-red-500 text-xs">{formErrors?.password}</p>}
+                            {formErrors.confirmpassword && <p className="text-red-500 text-xs">{formErrors?.confirmpassword}</p>}
                         </div>
 
                         <div>
@@ -141,150 +141,189 @@ const AddUserInGraph = ({
                             )}
                         </div>
 
-
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">State/Region</label>
-                            <select
-                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                                value={formFields.state || selectedState}
-                                onChange={handleStateChange}
-                            >
-                                <option value="" disabled>Select State</option>
-                                {
-                                    states?.map((item) => (
-                                        <option key={item.value} value={item.value}>
-                                            {item.text}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                            {formErrors.state && <p className="text-red-500 text-xs">{formErrors?.state}</p>}
-                        </div>
-
-
-
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">City</label>
-                            <select
-                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                                // value={formFields.city}
-                                // onChange={(e) => setFormFields({ ...formFields, city: e.target.value })}
-                                value={formFields.city}
-                                onChange={(e) => setFormFields({ ...formFields, city: e.target.value })}
-                            >
-                                <option value="" disabled>Select City</option>
-                                {
-                                    cities?.map((city, index) => (
-                                        <option key={index} value={city}>{city}</option>
-                                    ))
-                                }
-                            </select>
-
-                            {formErrors.city && <p className="text-red-500 text-xs">{formErrors?.city}</p>}
-                        </div>
-
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Postal Code</label>
-                            <input
-                                type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
-                                value={formFields.postal}
-                                onChange={(e) => setFormFields({ ...formFields, postal: e.target.value })}
-                            />
-                            {formErrors.postal && <p className="text-red-500 text-xs">{formErrors?.postal}</p>}
-                        </div>
+                        {
+                            formFields?.userType === "Consultants" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">State/Region</label>
+                                <select
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    value={formFields.state || selectedState}
+                                    onChange={handleStateChange}
+                                >
+                                    <option value="" disabled>Select State</option>
+                                    {
+                                        states?.map((item) => (
+                                            <option key={item.value} value={item.value}>
+                                                {item.text}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                                {formErrors.state && <p className="text-red-500 text-xs">{formErrors?.state}</p>}
+                            </div>
+                        }
 
 
 
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Street Address</label>
-                            <input
-                                type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
-                                value={formFields.street}
-                                onChange={(e) => setFormFields({ ...formFields, street: e.target.value })}
-                            />
-                            {formErrors.street && <p className="text-red-500 text-xs">{formErrors?.street}</p>}
-                        </div>
+                        {
+                            formFields?.userType === "Consultants" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">City</label>
+                                <select
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    // value={formFields.city}
+                                    // onChange={(e) => setFormFields({ ...formFields, city: e.target.value })}
+                                    value={formFields.city}
+                                    onChange={(e) => setFormFields({ ...formFields, city: e.target.value })}
+                                >
+                                    <option value="" disabled>Select City</option>
+                                    {
+                                        cities?.map((city, index) => (
+                                            <option key={index} value={city}>{city}</option>
+                                        ))
+                                    }
+                                </select>
 
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">What geographical area are you interested in?</label>
-                            <input
-                                type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
-                                value={formFields.geographical}
-                                onChange={(e) => setFormFields({ ...formFields, geographical: e.target.value })}
-                            />
-                            {formErrors.geographical && <p className="text-red-500 text-xs">{formErrors?.geographical}</p>}
-                        </div>
+                                {formErrors.city && <p className="text-red-500 text-xs">{formErrors?.city}</p>}
+                            </div>
+                        }
+
+                        {
+                            formFields?.userType === "Consultants" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Postal Code</label>
+                                <input
+                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                    value={formFields.postal}
+                                    onChange={(e) => setFormFields({ ...formFields, postal: e.target.value })}
+                                />
+                                {formErrors.postal && <p className="text-red-500 text-xs">{formErrors?.postal}</p>}
+                            </div>
+                        }
+
+                        {
+                            formFields?.userType === "Consultants" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Street Address</label>
+                                <input
+                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                    value={formFields.street}
+                                    onChange={(e) => setFormFields({ ...formFields, street: e.target.value })}
+                                />
+                                {formErrors.street && <p className="text-red-500 text-xs">{formErrors?.street}</p>}
+                            </div>
+                        }
+
+                        {
+                            formFields?.userType === "Consultants" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">What geographical area are you interested in?</label>
+                                <input
+                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                    value={formFields.geographical}
+                                    onChange={(e) => setFormFields({ ...formFields, geographical: e.target.value })}
+                                />
+                                {formErrors.geographical && <p className="text-red-500 text-xs">{formErrors?.geographical}</p>}
+                            </div>
+                        }
+
+                        {
+                            formFields?.userType === "Consultants" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Are you currently employed?</label>
+                                <select
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    value={formFields.employed}
+                                    onChange={(e) => setFormFields({ ...formFields, employed: e.target.value })}
+                                >
+                                    <option value="" disabled>Select One</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                {formErrors.employed && <p className="text-red-500 text-xs">{formErrors?.employed}</p>}
+                            </div>
+                        }
+
+                        {
+                            formFields?.userType === "Consultants" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Comfortable Giving Presentations?</label>
+                                <select
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    value={formFields.presentations}
+                                    onChange={(e) => setFormFields({ ...formFields, presentations: e.target.value })}
+                                >
+                                    <option value="" disabled>Select One</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                {formErrors.presentations && <p className="text-red-500 text-xs">{formErrors?.presentations}</p>}
+                            </div>
+                        }
 
 
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Are you currently employed?</label>
-                            <select
-                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                                value={formFields.employed}
-                                onChange={(e) => setFormFields({ ...formFields, employed: e.target.value })}
-                            >
-                                <option value="" disabled>Select One</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                            {formErrors.employed && <p className="text-red-500 text-xs">{formErrors?.employed}</p>}
-                        </div>
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Comfortable Giving Presentations?</label>
-                            <select
-                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                                value={formFields.presentations}
-                                onChange={(e) => setFormFields({ ...formFields, presentations: e.target.value })}
-                            >
-                                <option value="" disabled>Select One</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                            {formErrors.presentations && <p className="text-red-500 text-xs">{formErrors?.presentations}</p>}
-                        </div>
+                        {
+                            formFields?.userType === "Consultants" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Comfortable networking</label>
+                                <select
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    value={formFields.networking}
+                                    onChange={(e) => setFormFields({ ...formFields, networking: e.target.value })}
+                                >
+                                    <option value="" disabled>Select One</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                {formErrors.networking && <p className="text-red-500 text-xs">{formErrors?.networking}</p>}
+                            </div>
+                        }
 
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Comfortable networking</label>
-                            <select
-                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                                value={formFields.networking}
-                                onChange={(e) => setFormFields({ ...formFields, networking: e.target.value })}
-                            >
-                                <option value="" disabled>Select One</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                            {formErrors.networking && <p className="text-red-500 text-xs">{formErrors?.networking}</p>}
-                        </div>
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">How did you hear about us?</label>
-                            <select
-                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                                value={formFields.hearAbout}
-                                onChange={(e) => setFormFields({ ...formFields, hearAbout: e.target.value })}
-                            >
-                                <option value="" disabled>Select Cities</option>
-                                <option value="Search Engine">Search Engine</option>
-                                <option value="Social (Facebook, Instagram, linkdin, etc)">Social(Facebook, Instagram, linkdin, etc)</option>
-                                <option value="Billboard">Billboard</option>
-                                <option value="Youtube">Youtube</option>
-                                <option value="TV">TV</option>
-                                <option value="Radio(AM/FM/XM)">Radio(AM/FM/XM)</option>
-                                <option value="In The Mail">In The Mail</option>
-                                <option value="Podcast">Podcast</option>
-                                <option value="Streaming Audio (Pandora, Spotify, etc)">Streaming Audio (Pandora, Spotify, etc)</option>
-                                <option value="Outher">Outher</option>
-                            </select>
-                            {formErrors.hearAbout && <p className="text-red-500 text-xs">{formErrors?.hearAbout}</p>}
-                        </div>
+                        {
+                            formFields?.userType === "Consultants" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">How did you hear about us?</label>
+                                <select
+                                    className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    value={formFields.hearAbout}
+                                    onChange={(e) => setFormFields({ ...formFields, hearAbout: e.target.value })}
+                                >
+                                    <option value="" disabled>Select Any One Option</option>
+                                    <option value="Search Engine">Search Engine</option>
+                                    <option value="Social (Facebook, Instagram, linkdin, etc)">Social(Facebook, Instagram, linkdin, etc)</option>
+                                    <option value="Billboard">Billboard</option>
+                                    <option value="Youtube">Youtube</option>
+                                    <option value="TV">TV</option>
+                                    <option value="Radio(AM/FM/XM)">Radio(AM/FM/XM)</option>
+                                    <option value="In The Mail">In The Mail</option>
+                                    <option value="Podcast">Podcast</option>
+                                    <option value="Streaming Audio (Pandora, Spotify, etc)">Streaming Audio (Pandora, Spotify, etc)</option>
+                                    <option value="Outher">Outher</option>
+                                </select>
+                                {formErrors.hearAbout && <p className="text-red-500 text-xs">{formErrors?.hearAbout}</p>}
+                            </div>
+                        }
+
+                        {
+                            formFields?.hearAbout === "Outher" &&
+                            <div>
+                                <label className="text-gray-800 text-sm mb-2 block">Hear About specify</label>
+                                <input type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter email"
+                                    value={formFields.hearAboutSpecify}
+                                    onChange={(e) => setFormFields({ ...formFields, hearAboutSpecify: e.target.value })} />
+                                {formErrors.hearAboutSpecify && <p className="text-red-500 text-xs">{formErrors?.hearAboutSpecify}</p>}
+                            </div>
+                        }
+
+
                     </div>
 
                     <div className="!mt-12">
                         <button type="button"
-                            // onClick={handleSendOtp}
-                            onClick={handleSubmit}
+                            onClick={() => handleSubmitAfterValidation()}
+                            // onClick={() => handleSubmitAfterValidation()}
 
-                            className="py-2.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                            className="py-2.5 px-7 text-sm tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
                             Register Member
                         </button>
                     </div>
