@@ -11,30 +11,25 @@ export const TopButtonsSection = ({
     setShowTable,
     showTable,
 }) => {
+    const buttonClass =
+        'flex items-center justify-center w-full bg-[#001136] rounded-sm py-2 px-4 text-sm bg-custom-heading-color text-white '
     return (
         <div className="grid p-3 max-md:grid-cols-1 md:grid-cols-5 left-0 gap-2 z-20">
-            <div className="flex items-center justify-center w-full bg-[#001136] rounded-sm">
-                <button
-                    onClick={handle.enter}
-                    className=" py-2 px-4 text-sm  w-full bg-custom-heading-color text-white rounded"
-                >
-                    Enter Full Screen
-                </button>
-            </div>
-            <div className="flex items-center justify-center w-full bg-[#001136] rounded-sm">
-                <button
-                    onClick={() =>
-                        setSwitchFormat(
-                            switchFormat === 'graph' ? 'grid' : 'graph',
-                        )
-                    }
-                    className=" py-2 px-4 text-sm  w-full bg-custom-heading-color text-white rounded"
-                >
-                    {switchFormat === 'graph'
-                        ? 'Switch to Grid'
-                        : 'Switch to Graph'}
-                </button>
-            </div>{' '}
+            <button onClick={handle.enter} className={buttonClass}>
+                Enter Full Screen
+            </button>
+
+            <button
+                onClick={() =>
+                    setSwitchFormat(switchFormat === 'graph' ? 'grid' : 'graph')
+                }
+                className={buttonClass}
+            >
+                {switchFormat === 'graph'
+                    ? 'Switch to Grid'
+                    : 'Switch to Graph'}
+            </button>
+
             <ExportButtons
                 candidates={filteredCandidates}
                 switchFormat={switchFormat}
@@ -42,20 +37,8 @@ export const TopButtonsSection = ({
             <Select
                 isMulti
                 options={stepOptions}
-                // className="z-99999999999"
                 onChange={handleStepFilterChange}
             />
-            {/* <div className="flex items-center justify-center w-full bg-[#001136] rounded-sm">
-                <button
-                    onClick={() =>
-                        setSwitchFormat(switchFormat === 'table' ? '' : 'table')
-                    }
-                    className=" py-2 px-4 text-center text-sm w-full bg-custom-heading-color text-white rounded"
-                >
-                    {switchFormat == 'table' ? 'Hide Table' : 'Show Table'}
-                    {'Show Table'}
-                </button>
-            </div> */}
         </div>
     )
 }
