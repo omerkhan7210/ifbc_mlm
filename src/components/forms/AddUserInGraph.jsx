@@ -29,6 +29,7 @@ const AddUserInGraph = ({
     };
 
     const cities = selectedState ? citiesByState[selectedState] || [] : [];
+    console.log(formFields?.userType, "formFields?.userType")
 
 
     return (
@@ -39,28 +40,33 @@ const AddUserInGraph = ({
                 </div>
             )}
 
-            <div className="w-auto rounded-lg mx-auto p-[20px] bg-white shadow-2xl overflow-auto">
-                <div className="text-center mb-8 flex">
+            <div className="w-auto rounded-lg mx-auto p-[10px] md:p-[20px] bg-white shadow-2xl overflow-auto">
+                <div className="text-center mb-3 md:mb-6 flex">
                     <a href="javascript:void(0)">
                         <img
-                            src="/images/logo/IFBC 1.png" alt="logo" className="w-[30%] inline-block" />
+                            src="/images/logo/IFBC 1.png" alt="logo" className="w-[90%] md:w-[40%] inline-block" />
                     </a>
                 </div>
+
+
+                <h4 className='text-center mb-3 text-[16px] md:mb-6 md:text-xl flex justify-center items-center text-[#1E93EB]'>🌟Welcome to the {formFields?.userType} Portal🌟</h4>
+
                 <form>
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
                         {/* Input fields for form */}
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">Manager Name</label>
                             <input
-                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
+                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Manager Name"
                                 value={formFields?.mangerName}
+                                disabled={true}
                                 onChange={(e) => setFormFields({ ...formFields, mangerName: e.target.value })}
                             />
                         </div>
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">First Name</label>
                             <input
-                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
+                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter First Name"
                                 value={formFields.firstName}
                                 onChange={(e) => setFormFields({ ...formFields, firstName: e.target.value })}
                             />
@@ -85,7 +91,7 @@ const AddUserInGraph = ({
 
                         <div className='relative'>
                             <label className="text-gray-800 text-sm mb-2 block">Password</label>
-                            <input type={showPassword?.password ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password relative"
+                            <input type={showPassword?.password ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter your password"
                                 value={formFields.password}
                                 onChange={(e) => setFormFields({ ...formFields, password: e.target.value })
                                 }
@@ -103,7 +109,7 @@ const AddUserInGraph = ({
                         </div>
                         <div className='relative'>
                             <label className="text-gray-800 text-sm mb-2 block">Confirm password</label>
-                            <input type={showPassword?.confirmpassword ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password relative"
+                            <input type={showPassword?.confirmpassword ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter your Confirmpassword"
                                 value={formFields.confirmpassword}
                                 onChange={(e) => setFormFields({ ...formFields, confirmpassword: e.target.value })
                                 }
@@ -121,7 +127,7 @@ const AddUserInGraph = ({
                         </div>
 
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Company Phone Number</label>
+                            <label className="text-gray-800 text-sm mb-2 block">Phone Number</label>
                             {/* <PhoneInput
                                 country={'us'}
                                 value={formFields.password}
@@ -132,7 +138,7 @@ const AddUserInGraph = ({
                                 placeholder="Enter mobile number"
                             /> */}
 
-                            <input type="number" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter mobile number"
+                            <input type="number" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter Phone Number"
                                 value={formFields.phone}
                                 onChange={(e) => setFormFields({ ...formFields, phone: e.target.value })}
                             />
@@ -206,7 +212,7 @@ const AddUserInGraph = ({
                             <div>
                                 <label className="text-gray-800 text-sm mb-2 block">Street Address</label>
                                 <input
-                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter Your street"
                                     value={formFields.street}
                                     onChange={(e) => setFormFields({ ...formFields, street: e.target.value })}
                                 />
@@ -219,7 +225,7 @@ const AddUserInGraph = ({
                             <div>
                                 <label className="text-gray-800 text-sm mb-2 block">What geographical area are you interested in?</label>
                                 <input
-                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter Geographical"
                                     value={formFields.geographical}
                                     onChange={(e) => setFormFields({ ...formFields, geographical: e.target.value })}
                                 />
@@ -308,7 +314,7 @@ const AddUserInGraph = ({
                             formFields?.hearAbout === "Outher" &&
                             <div>
                                 <label className="text-gray-800 text-sm mb-2 block">Hear About specify</label>
-                                <input type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter email"
+                                <input type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Hear About Specify"
                                     value={formFields.hearAboutSpecify}
                                     onChange={(e) => setFormFields({ ...formFields, hearAboutSpecify: e.target.value })} />
                                 {formErrors.hearAboutSpecify && <p className="text-red-500 text-xs">{formErrors?.hearAboutSpecify}</p>}
