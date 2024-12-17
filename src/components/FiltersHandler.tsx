@@ -12,7 +12,7 @@ interface FitlerHandlerProps {
 
 export default function FiltersHandler({ searchQuery, setSearchQuery, handleItemsPerPageChange, itemsPerPage, placeholder, noOfItems }: FitlerHandlerProps) {
     return (
-        <div className="mb-4 flex justify-between items-center flex-wrap">
+        <div className="mb-4 flex justify-between items-center flex-wrap gap-5">
             {/* Search Input */}
             <input
                 type="text"

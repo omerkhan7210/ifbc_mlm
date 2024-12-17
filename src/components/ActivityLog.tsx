@@ -87,19 +87,22 @@ const ActivityLog: React.FC<ActivityLogProps> = () => {
     }
 
     const handleGetCandidates = async () => {
+
         const responseData = await getData(
             `candidateprofile/referral/${user?.userId}`,
         )
-        const candidates = responseData
-            .map((item: any) => item.candidate)
-            .map((candidate: any) => ({
-                docid: candidate.docid,
-                firstName: candidate.firstName,
-                lastName: candidate.lastName,
-                email: candidate.email,
-                pipelineStep: candidate.pipelineStep,
-            }))
-        console.log(candidates)
+
+        console.log('candidates from activities', responseData)
+
+        const candidates = responseData.map((candidate: any) => ({
+            docid: candidate.docid,
+            firstName: candidate.firstName,
+            lastName: candidate.lastName,
+            email: candidate.email,
+            pipelineStep: candidate.pipelineStep,
+        }))
+
+        console.log('candidates from activities', candidates)
         setCandidates(candidates)
     }
 
@@ -108,6 +111,7 @@ const ActivityLog: React.FC<ActivityLogProps> = () => {
             `activitylogcandidate/candidate/${candidateId}`,
         )
         const logs = responseData.logs
+        console.log('logs from activities', logs.reverse())
         setActivities(logs)
     }
 

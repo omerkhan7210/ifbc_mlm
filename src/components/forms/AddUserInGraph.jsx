@@ -1,408 +1,12 @@
-// import React, { useEffect, useState } from 'react'
-// import IFBC from "../../../public/images/logo/IFBC 1.png"
-// import { RxCross2 } from "react-icons/rx";
-// import { BASE_API_URL, HEADER_TOKEN } from "../../constants/app.constant"
-// import axios from "axios"
-// import OptForm from './OptForm';
-// import Loading from "../../components/shared/Loading"
-// import { apiGetAllUsers } from '@/services/UsersService'
-// import { useAuth } from '@/auth'
-// import { getData } from '@/services/axios/axiosUtils'
-// import { BiHide } from "react-icons/bi";
-// import { GrFormView } from "react-icons/gr";
-// import toast from 'react-hot-toast';
-
-// const AddUserInGraph = ({ selectedNode, onClose }) => {
-//     // const [label, setLabel] = useState(selectedNode.data.label);
-//     const { user } = useAuth()
-//     const [selectedUser, setSelectedUser] = useState(null)
-//     const [showPassword, setShowPassword] = useState(false)
-//     // const [showOtpForm, setShowOtpForm] = useState(false);
-//     const [successMsg, setSuccessMsg] = useState('');
-//     const [isLoading, setIsLoading] = useState(false);
-//     const [otpValues, setOtpValues] = useState();
-//     const [formErrors, setFormErrors] = useState({});
-//     const [formFields, setFormFields] = useState({
-//         mangerName: user?.firstName,
-//         firstName: '',
-//         lastName: '',
-//         email: '',
-//         phone: '',
-//         password: '',
-//         userName: '',
-//         refferralId: '',
-//         userType: 'Ambassador',
-//     })
-
-//     const validateForm = () => {
-//         const errors = {};
-
-//         if (!formFields.firstName) errors.firstName = "First Name is required";
-//         if (!formFields.lastName) errors.lastName = "Last Name is required";
-//         if (!formFields.email) errors.email = "Email is required";
-//         if (!formFields.phone) errors.phone = "Phone number is required";
-//         if (!formFields.password) errors.password = "Password is required";
-//         if (!formFields.userType) errors.userType = "User Type is required";
-//         if (!formFields?.refferralId) errors.refferralId = "Refferral Name required"
-//         if (!formFields.userName) errors.userName = "User Name is required";
-
-//         setFormErrors(errors);
-//         return Object.keys(errors).length === 0;
-//     };
-
-//     console.log(formFields, "formFields")
-
-//     // const handleOTPData = (val) => {
-//     //     setOtpValues(val)
-//     // }
-
-//     // const handleSendOtp = async (e) => {
-//     //     e.preventDefault();
-
-//     //     if (!validateForm()) return;
-
-//     //     const otpData = {
-//     //         email: formFields?.email?.toLowerCase(),
-//     //         firstname: formFields?.firstName?.toLowerCase(),
-//     //     };
-//     //     localStorage.setItem("tempEmail", otpData?.email)
-
-//     //     try {
-//     //         const baseUrl = `${BASE_API_URL}/otp/send-otp`;
-//     //         const response = await axios.post(baseUrl, otpData, {
-//     //             headers: {
-//     //                 "X-App-Token": HEADER_TOKEN,
-//     //             },
-//     //         });
-
-//     //         if (response?.status === 200) {
-//     //             console.log(response);
-//     //             setSuccessMsg("Enter your OTP code:");
-//     //             setShowOtpForm(true);
-//     //             window.scrollTo(0, 0)
-//     //         }
-//     //     } catch (error) {
-//     //         console.error("Error sending OTP:", error);
-//     //     }
-//     // };
-
-//     // const validateOtp = async (e) => {
-//     //     setIsLoading(true);
-//     //     e.preventDefault();
-//     //     try {
-//     //         const email = localStorage.getItem("tempEmail")
-//     //         console.log(email, "email")
-//     //         if (formFields?.otpCode !== "") {
-//     //             const otpData = {
-//     //                 email: email.toLowerCase(),
-//     //                 // otp: formFields.otpCode,
-//     //                 otp: otpValues,
-//     //             };
-//     //             const baseUrl = `${BASE_API_URL}/otp/validate-otp`;
-//     //             console.log(HEADER_TOKEN, "HEADER_TOKEN1")
-//     //             const response = await axios.post(baseUrl, otpData, {
-//     //                 headers: {
-//     //                     "X-App-Token": HEADER_TOKEN,
-//     //                 },
-//     //             });
-//     //             if (response.status === 200) {
-//     //                 const response = await handleSubmitAfterValidation();
-//     //                 if (response?.status === 200) {
-//     //                     // setFormErrors({});
-//     //                     // setSuccessMsg(
-//     //                     //     <>
-//     //                     //         <p>
-//     //                     //             Thank you for signing up to become an IFBC Ambassador! We're
-//     //                     //             excited to have you on board.
-//     //                     //         </p>{" "}
-//     //                     //         <p>
-//     //                     //             Your application is currently under review by our team. Once
-//     //                     //             approved by an admin, you'll receive full access to your
-//     //                     //             ambassador dashboard and begin your journey of promoting and
-//     //                     //             expanding our franchise model.
-//     //                     //         </p>
-//     //                     //         <p>
-//     //                     //             We appreciate your patience during this process and will
-//     //                     //             notify you as soon as your account has been approved. Stay
-//     //                     //             tuned!
-//     //                     //         </p>{" "}
-//     //                     //     </>
-//     //                     // );
-//     //                     // setShow(true);
-//     //                     setIsLoading(false);
-//     //                     alert('sibmit Form')
-//     //                     showOtpForm(false)
-//     //                 }
-//     //                 localStorage.removeItem("tempEmail")
-//     //             }
-//     //         }
-//     //     } catch (error) {
-//     //         console.error(error);
-//     //         // setFormErrors({ error: error?.response?.data?.message });
-//     //         setIsLoading(false);
-//     //     }
-//     // };
-
-//     // const handleSubmitAfterValidation = async () => {
-//     //     try {
-//     //         const userUrl = `${BASE_API_URL}/users`;
-
-//     //         const user = {
-//     //             userId: user?.userId,
-//     //             refferralId: user?.docId ?? 0,
-//     //             refferralId: formFields?.refferralId,
-//     //             firstname: formFields?.firstName,
-//     //             lastname: formFields?.lastName,
-//     //             email: formFields?.email,
-//     //             phone: formFields?.phone,
-//     //             usertype: formFields?.userType,
-//     //             profileimage: formFields.profileimage ?? "",
-//     //             coverimage: formFields.coverimage ?? "",
-//     //             isVerified: true,
-//     //             password: formFields?.password,
-//     //             gettingStartedStep: "1",
-//     //             isApproved: false,
-//     //             alreadyApproved: false,
-//     //             // username: formFields.email.split("@")[0],
-//     //             username: formFields?.userName,
-//     //         };
-//     //         const response = await axios.post(userUrl, user, {
-//     //             headers: {
-//     //                 "X-App-Token": HEADER_TOKEN,
-//     //             },
-//     //         });
-//     //         return response;
-//     //     } catch (error) {
-//     //         console.error("Error:", error);
-//     //         // setFormErrors({ error: error?.response?.data?.message });
-//     //         window.scrollTo(0, 0);
-//     //         // setIsLoading(false);
-//     //     }
-//     // };
-//     const handleSubmitAfterValidation = () => {
-//         setIsLoading(true);
-//         const userUrl = `${BASE_API_URL}/users`;
-
-//         const data = {
-//             userId: user?.userId,
-//             refferralId: user?.docId ?? 0,
-//             refferralId: formFields?.refferralId,
-//             firstname: formFields?.firstName,
-//             lastname: formFields?.lastName,
-//             email: formFields?.email,
-//             phone: formFields?.phone,
-//             usertype: "A",
-//             profileimage: formFields.profileimage ?? "",
-//             coverimage: formFields.coverimage ?? "",
-//             isVerified: true,
-//             password: formFields?.password,
-//             gettingStartedStep: "1",
-//             isApproved: false,
-//             alreadyApproved: false,
-//             // username: formFields.email.split("@")[0],
-//             username: formFields?.userName,
-//         };
-
-//         axios
-//             .post(userUrl, data, {
-//                 headers: {
-//                     "X-App-Token": HEADER_TOKEN,
-//                 },
-//             })
-//             .then((response) => {
-//                 console.log(response, "responce")
-//                 toast.success("User Add Succesfully!")
-//                 setFormFields({
-//                     mangerName: "",
-//                     firstName: '',
-//                     lastName: '',
-//                     email: '',
-//                     phone: '',
-//                     password: '',
-//                     userName: '',
-//                     refferralId: '',
-//                     userType: "",
-//                 })
-//                 setIsLoading(false);
-//             })
-//             .catch((error) => {
-//                 console.error("Error:", error);
-//                 toast.error(error, "some Thing want wrong")
-//                 // setFormErrors({ error: error?.response?.data?.message });
-//                 window.scrollTo(0, 0);
-//                 setIsLoading(false);
-//             });
-//     };
-
-//     const handleData = () => {
-//         getData(`consultants/getconsultanthierarchy/${user?.userId}`)
-//             .then((data) => setSelectedUser(data))
-//             .catch((err) => console.log(err))
-//     }
-//     useEffect(() => {
-//         handleData()
-//     }, [])
-//     const mainSubConsultants = selectedUser?.subConsultants;
-//     return (
-//         <>
-//             {isLoading && (
-//                 <div className="max-w-4xl mx-auto font-[sans-serif] absolute top-[5%] left-[5%] right-[5%] p-[20px] z-10 bg-white">
-//                     <Loading loading={isLoading} />
-//                 </div>
-//             )}
-
-//             {/* {showOtpForm ? (
-//                 <div className="max-w-4xl mx-auto font-[sans-serif] absolute top-[5%] left-[5%] right-[5%] p-[20px] z-10 bg-white ">
-//                     <OptForm
-//                         handleOTPData={handleOTPData}
-//                         onClose={onClose} validateOtp={validateOtp} />
-//                 </div>
-//             ) : ( */}
-//             <div className="w-auto rounded-lg mx-auto font-[sans-serif] p-[20px] bg-white shadow-2xl overflow-auto">
-//                 <div className="text-center mb-16 flex">
-//                     <a href="javascript:void(0)">
-//                         <img
-//                             src={IFBC} alt="logo" className='w-[50%] inline-block' />
-//                     </a>
-//                     {/* <button type="button"
-//                             onClick={onClose}
-//                         >
-//                             <RxCross2
-//                                 size={25}
-//                                 className='flex justify-end font-bold text-5xl items-start mt-[-2rem]'
-//                                 onClick={onClose}
-//                             />
-
-//                         </button> */}
-//                 </div>
-
-//                 <form>
-//                     <div className="grid sm:grid-cols-2 gap-8">
-//                         {/* Input fields for form */}
-//                         <div>
-//                             <label className="text-gray-800 text-sm mb-2 block">Manager Name</label>
-//                             <input
-//                                 type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
-//                                 value={formFields?.mangerName}
-//                                 onChange={(e) => setFormFields({ ...formFields, mangerName: e.target.value })}
-//                             />
-//                         </div>
-//                         <div>
-//                             <label className="text-gray-800 text-sm mb-2 block">First Name</label>
-//                             <input
-//                                 type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
-//                                 value={formFields.firstName}
-//                                 onChange={(e) => setFormFields({ ...formFields, firstName: e.target.value })}
-//                             />
-//                             {formErrors.firstName && <p className="text-red-500 text-xs">{formErrors?.firstName}</p>}
-//                         </div>
-//                         <div>
-//                             <label className="text-gray-800 text-sm mb-2 block">Last Name</label>
-//                             <input
-//                                 type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
-//                                 value={formFields.lastName}
-//                                 onChange={(e) => setFormFields({ ...formFields, lastName: e.target.value })}
-//                             />
-//                             {formErrors.lastName && <p className="text-red-500 text-xs">{formErrors?.lastName}</p>}
-//                         </div>
-//                         <div>
-//                             <label className="text-gray-800 text-sm mb-2 block">Email Id</label>
-//                             <input type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter email"
-//                                 value={formFields.email}
-//                                 onChange={(e) => setFormFields({ ...formFields, email: e.target.value })} />
-//                             {formErrors.email && <p className="text-red-500 text-xs">{formErrors?.email}</p>}
-//                         </div>
-//                         <div>
-//                             <label className="text-gray-800 text-sm mb-2 block">Mobile No.</label>
-//                             <input type="number" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter mobile number"
-//                                 value={formFields.phone}
-//                                 onChange={(e) => setFormFields({ ...formFields, phone: e.target.value })}
-//                             />
-//                             {formErrors.phone && <p className="text-red-500 text-xs">{formErrors?.phone}</p>}
-//                         </div>
-//                         <div>
-//                             <label className="text-gray-800 text-sm mb-2 block">Password</label>
-//                             <input type={showPassword ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password relative"
-//                                 value={formFields.password}
-//                                 onChange={(e) => setFormFields({ ...formFields, password: e.target.value })
-//                                 }
-//                             />
-//                             <span
-//                                 className="absolute right-[4rem] mt-[1.5rem] transform -translate-y-1/2 cursor-pointer"
-//                                 onClick={() => setShowPassword((prew) => !prew)}
-//                             >
-//                                 {showPassword ? <BiHide size={20} /> : <GrFormView size={30} />}
-//                             </span>
-//                             {formErrors.password && <p className="text-red-500 text-xs">{formErrors?.password}</p>}
-//                         </div>
-//                         <div>
-//                             <label className="text-gray-800 text-sm mb-2 block">User Name</label>
-//                             <input
-//                                 type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
-//                                 value={formFields.userName}
-//                                 onChange={(e) => setFormFields({ ...formFields, userName: e.target.value })}
-//                             />
-//                             {formErrors.userName && <p className="text-red-500 text-xs">{formErrors?.userName}</p>}
-//                         </div>
-//                         <div>
-//                             <label className="text-gray-800 text-sm mb-2 block">Select Refferral Name</label>
-//                             <select
-//                                 className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-//                                 value={formFields.refferralId}
-//                                 onChange={(e) => setFormFields({ ...formFields, refferralId: e.target.value })}
-//                             >
-//                                 <option value="" disabled>Select User Type</option>
-//                                 {
-//                                     mainSubConsultants?.map((item) => (
-//                                         <option value={item?.docId}>{item?.firstName}{item?.lastName}</option>
-//                                     ))
-//                                 }
-//                             </select>
-//                             {formErrors.refferralId && <p className="text-red-500 text-xs">{formErrors?.refferralId}</p>}
-//                         </div>
-//                         <div>
-//                             <label className="text-gray-800 text-sm mb-2 block">User Type</label>
-//                             {/* <select
-//                                 className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-//                                 value={formFields.userType}
-//                                 onChange={(e) => setFormFields({ ...formFields, userType: e.target.value })}
-//                             >
-//                                 <option value="" disabled>Select User Type</option>
-//                                 <option value="C">Consultant</option>
-//                                 <option value="A">Ambassador</option>
-//                             </select> */}
-//                             <input
-//                                 type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
-//                                 value={formFields.userType}
-//                                 disabled={true}
-//                             />
-//                             {formErrors.userType && <p className="text-red-500 text-xs">{formErrors?.userType}</p>}
-//                         </div>
-//                     </div>
-
-//                     <div className="!mt-12">
-//                         <button type="button"
-//                             // onClick={handleSendOtp}
-//                             onClick={handleSubmitAfterValidation}
-//                             className="py-2.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
-//                             Sign up
-//                         </button>
-//                     </div>
-//                 </form>
-//             </div>
-//             {/* )
-//             } */}
-//         </>
-//     )
-// }
-
-// export default AddUserInGraph
-
-
-import React from 'react';
+import React, { useState } from 'react';
 import { BiHide } from "react-icons/bi";
 import { GrFormView } from "react-icons/gr";
 import Loading from "../../components/shared/Loading";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { states, getCitiesOfState } from "../../utils/staticdata/data"
+import citiesByState from '../../../public/files/data.json'
+
 
 const AddUserInGraph = ({
     formFields,
@@ -411,8 +15,21 @@ const AddUserInGraph = ({
     handleSubmit,
     isLoading
 }) => {
-    const [showPassword, setShowPassword] = React.useState(false);
-    console.log(formFields?.userType, formFields, "userType")
+    const [showPassword, setShowPassword] = useState({
+        password: false,
+        confirmpassword: false,
+    });
+    const [selectedState, setSelectedState] = useState("");
+
+
+    const handleStateChange = (e) => {
+        const selectedStateValue = e.target.value;
+        setSelectedState(selectedStateValue);
+        setFormFields({ ...formFields, state: selectedStateValue, city: "" });
+    };
+
+    const cities = selectedState ? citiesByState[selectedState] || [] : [];
+
 
     return (
         <>
@@ -426,18 +43,16 @@ const AddUserInGraph = ({
                 <div className="text-center mb-8 flex">
                     <a href="javascript:void(0)">
                         <img
-                            src="/images/logo/IFBC 1.png" alt="logo" className="w-[50%] inline-block" />
+                            src="/images/logo/IFBC 1.png" alt="logo" className="w-[30%] inline-block" />
                     </a>
                 </div>
-                <h5 className='max-w-[70%] text-[#1E93EB] font-medium m-[auto] text-center mb-[2rem]'>Welcome to our team of {formFields?.userType}! We’re excited to have you on board and look forward to achieving great success together!</h5>
-
                 <form>
-                    <div className="grid sm:grid-cols-2 gap-8">
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
                         {/* Input fields for form */}
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">Manager Name</label>
                             <input
-                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
+                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
                                 value={formFields?.mangerName}
                                 onChange={(e) => setFormFields({ ...formFields, mangerName: e.target.value })}
                             />
@@ -445,7 +60,7 @@ const AddUserInGraph = ({
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">First Name</label>
                             <input
-                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
+                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
                                 value={formFields.firstName}
                                 onChange={(e) => setFormFields({ ...formFields, firstName: e.target.value })}
                             />
@@ -454,85 +69,213 @@ const AddUserInGraph = ({
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">Last Name</label>
                             <input
-                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
+                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
                                 value={formFields.lastName}
                                 onChange={(e) => setFormFields({ ...formFields, lastName: e.target.value })}
                             />
                             {formErrors.lastName && <p className="text-red-500 text-xs">{formErrors?.lastName}</p>}
                         </div>
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Email Id</label>
-                            <input type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter email"
+                            <label className="text-gray-800 text-sm mb-2 block">Email</label>
+                            <input type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter email"
                                 value={formFields.email}
                                 onChange={(e) => setFormFields({ ...formFields, email: e.target.value })} />
                             {formErrors.email && <p className="text-red-500 text-xs">{formErrors?.email}</p>}
                         </div>
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Mobile No.</label>
-                            <input type="number" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter mobile number"
-                                value={formFields.phone}
-                                onChange={(e) => setFormFields({ ...formFields, phone: e.target.value })}
-                            />
-                            {formErrors.phone && <p className="text-red-500 text-xs">{formErrors?.phone}</p>}
-                        </div>
-                        <div>
+
+                        <div className='relative'>
                             <label className="text-gray-800 text-sm mb-2 block">Password</label>
-                            <input type={showPassword ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password relative"
+                            <input type={showPassword?.password ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password relative"
                                 value={formFields.password}
                                 onChange={(e) => setFormFields({ ...formFields, password: e.target.value })
                                 }
                             />
                             <span
-                                className="absolute right-[4rem] mt-[1.5rem] transform -translate-y-1/2 cursor-pointer"
-                                onClick={() => setShowPassword((prew) => !prew)}
+                                className="absolute right-[1rem] mt-[1.5rem] transform -translate-y-1/2 cursor-pointer"
+                                onClick={() => setShowPassword((prew) => ({
+                                    ...prew,
+                                    password: !prew.password
+                                }))}
                             >
-                                {showPassword ? <BiHide size={20} /> : <GrFormView size={30} />}
+                                {showPassword?.password ? <BiHide size={20} /> : <GrFormView size={30} />}
                             </span>
                             {formErrors.password && <p className="text-red-500 text-xs">{formErrors?.password}</p>}
                         </div>
-                        <div>
-                            <label className="text-gray-800 text-sm mb-2 block">User Name</label>
-                            <input
-                                type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
-                                value={formFields.userName}
-                                onChange={(e) => setFormFields({ ...formFields, userName: e.target.value })}
+                        <div className='relative'>
+                            <label className="text-gray-800 text-sm mb-2 block">Confirm password</label>
+                            <input type={showPassword?.confirmpassword ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password relative"
+                                value={formFields.confirmpassword}
+                                onChange={(e) => setFormFields({ ...formFields, confirmpassword: e.target.value })
+                                }
                             />
-                            {formErrors.userName && <p className="text-red-500 text-xs">{formErrors?.userName}</p>}
-                        </div>
-                        {/* <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Select Refferral Name</label>
-                            <select
-                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                                value={formFields.refferralId}
-                                onChange={(e) => setFormFields({ ...formFields, refferralId: e.target.value })}
+                            <span
+                                className="absolute right-[1rem] mt-[1.5rem] transform -translate-y-1/2 cursor-pointer"
+                                onClick={() => setShowPassword((prew) => ({
+                                    ...prew,
+                                    confirmpassword: !prew.confirmpassword
+                                }))}
                             >
-                                <option value="" disabled>Select User Type</option>
+                                {showPassword?.confirmpassword ? <BiHide size={20} /> : <GrFormView size={30} />}
+                            </span>
+                            {formErrors.password && <p className="text-red-500 text-xs">{formErrors?.password}</p>}
+                        </div>
+
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">Company Phone Number</label>
+                            {/* <PhoneInput
+                                country={'us'}
+                                value={formFields.password}
+                                onChange={(e) => setFormFields({ ...formFields, password: e.target.value })
+                                }
+                                inputClass="bg-gray-200 w-4 text-gray-800 text-sm px-0 py-4 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                dropdownClass="bg-gray-200"
+                                placeholder="Enter mobile number"
+                            /> */}
+
+                            <input type="number" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter mobile number"
+                                value={formFields.phone}
+                                onChange={(e) => setFormFields({ ...formFields, phone: e.target.value })}
+                            />
+                            {formErrors.phone && (
+                                <p className="text-red-500 text-xs">{formErrors?.phone}</p>
+                            )}
+                        </div>
+
+
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">State/Region</label>
+                            <select
+                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                value={formFields.state || selectedState}
+                                onChange={handleStateChange}
+                            >
+                                <option value="" disabled>Select State</option>
                                 {
-                                    mainSubConsultants?.map((item) => (
-                                        <option value={item?.docId}>{item?.firstName}{item?.lastName}</option>
+                                    states?.map((item) => (
+                                        <option key={item.value} value={item.value}>
+                                            {item.text}
+                                        </option>
                                     ))
                                 }
                             </select>
-                            {formErrors.refferralId && <p className="text-red-500 text-xs">{formErrors?.refferralId}</p>}
-                        </div> */}
+                            {formErrors.state && <p className="text-red-500 text-xs">{formErrors?.state}</p>}
+                        </div>
+
+
 
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">User Type</label>
-                            {/* <select
-                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                                value={formFields.userType}
-                                onChange={(e) => setFormFields({ ...formFields, userType: e.target.value })}
+                            <label className="text-gray-800 text-sm mb-2 block">City</label>
+                            <select
+                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                // value={formFields.city}
+                                // onChange={(e) => setFormFields({ ...formFields, city: e.target.value })}
+                                value={formFields.city}
+                                onChange={(e) => setFormFields({ ...formFields, city: e.target.value })}
                             >
-                                <option value="" disabled>Select User Type</option>
-                                <option value="C">Consultant</option>
-                                <option value="A">Ambassador</option>
-                            </select> */}
+                                <option value="" disabled>Select City</option>
+                                {
+                                    cities?.map((city, index) => (
+                                        <option key={index} value={city}>{city}</option>
+                                    ))
+                                }
+                            </select>
+
+                            {formErrors.city && <p className="text-red-500 text-xs">{formErrors?.city}</p>}
+                        </div>
+
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">Postal Code</label>
                             <input
-                                type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
-                                value={formFields.userType}
-                                disabled={true}
+                                type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                value={formFields.postal}
+                                onChange={(e) => setFormFields({ ...formFields, postal: e.target.value })}
                             />
-                            {formErrors.userType && <p className="text-red-500 text-xs">{formErrors?.userType}</p>}
+                            {formErrors.postal && <p className="text-red-500 text-xs">{formErrors?.postal}</p>}
+                        </div>
+
+
+
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">Street Address</label>
+                            <input
+                                type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                value={formFields.street}
+                                onChange={(e) => setFormFields({ ...formFields, street: e.target.value })}
+                            />
+                            {formErrors.street && <p className="text-red-500 text-xs">{formErrors?.street}</p>}
+                        </div>
+
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">What geographical area are you interested in?</label>
+                            <input
+                                type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                value={formFields.geographical}
+                                onChange={(e) => setFormFields({ ...formFields, geographical: e.target.value })}
+                            />
+                            {formErrors.geographical && <p className="text-red-500 text-xs">{formErrors?.geographical}</p>}
+                        </div>
+
+
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">Are you currently employed?</label>
+                            <select
+                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                value={formFields.employed}
+                                onChange={(e) => setFormFields({ ...formFields, employed: e.target.value })}
+                            >
+                                <option value="" disabled>Select One</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                            {formErrors.employed && <p className="text-red-500 text-xs">{formErrors?.employed}</p>}
+                        </div>
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">Comfortable Giving Presentations?</label>
+                            <select
+                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                value={formFields.presentations}
+                                onChange={(e) => setFormFields({ ...formFields, presentations: e.target.value })}
+                            >
+                                <option value="" disabled>Select One</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                            {formErrors.presentations && <p className="text-red-500 text-xs">{formErrors?.presentations}</p>}
+                        </div>
+
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">Comfortable networking</label>
+                            <select
+                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                value={formFields.networking}
+                                onChange={(e) => setFormFields({ ...formFields, networking: e.target.value })}
+                            >
+                                <option value="" disabled>Select One</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                            {formErrors.networking && <p className="text-red-500 text-xs">{formErrors?.networking}</p>}
+                        </div>
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">How did you hear about us?</label>
+                            <select
+                                className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                value={formFields.hearAbout}
+                                onChange={(e) => setFormFields({ ...formFields, hearAbout: e.target.value })}
+                            >
+                                <option value="" disabled>Select Cities</option>
+                                <option value="Search Engine">Search Engine</option>
+                                <option value="Social (Facebook, Instagram, linkdin, etc)">Social(Facebook, Instagram, linkdin, etc)</option>
+                                <option value="Billboard">Billboard</option>
+                                <option value="Youtube">Youtube</option>
+                                <option value="TV">TV</option>
+                                <option value="Radio(AM/FM/XM)">Radio(AM/FM/XM)</option>
+                                <option value="In The Mail">In The Mail</option>
+                                <option value="Podcast">Podcast</option>
+                                <option value="Streaming Audio (Pandora, Spotify, etc)">Streaming Audio (Pandora, Spotify, etc)</option>
+                                <option value="Outher">Outher</option>
+                            </select>
+                            {formErrors.hearAbout && <p className="text-red-500 text-xs">{formErrors?.hearAbout}</p>}
                         </div>
                     </div>
 
@@ -540,8 +283,9 @@ const AddUserInGraph = ({
                         <button type="button"
                             // onClick={handleSendOtp}
                             onClick={handleSubmit}
+
                             className="py-2.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
-                            Sign up
+                            Register Member
                         </button>
                     </div>
                 </form >

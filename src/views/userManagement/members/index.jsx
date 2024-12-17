@@ -28,8 +28,8 @@ export default function Members() {
         getData(isAdmin ? 'users' : `users/referral/${user?.userId}`)
             .then((data) => {
                 setIsLoading(false);
-                console.log(data.filter(e => e?.profileImage !== ''))
-                data = data.reverse();
+                data = data.reverse().filter(e => !e?.isDeleted);
+                console.log(data)
                 setData(data);
                 setFilteredData(data);
             })
@@ -172,9 +172,10 @@ export default function Members() {
     );
 }
 
-const DataModal = ({ dataObj, openModal, setOpenModal }) => {
+const DataModal = ({ dataObj, openModal, setOpenModal, getUsers }) => {
 
-    let [updating, setUpdating] = useState(false)
+    let [updating, setUpdating] = useState(false);
+    let [removing, setRemoving] = useState(false);
 
     const handleUserApprove = (user, status) => {
         setUpdating(true);
@@ -187,6 +188,34 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
             console.log(error)
         })
     }
+
+    const handleUserRemove = (user) => {
+        setRemoving(true);
+        putData(`users/${user?.docId}`, { ...user, isDeleted: true }).then(resp => {
+            setOpenModal(false);
+            getUsers();
+            setRemoving(false);
+        }).catch(error => {
+            setRemoving(false);
+            console.log(error)
+        })
+    }
+
+
+    const handleUserArchive = (user, status) => {
+        setRemoving(true);
+        putData(`users/${user?.docId}`, { ...user, isArchived: status }).then(resp => {
+            setOpenModal(false);
+            getUsers();
+            setRemoving(false);
+        }).catch(error => {
+            setRemoving(false);
+            console.log(error)
+        })
+    }
+
+
+
 
     return (
         <ModalInternalScroll
@@ -248,11 +277,21 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                         <div className="text-gray-600 text-xs mt-3">
                             {formatDateCustom(dataObj?.docDate)}
                         </div>
-                        {/* <button
-                            onClick={() => handleUserApprove(dataObj, !dataObj?.isApproved)}
-                            className={'text-white text-sm p-2 px-3 rounded-lg ' + (dataObj?.isApproved ? 'bg-red-500' : 'bg-green-600')}>
-                            {updating ? 'Loading...' : dataObj?.isApproved ? "Disapprove" : "Approve"}
-                        </button> */}
+                        <div className='flex gap-2'>
+                            <button
+                                onClick={() => handleUserApprove(dataObj, !dataObj?.isApproved)}
+                                disabled={updating}
+                                className={'text-white text-xs p-2 px-3 rounded-lg ' + (dataObj?.isApproved ? 'bg-red-500' : 'bg-green-600')}>
+
+                                {updating ? 'Loading...' : dataObj?.isApproved ? "Disapprove" : "Approve"}
+                            </button>
+                            <button
+                                onClick={() => handleUserRemove(dataObj, !dataObj?.isArchived)}
+                                disabled={removing}
+                                className={'text-white text-xs p-2 px-3 rounded-lg bg-red-500'}>
+                                {removing ? 'Loading...' : "Remove"}
+                            </button>
+                        </div>
                     </div>
 
                 </div>

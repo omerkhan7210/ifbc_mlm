@@ -10,14 +10,14 @@ import {
     PiCalendarDotsLight,
     PiBuildingOfficeThin
 } from 'react-icons/pi'
-import CardSkeleton from '../../../components/CardSkeleton'
+import CardSkeleton from '@/components/CardSkeleton'
 import PaginationHandler from '@/components/PaginationHandler'
 import FiltersHandler from '@/components/FiltersHandler'
-import useIsAdmin from '../../../hooks/useIsAdmin'
+import useIsAdmin from '../../hooks/useIsAdmin'
 import DealsEarningStats from '@/components/DealsEarningStats';
 
 
-export default function DealsCommissionDetails() {
+export default function TeamDeals() {
     const { user } = useAuth()
     const isAdmin = useIsAdmin();
     const [data, setData] = useState([])
@@ -26,37 +26,29 @@ export default function DealsCommissionDetails() {
     const [dataObj, setDataObj] = useState(null)
     const [openModal, setOpenModal] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
-    const [itemsPerPage, setItemsPerPage] = useState(6)
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [itemCount, setItemCount] = useState(0);
+
+
 
     useEffect(() => {
         setIsLoading(true);
-        getData(isAdmin ? 'commissions' : `commissions/consultant/${user?.userId}/completed-deals-with-details`).then((response) => {
+        getData(`commissions/consultant/${user?.userId}/all-child-deals-with-details`).then((response) => {
+            console.log(response)
             setIsLoading(false);
-            isAdmin ? setData(response) : setData(response?.totalCompletedDeals);
+            isAdmin ? setData(response) : setData(response?.childDeals);
         }).catch(err => {
             setIsLoading(false);
             console.log(err)
         });
     }, [user]);
 
-    console.log({ data })
-
-    const [totalAmount, setTotalAmount] = useState(0);
-    const [itemCount, setItemCount] = useState(0);
-
-    useEffect(() => {
-        const calculateTotalAmountAndCount = () => {
-            const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
-            const itemCount = data.length;
-            setTotalAmount(totalAmount);
-            setItemCount(itemCount);
-        };
-
-        calculateTotalAmountAndCount();
-    }, [data]);
-
     const handleSearch = () => {
         const query = searchQuery.toLowerCase()
+
+
         const filtered = data?.filter((item) => {
             const date = formatDateCustom(item?.commissionDate)?.toLowerCase();
             const name = (`${item?.candidateDetails?.firstName} ${item?.candidateDetails?.lastName}`).toLowerCase();
@@ -82,6 +74,17 @@ export default function DealsCommissionDetails() {
     }
 
     useEffect(() => {
+        const calculateTotalAmountAndCount = () => {
+            const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
+            const itemCount = data.length;
+            setTotalAmount(totalAmount);
+            setItemCount(itemCount);
+        };
+
+        calculateTotalAmountAndCount();
+    }, [data]);
+
+    useEffect(() => {
         handleSearch()
     }, [searchQuery, data])
 
@@ -92,14 +95,15 @@ export default function DealsCommissionDetails() {
 
 
     return (
-        <div className='flex flex-col  gap-5'>
-            <DealsEarningStats
+        <div className='flex flex-col  gap-5' >
+            {/* <DealsEarningStats
                 totalAmount={totalAmount}
                 totalCompletedDeals={itemCount}
-                totalCommission={(totalAmount * 15 / 100)}
-            />
+                totalCommission={(totalAmount * 2 / 100)}
+            /> */}
+
             <Card>
-                <h4 className="mb-4">All Completed Deals</h4>
+                <h4 className="mb-4">Team's Completed Deals</h4>
 
                 <FiltersHandler
                     placeholder="Search by Amount, Company Name, Name, Email, Phone, or Date"
@@ -134,7 +138,7 @@ export default function DealsCommissionDetails() {
                                         }}
                                         className="p-0"
                                     >
-                                        <div className='text-xs xl:text-sm' >
+                                        <div className='text-xs xl:text-sm'>
                                             <div className="flex justify-between items-center mb-3">
                                                 <h6 className="text-gray-900 font-bold capitalize">
                                                     {e?.candidateDetails?.firstName}{' '}{e?.candidateDetails?.lastName}
@@ -209,7 +213,7 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
             {dataObj && (
                 <div className="grid grid-cols-1 md:grid-cols-2 ">
                     <div className="h-full flex flex-col justify-between gap-5">
-                        <div className="flex flex-col gap-1 md:border-gray-200 md:border-r-2 mr-10 ">
+                        <div className="flex flex-col gap-1 border-gray-200 md:border-r-2 mr-10 ">
                             <h5 className="mb-2">Candidate Details</h5>
 
                             <div className="flex justify-start items-center gap-1 capitalize">

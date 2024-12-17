@@ -1,24 +1,17 @@
-import React from 'react'
-import DealsOverview from './components/DealsOverview';
-import MonthlyDealsChart from './components/MonthlyDealsChart';
+import { Card } from '@/components/ui';
 import DealsCommissionDetails from './components/DealsCommissionDetails';
+import ActivityLog from '@/components/ActivityLog';
+import activities from './data/Activities.json'
 const Business = () => {
-    return <div className='flex flex-col  gap-5'>
-
+    return <div className='flex flex-col gap-5'>
         <DealsCommissionDetails />
-
-        {/* <div className='w-full md:w-3/5'>
-                <MonthlyDealsChart />
-            </div> */}
-
-        {/* <Card>
+        <Card>
             <h2 className='mb-12'>Activity Log </h2>
             <ActivityLog
                 activities={activities}
             />
 
-        </Card> */}
-
+        </Card>
     </div>
 }
 
