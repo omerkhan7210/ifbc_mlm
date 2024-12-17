@@ -105,7 +105,7 @@ export default function CommissionCalculator() {
                                 icon={<BsPersonArmsUp />}
                             />
                             <StatisticCard
-                                title={`Managing Broker (${shares?.mangingBrokerShare || 0}%)`}
+                                title={`Managing Broker (${shares?.managingBrokerShare || 0}%)`}
                                 className="bg-slate-100 dark:bg-opacity-75"
                                 value={commissions?.managingBroker ? `$${commissions?.managingBroker.toFixed(2)}` : `${shares?.managingBrokerShare || 0}%`}
                                 icon={<BsPersonArmsUp />}
