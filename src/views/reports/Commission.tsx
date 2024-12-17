@@ -39,7 +39,7 @@ const Commission = () => {
 
     return (
         <div>
-            <h2>Child Commissions</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">Total Commissions</h2>
             {isLoading ? <p>Loading...</p> : <CommissionTable data={data} />}
         </div>
     )

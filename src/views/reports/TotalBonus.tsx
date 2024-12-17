@@ -204,11 +204,11 @@ import { useAuth } from '@/auth'
 import useIsAdmin from '../../hooks/useIsAdmin'
 import CommissionTable from '../EcommerceDashboard/components/CommissionTable'
 
-const Commission = () => {
+const TotalBonus = () => {
     const { user } = useAuth()
     const isAdmin = useIsAdmin()
     const [isLoading, setIsLoading] = useState(false)
-    const [data, setData] = useState([])
+    const [totalBouns, setTotalBouns] = useState([])
 
     useEffect(() => {
         setIsLoading(true)
@@ -223,26 +223,32 @@ const Commission = () => {
                 const fetchedData = isAdmin
                     ? response
                     : response?.totalCompletedDeals
+
                 const filteredData = fetchedData.filter(
-                    (item) => item.commissionType === 'Child',
+                    (item) => item.commissionType === 'Direct',
                 )
 
                 // Set the filtered data to the state
-                setData(filteredData)
+                setTotalBouns(filteredData)
             })
             .catch((err) => {
                 setIsLoading(false)
                 console.log(err)
             })
     }, [user, isAdmin])
-    console.log(data, 'datadata')
 
     return (
         <div>
-            <h2>Child Commissions</h2>
-            {isLoading ? <p>Loading...</p> : <CommissionTable data={data} />}
+            <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">
+                Total Bouns
+            </h2>
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : (
+                <CommissionTable totalBouns={totalBouns} />
+            )}
         </div>
     )
 }
 
-export default Commission
+export default TotalBonus
