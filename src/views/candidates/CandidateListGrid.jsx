@@ -693,6 +693,7 @@ const DraggableCard = ({ cand, key, containerRef }) => {
             isDragging: !!monitor.isDragging(),
         }),
     }))
+    const navigate = useNavigate();
 
     const handleDrag = (event) => {
         const container = containerRef.current
@@ -782,13 +783,20 @@ const DraggableCard = ({ cand, key, containerRef }) => {
                     {/* <p className='text-xs' >Category: {cand?.listingCategory}</p> */}
                 </li>
             </div>
-            <div className="flex items-center gap-2 mt-2">
-                <span className="text-xs font-semibold text-gray-600">
-                    Status:
-                </span>
-                <span className="text-xs font-semibold text-blue-600">
-                    {cand.pipelineStep}
-                </span>
+            <div className='flex justify-between w-full items-center mt-2'>
+                <div className="flex items-center gap-2 ">
+                    <span className="text-xs font-semibold text-gray-600">
+                        Status:
+                    </span>
+                    <span className="text-xs font-semibold text-blue-600">
+                        {cand.pipelineStep}
+                    </span>
+                </div>
+                <div
+                    onClick={() => navigate(`/activity-log/${cand.docid}`)}
+                    className="text-xs font-semibold text-blue-600 hover:text-blue-800">
+                    Check Activities
+                </div>
             </div>
         </div>
     )
