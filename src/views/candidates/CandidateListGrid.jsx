@@ -16,8 +16,8 @@ import { getData } from '@/services/axios/axiosUtils'
 import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.tsx'
 import CandidateListSkeleton from '../../components/ui/CandidateListSkeleton.jsx'
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const containerVariants = {
     hidden: { opacity: 0, x: -100 },
@@ -43,13 +43,41 @@ const steps = [
 const CandidateListGrid = () => {
     const { user } = useAuth()
     const [cands, setCands] = useState()
+    // const { cands, refetch, isLoading } = useContext(MyCandContext)
+    const [filteredCandidates, setFilteredCandidates] = useState([])
+    const [filterCands, setFilterCands] = useState()
+    const [loading, setLoading] = useState(false)
+    const handle = useFullScreenHandle()
+    const [switchFormat, setSwitchFormat] = useState('')
+    const [closeHint, setCloseHint] = useState(false)
+    const containerRef = useRef()
+    const stepOptions = steps.map((step) => ({ value: step, label: step }))
+    const scrollPosition = useRef(0) // Create a ref to store the scroll position
+
+    useEffect(() => {
+        getCandidates()
+    }, [])
+
+    useEffect(() => {
+        const container = containerRef.current
+        if (container) {
+            container.scrollLeft = scrollPosition.current // Restore the scroll position
+        }
+    }, [cands]) // Trigger restoration whenever `cands` changes
+
+    const saveScrollPosition = () => {
+        const container = containerRef.current
+        if (container) {
+            scrollPosition.current = container.scrollLeft // Save the scroll position
+        }
+    }
 
     const getCandidates = () => {
         setLoading(true)
         getData(`candidateProfile/referral/${user?.userId}`)
             .then((data) => {
-                const candidates = data.flatMap(d =>
-                    d?.dealStages.map(dealStage => ({
+                const candidates = data.flatMap((d) =>
+                    d?.dealStages.map((dealStage) => ({
                         ...d,
                         listingName: dealStage.name,
                         listingId: dealStage.listingId,
@@ -57,9 +85,13 @@ const CandidateListGrid = () => {
                         imgUrl: dealStage.imgUrl,
                         pipelineStep: dealStage.pipelineStep,
                         dealStageId: dealStage.dealStageId,
-                        franchiseFee: dealStage.franchiseFee ? dealStage.franchiseFee : "0",
-                        documents: dealStage.documents ? dealStage.documents : [],
-                    }))
+                        franchiseFee: dealStage.franchiseFee
+                            ? dealStage.franchiseFee
+                            : '0',
+                        documents: dealStage.documents
+                            ? dealStage.documents
+                            : [],
+                    })),
                 )
                 setCands(candidates)
                 setLoading(false)
@@ -69,29 +101,6 @@ const CandidateListGrid = () => {
                 setLoading(false)
             })
     }
-    useEffect(() => {
-        getCandidates()
-    }, [])
-
-    const headerConfig = {
-        title: 'Candidate List',
-        buttonText: 'View Details',
-        buttonAction: () => {
-            console.log('Navigate to details')
-        },
-        placeholderText: 'Search your Teams',
-        onchangeAction: () => {
-            console.log('Navigate to details')
-        },
-    }
-
-    // const { cands, refetch, isLoading } = useContext(MyCandContext)
-    const [filteredCandidates, setFilteredCandidates] = useState([])
-    const [filterCands, setFilterCands] = useState()
-    const [loading, setLoading] = useState(false)
-    const handle = useFullScreenHandle()
-    const [switchFormat, setSwitchFormat] = useState('')
-    const [closeHint, setCloseHint] = useState(false)
 
     useEffect(() => {
         const filterCandidates = () => {
@@ -117,15 +126,15 @@ const CandidateListGrid = () => {
                     const selectedStepsMatch =
                         filterCands?.selectedSteps.length > 0
                             ? filterCands?.selectedSteps.includes(
-                                cand.pipelineStep,
-                            )
+                                  cand.pipelineStep,
+                              )
                             : true
 
                     // Check all filter conditions
                     const statusMatch =
                         filterCands?.status &&
-                            filterCands.status !== 'Select Deal Stage' &&
-                            filterCands.status !== 'All'
+                        filterCands.status !== 'Select Deal Stage' &&
+                        filterCands.status !== 'All'
                             ? cand.pipelineStep === filterCands.status
                             : true
 
@@ -139,60 +148,60 @@ const CandidateListGrid = () => {
                     const searchMatch =
                         filterCands?.search && filterCands.search !== ''
                             ? cand.firstName
-                                .toLowerCase()
-                                .includes(filterCands.search.toLowerCase())
+                                  .toLowerCase()
+                                  .includes(filterCands.search.toLowerCase())
                             : true
 
                     const dateMatch = filterCands?.selectedRange
                         ? (() => {
-                            const { startDate, endDate } =
-                                filterCands.selectedRange
+                              const { startDate, endDate } =
+                                  filterCands.selectedRange
 
-                            if (startDate && endDate) {
-                                // Both start and end dates are present
-                                return (
-                                    new Date(candDocDate) >=
-                                    new Date(startDate) &&
-                                    new Date(candDocDate) <= new Date(endDate)
-                                )
-                            } else if (startDate) {
-                                // Only start date is present
-                                return (
-                                    new Date(candDocDate).getTime() ===
-                                    new Date(startDate).getTime()
-                                ) // Compare time values
-                            } else if (endDate) {
-                                // Only end date is present
-                                return (
-                                    new Date(candDocDate).getTime() ===
-                                    new Date(endDate).getTime()
-                                ) // Compare time values
-                            }
+                              if (startDate && endDate) {
+                                  // Both start and end dates are present
+                                  return (
+                                      new Date(candDocDate) >=
+                                          new Date(startDate) &&
+                                      new Date(candDocDate) <= new Date(endDate)
+                                  )
+                              } else if (startDate) {
+                                  // Only start date is present
+                                  return (
+                                      new Date(candDocDate).getTime() ===
+                                      new Date(startDate).getTime()
+                                  ) // Compare time values
+                              } else if (endDate) {
+                                  // Only end date is present
+                                  return (
+                                      new Date(candDocDate).getTime() ===
+                                      new Date(endDate).getTime()
+                                  ) // Compare time values
+                              }
 
-                            return true // Neither date is present, show all data
-                        })()
+                              return true // Neither date is present, show all data
+                          })()
                         : true // If selectedRange is not defined, show all data
 
                     const franchiseMatch =
                         filterCands?.franchise &&
-                            filterCands.franchise.length > 0
+                        filterCands.franchise.length > 0
                             ? (() => {
-                                const franchiseIds =
-                                    filterCands.franchise.map(
-                                        (fc) => fc.docId,
-                                    )
-                                if (cand.franchiseInterested) {
-                                    const parsedFranchises = JSON.parse(
-                                        cand.franchiseInterested,
-                                    )
-                                    return parsedFranchises.some(
-                                        (franchiseId) =>
-                                            franchiseIds.includes(
-                                                franchiseId,
-                                            ),
-                                    )
-                                }
-                            })()
+                                  const franchiseIds =
+                                      filterCands.franchise.map(
+                                          (fc) => fc.docId,
+                                      )
+                                  if (cand.franchiseInterested) {
+                                      const parsedFranchises = JSON.parse(
+                                          cand.franchiseInterested,
+                                      )
+                                      return parsedFranchises.some(
+                                          (franchiseId) =>
+                                              franchiseIds.includes(
+                                                  franchiseId,
+                                              ),
+                                      )
+                                  }
+                              })()
                             : true
 
                     const consultantMatch = filterCands?.consultantid
@@ -209,8 +218,8 @@ const CandidateListGrid = () => {
                         ? filterCands.selectedApprovalStatus === 'isArchived'
                             ? cand.isArchived
                             : filterCands.selectedApprovalStatus === 'isDeleted'
-                                ? cand.isDeleted
-                                : true
+                              ? cand.isDeleted
+                              : true
                         : !cand.isDeleted
 
                     // Apply both conditions together
@@ -237,9 +246,11 @@ const CandidateListGrid = () => {
         setFilteredCandidates(uniqueCands)
     }, [filterCands, loading, cands])
 
-    // Function to handle updating the candidate's pipeline step when dropped
     const handleDropCandidate = async (cand, newStep) => {
         setLoading(true)
+        const container = containerRef.current
+        const scrollPosition = container.scrollLeft // Save the current scroll position
+
         try {
             const formData = {
                 docId: cand?.dealStageId,
@@ -257,15 +268,18 @@ const CandidateListGrid = () => {
                     },
                 },
             )
+
             if (response.status === 204) {
-                setFilteredCandidates((prevCands) =>
+                setCands((prevCands) =>
                     prevCands.map((c) =>
-                        c.docid === cand.docid
+                        c.dealStageId === cand.dealStageId
                             ? { ...c, pipelineStep: newStep }
                             : c,
                     ),
                 )
-                getCandidates()
+
+                // Restore the scroll position
+                container.scrollLeft = scrollPosition
             }
         } catch (error) {
             console.error('Error updating pipeline step:', error)
@@ -274,18 +288,16 @@ const CandidateListGrid = () => {
         }
     }
 
-    const stepOptions = steps.map((step) => ({ value: step, label: step }))
-
     const handleStepFilterChange = (selectedOptions) => {
         const selectedSteps = selectedOptions.map((option) => option.value)
 
         setFilterCands((prev) => ({ ...prev, selectedSteps }))
     }
 
-    const containerRef = useRef()
-
     const handleMouseDown = (e) => {
         const container = containerRef.current
+        if (!container) return
+
         container.style.cursor = 'grabbing'
         container.style.userSelect = 'none'
 
@@ -300,6 +312,7 @@ const CandidateListGrid = () => {
         const onMouseUp = () => {
             container.style.cursor = 'grab'
             container.style.removeProperty('user-select')
+            saveScrollPosition() // Save the scroll position after dragging
             window.removeEventListener('mousemove', onMouseMove)
             window.removeEventListener('mouseup', onMouseUp)
         }
@@ -327,55 +340,47 @@ const CandidateListGrid = () => {
                         </motion.div>
                     </FullScreen>
                 )
-            case 'table':
-                return (
-                    <FullScreen handle={handle}>
-                        <motion.div
-                            className="w-full bg-white p-4"
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                        >
-                            <DownlineMembersTable
-                                data={filteredCandidates}
-                                headerConfig={headerConfig}
-                            />
-                        </motion.div>
-                    </FullScreen>
-                )
+
             default:
-                return (<>
-                    {loading ? <CandidateListSkeleton /> :
-                        (filteredCandidates && filteredCandidates.length > 0) ?
+                return (
+                    <>
+                        {loading ? (
+                            <CandidateListSkeleton />
+                        ) : filteredCandidates &&
+                          filteredCandidates.length > 0 ? (
                             <FullScreen handle={handle}>
                                 <motion.div
                                     ref={containerRef}
                                     id="container"
-                                    className="max-w-screen mx-auto overflow-x-scroll divide-x-2 flex snap-mandatory snap-x bg-white cursor-grab"
+                                    className="max-w-screen mx-auto overflow-x-scroll divide-x-2 flex snap-mandatory snap-x bg-white cursor-grab min-h-[55vh]"
                                     variants={containerVariants}
                                     initial="hidden"
                                     animate="visible"
                                     exit="exit"
                                 >
-
                                     {steps.map((step, index) => (
                                         <StepColumn
-                                            key={index}
+                                            key={step + index}
                                             step={step}
                                             handle={handle}
                                             candidates={filteredCandidates.filter(
-                                                (cand) => cand.pipelineStep === step,
+                                                (cand) =>
+                                                    cand.pipelineStep === step,
                                             )}
-                                            onDropCandidate={handleDropCandidate}
+                                            onDropCandidate={
+                                                handleDropCandidate
+                                            }
                                             containerRef={containerRef}
                                         />
                                     ))}
                                 </motion.div>
                             </FullScreen>
-                            :
-                            <h3 className='my-5 mx-4' >Sorry! You don't have any Candidates.</h3>}
-                </>
+                        ) : (
+                            <h3 className="my-5 mx-4">
+                                Sorry! You don't have any Candidates.
+                            </h3>
+                        )}
+                    </>
                 )
         }
     }
@@ -500,13 +505,14 @@ const StepColumn = ({
             }
             if (item?.cand?.pipelineStep !== step) {
                 if (item?.cand?.pipelineStep === 'Closed Won') {
-                    toast.error("Sorry, candidates in the 'Closed Won' step cannot be moved.");
-                    return;
+                    toast.error(
+                        "Sorry, candidates in the 'Closed Won' step cannot be moved.",
+                    )
+                    return
                 } else {
-                    setDroppedItem(item);
-                    handleConfirmUserIsAddedOrNot();
+                    setDroppedItem(item)
+                    handleConfirmUserIsAddedOrNot()
                 }
-
             } else {
                 notifyUpdate(
                     'The candidate is already in this pipeline step. Please choose a different step.',
@@ -526,23 +532,26 @@ const StepColumn = ({
     useEffect(() => {
         if (stepTrack === 'Closed Won') {
             setTimeout(() => {
-                setShowConfettiComponent(true);
-            }, 1000);
-            setShowConfettiComponent(false);
+                setShowConfettiComponent(true)
+            }, 1000)
+            setShowConfettiComponent(false)
         }
-    }, [stepTrack]);
+    }, [stepTrack])
 
+    const totalFranchiseFee = candidates
+        .reduce((total, cand) => {
+            const fee = parseFloat(cand.franchiseFee.replace(/[$,]/g, '')) || 0
+            return total + fee
+        }, 0)
+        .toLocaleString()
+    const totalCommission = candidates
+        .reduce((total, cand) => {
+            const fee = parseFloat(cand.franchiseFee.replace(/[$,]/g, '')) || 0
+            return total + fee * 0.15
+        }, 0)
+        .toLocaleString()
 
-    const totalFranchiseFee = candidates.reduce((total, cand) => {
-        const fee = parseFloat(cand.franchiseFee.replace(/[$,]/g, '')) || 0;
-        return total + fee;
-    }, 0).toLocaleString();
-    const totalCommission = candidates.reduce((total, cand) => {
-        const fee = parseFloat(cand.franchiseFee.replace(/[$,]/g, '')) || 0;
-        return total + (fee * 0.15);
-    }, 0).toLocaleString();
-
-    const totalCandidates = candidates.length;
+    const totalCandidates = candidates.length
 
     return (
         <>
@@ -580,12 +589,18 @@ const StepColumn = ({
                                 <button
                                     onClick={() => {
                                         if (droppedItem) {
-                                            onDropCandidate(droppedItem?.cand, step);
-                                            setStepTrack(step);
-                                            notifyUpdate(droppedItem?.cand, step);
-                                            setIsModalVisible(false);
+                                            onDropCandidate(
+                                                droppedItem?.cand,
+                                                step,
+                                            )
+                                            setStepTrack(step)
+                                            notifyUpdate(
+                                                droppedItem?.cand,
+                                                step,
+                                            )
+                                            setIsModalVisible(false)
                                         } else {
-                                            console.error('No item to confirm.');
+                                            console.error('No item to confirm.')
                                         }
                                     }}
                                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -605,23 +620,26 @@ const StepColumn = ({
                     <div className=" flex items-center justify-between w-full bg-[#2176ff] p-2 ">
                         <h1 className="text-white flex flex-col gap-1  text-left text-sm ">
                             {step}
-                            <span className='text-xs'>{totalCandidates}</span>
+                            <span className="text-xs">{totalCandidates}</span>
                         </h1>
 
                         <div className="flex  text-white gap-1 text-xs">
-                            <p className='flex items-center'>
+                            <p className="flex items-center">
                                 {/* <span className="font-light text-[8px]">Total Franchise Fee: </span> */}
-                                <span title="This is the total franchise fee calculated from all candidates."
-                                    className='text-green-700 bg-green-50 rounded-full px-2 py-1' >
+                                <span
+                                    title="This is the total franchise fee calculated from all candidates."
+                                    className="text-green-700 bg-green-50 rounded-full px-2 py-1"
+                                >
                                     ${totalFranchiseFee}
                                 </span>
-
                             </p>
 
-                            <p className='flex items-center'>
+                            <p className="flex items-center">
                                 {/* <span className="font-light text-[8px]">Total Commission: </span> */}
-                                <span title="This is the total commission amount."
-                                    className='text-green-700 bg-green-50  rounded-full px-2 py-1'>
+                                <span
+                                    title="This is the total commission amount."
+                                    className="text-green-700 bg-green-50  rounded-full px-2 py-1"
+                                >
                                     ${totalCommission}
                                 </span>
                             </p>
@@ -677,7 +695,6 @@ const DraggableCard = ({ cand, key, containerRef }) => {
     }))
 
     const handleDrag = (event) => {
-
         const container = containerRef.current
         if (!container) return
 
@@ -746,24 +763,23 @@ const DraggableCard = ({ cand, key, containerRef }) => {
                     </p>
                 </li>
             </ul> */}
-            <div className='border-b-stone-700 border-dotted border-b-[1.5px] pb-3'>
+            <div className="border-b-stone-700 border-dotted border-b-[1.5px] pb-3">
                 <li className="flex flex-col justify-start items-start gap-1 ">
                     <div className="flex gap-2 items-center">
                         <img
-                            className='size-10 rounded object-contain'
-                            src={"https://ifbc.co/" + cand?.imgUrl} alt="" />
+                            className="size-10 rounded object-contain"
+                            src={'https://ifbc.co/' + cand?.imgUrl}
+                            alt=""
+                        />
 
                         <div className="flex flex-col gap-1">
                             <p className="text-sm font-semibold text-black/70">
                                 {cand?.listingName}
                             </p>
-                            <p className='text-xs' >Fee: {cand?.franchiseFee}</p>
+                            <p className="text-xs">Fee: {cand?.franchiseFee}</p>
                         </div>
                     </div>
                     {/* <p className='text-xs' >Category: {cand?.listingCategory}</p> */}
-
-
-
                 </li>
             </div>
             <div className="flex items-center gap-2 mt-2">
@@ -774,7 +790,6 @@ const DraggableCard = ({ cand, key, containerRef }) => {
                     {cand.pipelineStep}
                 </span>
             </div>
-
         </div>
     )
 }

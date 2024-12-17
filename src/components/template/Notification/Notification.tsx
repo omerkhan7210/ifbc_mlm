@@ -129,7 +129,7 @@ const _Notification = ({ className }: { className?: string }) => {
 
     const getNotificationCount = async () => {
         const resp = await apiGetNotificationCount()
-        if (resp.count > 0) {
+        if (resp?.count > 0) {
             setNoResult(false)
             setUnreadNotification(true)
         } else {
@@ -237,7 +237,9 @@ const _Notification = ({ className }: { className?: string }) => {
                                         <br></br>
                                         {item.notificationType}
                                         <br></br>
-                                        <span className='flex justify-end'>{item.formattedDate}</span>
+                                        <span className="flex justify-end">
+                                            {item.formattedDate}
+                                        </span>
                                     </span>
                                 </div>
                                 <Badge
