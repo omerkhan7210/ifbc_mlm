@@ -4,7 +4,7 @@ import { NETWORKS_PREFIX_PATH } from '@/constants/route.constant'
 
 export const networkRoutes: Routes = [
     {
-        key: 'geneolagyTree',
+        key: 'genealogyTree',
         path: `${NETWORKS_PREFIX_PATH}/genealogy-tree`,
         component: lazy(() => import('@/views/networks/GenealogyTree')),
         authority: [],
@@ -16,7 +16,7 @@ export const networkRoutes: Routes = [
         authority: [],
     },
     {
-        key: 'geneolagyTree',
+        key: 'downlineMembers',
         path: `${NETWORKS_PREFIX_PATH}/downline-members`,
         component: lazy(() => import('@/views/networks/DownlineMembers')),
         authority: [],

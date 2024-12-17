@@ -30,6 +30,8 @@ const ConsultantRegister = () => {
         networking: '',
         hearAbout: '',
         hearAboutSpecify: "",
+        coverimage: "",
+        profileimage: "",
         userType: "Consultants",
         refferralId: user?.userId,
     });
@@ -87,31 +89,14 @@ const ConsultantRegister = () => {
             toast.error("Form error is missing or invalid!");
             return;
         }
-
-        const firstName = capitalizeFirstLetter(formErrors);
-        toast.success(
-            `${firstName} - Please fill the form properly`,
-            {
-                style: {
-                    backgroundColor: 'white',
-                    color: 'rgba(0,0,0,0.8)',
-                    fontFamily: 'Arial, sans-serif',
-                    fontSize: '12px',
-                    borderRadius: '8px',
-                    padding: '10px',
-                },
-                icon: '🎉',
-            }
-        );
     };
 
     // Submit form data after validation
     const handleSubmitAfterValidation = () => {
         if (!validateForm()) {
             notifyUpdate(formErrors);
+            return;
         }
-
-
         setIsLoading(true);
         const newUser = {
             userId: 0,
@@ -128,6 +113,8 @@ const ConsultantRegister = () => {
             alreadyApproved: true,
             username: formFields?.email?.split('@')[0] || "",
             street: formFields?.street,
+            profileimage: formFields.profileimage ?? "",
+            coverimage: formFields.coverimage ?? "",
             city: formFields?.city,
             zipPostalCode: formFields?.postal,
             states: formFields?.state,
@@ -143,6 +130,7 @@ const ConsultantRegister = () => {
         console.log(newUser, "newUser");
         postData('consultants', newUser)
             .then((response) => {
+                console.log(response, "response")
                 toast.success("User registered successfully!");
                 setFormFields({
                     mangerName: "",
