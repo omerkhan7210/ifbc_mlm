@@ -5,6 +5,7 @@ import { AuthProvider } from '@/auth'
 import Views from '@/views'
 import appConfig from './configs/app.config'
 import './locales'
+import toast, { Toaster } from 'react-hot-toast'
 
 if (appConfig.enableMock) {
     import('./mock')
@@ -17,6 +18,7 @@ function App() {
                 <AuthProvider>
                     <Layout>
                         <Views />
+                        <Toaster />
                     </Layout>
                 </AuthProvider>
             </BrowserRouter>

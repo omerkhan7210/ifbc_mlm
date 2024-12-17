@@ -36,7 +36,7 @@ const ConsultantRegister = () => {
     const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
-    // Validation function
+    // Validation functionz
     const validateForm = () => {
         const errors = {};
 
@@ -83,30 +83,34 @@ const ConsultantRegister = () => {
     };
 
     const notifyUpdate = (formErrors) => {
-        const firstName = capitalizeFirstLetter(formErrors) // Capitalize
+        if (!formErrors || typeof formErrors !== "string") {
+            toast.error("Form error is missing or invalid!");
+            return;
+        }
+
+        const firstName = capitalizeFirstLetter(formErrors);
         toast.success(
-            `${formErrors} Please Fill form properly`,
+            `${firstName} - Please fill the form properly`,
             {
                 style: {
-                    backgroundColor: 'white', // Custom background color
-                    color: 'rgba(0,0,0,0.8)', // Text color
+                    backgroundColor: 'white',
+                    color: 'rgba(0,0,0,0.8)',
                     fontFamily: 'Arial, sans-serif',
                     fontSize: '12px',
                     borderRadius: '8px',
                     padding: '10px',
                 },
-                icon: '🎉', // Add an icon
-            },
-        )
-    }
+                icon: '🎉',
+            }
+        );
+    };
 
     // Submit form data after validation
     const handleSubmitAfterValidation = () => {
         if (!validateForm()) {
-            // toast.error("Some fields are missing!");
-            notifyUpdate()
-            // alert("Some fields are missing! Please Fill form properly");
+            notifyUpdate(formErrors);
         }
+
 
         setIsLoading(true);
         const newUser = {
@@ -139,7 +143,6 @@ const ConsultantRegister = () => {
         console.log(newUser, "newUser");
         postData('consultants', newUser)
             .then((response) => {
-                console.log('User added:', response);
                 toast.success("User registered successfully!");
                 setFormFields({
                     mangerName: "",
@@ -166,7 +169,7 @@ const ConsultantRegister = () => {
             })
             .catch((error) => {
                 console.error('Error adding user:', error);
-                toast.error("Failed to register user. Please try again.");
+                toast.success(error || "SomeThing is went to wrong!");
                 setIsLoading(false);
             });
     };

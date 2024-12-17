@@ -29,6 +29,7 @@ const AddUserInGraph = ({
     };
 
     const cities = selectedState ? citiesByState[selectedState] || [] : [];
+    console.log(formFields?.userType, "formFields?.userType")
 
 
     return (
@@ -39,13 +40,17 @@ const AddUserInGraph = ({
                 </div>
             )}
 
-            <div className="w-auto rounded-lg mx-auto p-[20px] bg-white shadow-2xl overflow-auto">
-                <div className="text-center mb-8 flex">
+            <div className="w-auto rounded-lg mx-auto p-[10px] md:p-[20px] bg-white shadow-2xl overflow-auto">
+                <div className="text-center mb-3 md:mb-6 flex">
                     <a href="javascript:void(0)">
                         <img
-                            src="/images/logo/IFBC 1.png" alt="logo" className="w-[30%] inline-block" />
+                            src="/images/logo/IFBC 1.png" alt="logo" className="w-[90%] md:w-[40%] inline-block" />
                     </a>
                 </div>
+
+
+                <h4 className='text-center mb-3 text-[16px] md:mb-6 md:text-xl flex justify-center items-center text-[#1E93EB]'>🌟Welcome to the {formFields?.userType} Portal🌟</h4>
+
                 <form>
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
                         {/* Input fields for form */}
