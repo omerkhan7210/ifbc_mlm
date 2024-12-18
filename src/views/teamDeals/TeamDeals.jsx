@@ -34,6 +34,7 @@ export default function TeamDeals() {
 
 
     useEffect(() => {
+        if (isAdmin) return;
         setIsLoading(true);
         getData(`commissions/consultant/${user?.userId}/all-child-deals-with-details`).then((response) => {
             console.log(response)

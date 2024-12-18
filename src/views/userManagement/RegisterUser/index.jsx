@@ -16,7 +16,10 @@ const RegisterUser = () => {
         phone: '',
         password: '',
         confirmpassword: '',
-        userName: 'Ambassador',
+        userName: '',
+        coverimage: "",
+        profileimage: "",
+        userType: "Ambassador",
         // street: '',
         // city: '',
         // postal: '',
@@ -76,9 +79,20 @@ const RegisterUser = () => {
         return Object.keys(errors).length === 0;
     };
 
+
+    const notifyUpdate = (formErrors) => {
+        if (!formErrors || typeof formErrors !== "string") {
+            toast.error("There was an error in the form submission.");
+            return;
+        }
+    };
+
     // Submit form data after validation
     const handleSubmitAfterValidation = () => {
-        if (!validateForm()) return;
+        if (!validateForm()) {
+            notifyUpdate(formErrors);
+            return;
+        }
         setLoader(true);
         const newUser = {
             userId: 0,
@@ -93,7 +107,9 @@ const RegisterUser = () => {
             gettingStartedStep: "1",
             isApproved: true,
             alreadyApproved: true,
-            // username: formFields?.email?.split('@')[0] || "",
+            username: formFields?.email?.split('@')[0] || "",
+            profileimage: formFields.profileimage ?? "",
+            coverimage: formFields.coverimage ?? "",
             // street: formFields?.street,
             // city: formFields?.city,
             // zipPostalCode: formFields?.postal,

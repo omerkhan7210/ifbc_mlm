@@ -30,13 +30,15 @@ const ConsultantRegister = () => {
         networking: '',
         hearAbout: '',
         hearAboutSpecify: "",
+        coverimage: "",
+        profileimage: "",
         userType: "Consultants",
         refferralId: user?.userId,
     });
     const [formErrors, setFormErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
-    // Validation function
+    // Validation functionz
     const validateForm = () => {
         const errors = {};
 
@@ -83,31 +85,18 @@ const ConsultantRegister = () => {
     };
 
     const notifyUpdate = (formErrors) => {
-        const firstName = capitalizeFirstLetter(formErrors) // Capitalize
-        toast.success(
-            `${formErrors} Please Fill form properly`,
-            {
-                style: {
-                    backgroundColor: 'white', // Custom background color
-                    color: 'rgba(0,0,0,0.8)', // Text color
-                    fontFamily: 'Arial, sans-serif',
-                    fontSize: '12px',
-                    borderRadius: '8px',
-                    padding: '10px',
-                },
-                icon: '🎉', // Add an icon
-            },
-        )
-    }
+        if (!formErrors || typeof formErrors !== "string") {
+            toast.error("Form error is missing or invalid!");
+            return;
+        }
+    };
 
     // Submit form data after validation
     const handleSubmitAfterValidation = () => {
         if (!validateForm()) {
-            // toast.error("Some fields are missing!");
-            notifyUpdate()
-            // alert("Some fields are missing! Please Fill form properly");
+            notifyUpdate(formErrors);
+            return;
         }
-
         setIsLoading(true);
         const newUser = {
             userId: 0,
@@ -124,6 +113,8 @@ const ConsultantRegister = () => {
             alreadyApproved: true,
             username: formFields?.email?.split('@')[0] || "",
             street: formFields?.street,
+            profileimage: formFields.profileimage ?? "",
+            coverimage: formFields.coverimage ?? "",
             city: formFields?.city,
             zipPostalCode: formFields?.postal,
             states: formFields?.state,
@@ -139,7 +130,7 @@ const ConsultantRegister = () => {
         console.log(newUser, "newUser");
         postData('consultants', newUser)
             .then((response) => {
-                console.log('User added:', response);
+                console.log(response, "response")
                 toast.success("User registered successfully!");
                 setFormFields({
                     mangerName: "",
@@ -166,7 +157,7 @@ const ConsultantRegister = () => {
             })
             .catch((error) => {
                 console.error('Error adding user:', error);
-                toast.error("Failed to register user. Please try again.");
+                toast.success(error || "SomeThing is went to wrong!");
                 setIsLoading(false);
             });
     };

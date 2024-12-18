@@ -2,20 +2,31 @@ import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 
+interface EmailFormState {
+    subject: string
+    body: string
+}
+
 const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
-    const [emailText, setEmailText] = useState<string>('')
-    const handleChange = (value: string) => {
-        setEmailText(value)
+    const [emailForm, setEmailForm] = useState<EmailFormState>({
+        subject: '',
+        body: '',
+    })
+    const handleChange = (field: keyof EmailFormState, value: string) => {
+        setEmailForm((prevState) => ({
+            ...prevState,
+            [field]: value,
+        }))
     }
-    console.log(emailText, 'emailText')
+    console.log(emailForm, 'emailText')
     return (
         <div
             id="crud-modal"
             // tabindex="-1"
             aria-hidden="true"
-            className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50"
+            className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 overflow-auto"
         >
-            <div className="relative p-4 w-full min-w-[50%] max-w-md max-h-full bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="relative w-full min-w-[50%] max-w-md max-h-auto bg-white rounded-lg shadow dark:bg-gray-700">
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         New Message
@@ -88,25 +99,42 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                             >
                                 Message
                             </label>
-                            {/* <textarea
-                                id="description"
-                                rows={6}
-                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Enter your Message"
-                            ></textarea> */}
+                            <div style={{ marginBottom: '15px' }}>
+                                <label
+                                    htmlFor="subject"
+                                    style={{ fontWeight: 'bold' }}
+                                >
+                                    Subject:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="subject"
+                                    value={emailForm?.subject}
+                                    onChange={(e) =>
+                                        handleChange('subject', e.target.value)
+                                    }
+                                    placeholder="Enter email subject"
+                                    style={{
+                                        width: '100%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '4px',
+                                        fontSize: '14px',
+                                    }}
+                                />
+                            </div>
+
                             <div>
                                 <ReactQuill
                                     theme="snow"
-                                    value={emailText}
-                                    onChange={handleChange}
+                                    value={emailForm.body}
+                                    onChange={(value) =>
+                                        handleChange('body', value)
+                                    }
                                     placeholder="Write something here..."
                                 />
                                 <p>Editor Content:</p>
-                                {/* <div
-                                    dangerouslySetInnerHTML={{
-                                        __html: emailText,
-                                    }}
-                                />{' '} */}
                             </div>
                         </div>
                     </div>

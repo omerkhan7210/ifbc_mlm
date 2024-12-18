@@ -12,6 +12,7 @@ const DownlineMembers = () => {
     const handleData = () => {
         getData(`consultants/getconsultanthierarchy/${user?.userId}`)
             .then((data) => {
+                console.log(data, 'data')
                 const cleanedData = {
                     ...data,
                     firstName: data.firstName.trim(),
@@ -53,7 +54,7 @@ const DownlineMembers = () => {
                 data={apiData}
                 headerConfig={headerConfig}
                 handleGetValue={handleGetValue}
-            />  
+            />
         </div>
     )
 }

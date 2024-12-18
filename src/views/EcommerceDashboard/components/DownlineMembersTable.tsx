@@ -174,11 +174,11 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
                     placeholder={headerConfig.placeholderText}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-[30%] bg-[#E5E5E5]"
+                    className="w-[45%] md:w-[30%] bg-[#E5E5E5]"
                 />
                 <Button
                     size="sm"
-                    className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF]"
+                    className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 md:py-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 border-none hover:text-[#FFFFFF]"
                     onClick={headerConfig.buttonAction}
                 >
                     {headerConfig.buttonText}
