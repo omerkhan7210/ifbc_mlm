@@ -93,12 +93,12 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                             />
                         </div> */}
                         <div className="col-span-2">
-                            <label
+                            {/* <label
                                 htmlFor="description"
                                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                             >
                                 Message
-                            </label>
+                            </label> */}
                             <div style={{ marginBottom: '15px' }}>
                                 <label
                                     htmlFor="subject"
@@ -134,7 +134,7 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                                     }
                                     placeholder="Write something here..."
                                 />
-                                <p>Editor Content:</p>
+                                {/* <p>Editor Content:</p> */}
                             </div>
                         </div>
                     </div>

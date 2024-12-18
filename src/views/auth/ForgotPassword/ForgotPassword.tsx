@@ -5,6 +5,8 @@ import ActionLink from '@/components/shared/ActionLink'
 import ForgotPasswordForm from './components/ForgotPasswordForm'
 import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage'
 import { useNavigate } from 'react-router-dom'
+import Logo from '@/components/template/Logo'
+import { useThemeStore } from '@/store/themeStore'
 
 type ForgotPasswordProps = {
     signInUrl?: string
@@ -21,10 +23,17 @@ export const ForgotPasswordBase = ({
     const handleContinue = () => {
         navigate(signInUrl)
     }
-
+    const mode = useThemeStore((state) => state.mode)
     return (
         <div>
             <div className="mb-6">
+                <Logo
+                    type="streamline"
+                    mode={mode}
+                    imgClass="mx-auto"
+                    logoWidth={280}
+                    className='mb-8'
+                />
                 {emailSent ? (
                     <>
                         <h3 className="mb-2">Check your email</h3>

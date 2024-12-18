@@ -82,10 +82,11 @@ const RegisterUser = () => {
 
     const notifyUpdate = (formErrors) => {
         if (!formErrors || typeof formErrors !== "string") {
-            toast.error("There was an error in the form submission.");
+            toast.error("Form error is missing or invalid!");
             return;
         }
     };
+
 
     // Submit form data after validation
     const handleSubmitAfterValidation = () => {
