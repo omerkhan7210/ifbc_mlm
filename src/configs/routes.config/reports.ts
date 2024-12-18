@@ -34,8 +34,8 @@ export const reports: Routes = [
         authority: [],
     },
     {
-        key: 'totalEarners',
-        path: `${REPORTS_PREFIX_PATH}/total-earnings`,
+        key: '  ',
+        path: `${REPORTS_PREFIX_PATH}/total-earners`,
         component: lazy(() => import('@/views/reports/TotalEarnings')),
         authority: [],
     },

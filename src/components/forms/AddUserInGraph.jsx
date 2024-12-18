@@ -75,7 +75,7 @@ const AddUserInGraph = ({
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">Last Name</label>
                             <input
-                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name"
+                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter Last Name"
                                 value={formFields.lastName}
                                 onChange={(e) => setFormFields({ ...formFields, lastName: e.target.value })}
                             />
@@ -91,7 +91,7 @@ const AddUserInGraph = ({
 
                         <div className='relative'>
                             <label className="text-gray-800 text-sm mb-2 block">Password</label>
-                            <input type={showPassword?.password ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter your password"
+                            <input type={showPassword?.password ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter Your Password"
                                 value={formFields.password}
                                 onChange={(e) => setFormFields({ ...formFields, password: e.target.value })
                                 }
@@ -109,7 +109,7 @@ const AddUserInGraph = ({
                         </div>
                         <div className='relative'>
                             <label className="text-gray-800 text-sm mb-2 block">Confirm password</label>
-                            <input type={showPassword?.confirmpassword ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter your Confirmpassword"
+                            <input type={showPassword?.confirmpassword ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter your Confirm Password"
                                 value={formFields.confirmpassword}
                                 onChange={(e) => setFormFields({ ...formFields, confirmpassword: e.target.value })
                                 }
@@ -199,7 +199,7 @@ const AddUserInGraph = ({
                             <div>
                                 <label className="text-gray-800 text-sm mb-2 block">Postal Code</label>
                                 <input
-                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter User name"
+                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter Postal Code"
                                     value={formFields.postal}
                                     onChange={(e) => setFormFields({ ...formFields, postal: e.target.value })}
                                 />
@@ -212,7 +212,7 @@ const AddUserInGraph = ({
                             <div>
                                 <label className="text-gray-800 text-sm mb-2 block">Street Address</label>
                                 <input
-                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter Your street"
+                                    type='text' className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter Your Street Address"
                                     value={formFields.street}
                                     onChange={(e) => setFormFields({ ...formFields, street: e.target.value })}
                                 />
