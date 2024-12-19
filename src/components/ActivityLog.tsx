@@ -88,25 +88,22 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ id }) => {
     }
 
     const handleGetCandidates = async () => {
-
         const responseData = await getData(
             `candidateprofile/referral/${user?.userId}`,
         )
-
-        console.log('candidates from activities', responseData)
-
         const candidates = responseData.map((candidate: any) => ({
             docid: candidate.docid,
             firstName: candidate.firstName,
             lastName: candidate.lastName,
             email: candidate.email,
-            pipelineStep: candidate.pipelineStep,
+            pipelineStep:
+                candidate.dealStages && candidate.dealStages.length > 0
+                    ? candidate.dealStages[0]?.pipelineStep
+                    : null,
         }))
 
         setCandidates(candidates)
     }
-
-
 
     useEffect(() => {
         handleGetCandidates()
@@ -126,9 +123,6 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ id }) => {
         setActivities([...logs])
     }
 
-    console.log('activities', activities)
-
-
     useEffect(() => {
         handleGetAllUserActivitylog(parseInt(id))
         const selectedCandidate = candidates.find(
@@ -136,6 +130,8 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ id }) => {
         )
         setSelectedCand(selectedCandidate)
     }, [id])
+
+    console.log('passed id & logs', id, activities)
 
     // Map event types to icons
     const getEventIcon = (eventType) => {
@@ -157,73 +153,80 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ id }) => {
 
     return (
         <div className="max-w-[700px] mx-auto p-4">
-
             <Timeline>
-                {(activities && activities.length > 0) ? activities.map((activity, index) => {
-                    return (
-                        <Timeline.Item
-                            key={index}
-                            media={
-                                <div className="bg-gray-200 rounded-full overflow-hidden w-10 h-10 flex items-center justify-center">
-                                    <span className="text-gray-600">
-                                        {getEventIcon(activity.log.actionType)}
-                                    </span>
-                                </div>
-                            }
-                        >
-                            <div className="p-3 bg-white rounded-lg shadow-sm border border-gray-200">
-                                <div className="flex items-center mb-2">
-                                    <Avatar
-                                        src={activity?.user?.profileImage}
-                                        alt={activity?.user?.firstName}
-                                        size="lg"
-                                        className="mr-2"
-                                    />
-
-                                    <span className="text-base font-semibold text-gray-900">
-                                        {activity?.user?.firstName}{' '}
-                                        {activity?.user?.lastName}
-                                    </span>
-                                    {user?.firstName + ' ' + user?.lastName && (
-                                        <span className="ml-2 text-gray-600">
-                                            with{' '}
-                                            <span className="font-semibold text-base capitalize text-gray-800">
-                                                {selectedCand?.firstName}{' '}
-                                                {selectedCand?.lastName}
-                                            </span>
+                {activities && activities.length > 0 ? (
+                    activities.map((activity, index) => {
+                        return (
+                            <Timeline.Item
+                                key={index}
+                                media={
+                                    <div className="bg-gray-200 rounded-full overflow-hidden w-10 h-10 flex items-center justify-center">
+                                        <span className="text-gray-600">
+                                            {getEventIcon(
+                                                activity.log.actionType,
+                                            )}
                                         </span>
-                                    )}
-                                    <Badge
-                                        stage={selectedCand?.pipelineStep}
-                                        content={selectedCand?.pipelineStep}
-                                        className="ml-4" // Margin added to the left of the badge
+                                    </div>
+                                }
+                            >
+                                <div className="p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                                    <div className="flex items-center mb-2">
+                                        <Avatar
+                                            src={activity?.user?.profileImage}
+                                            alt={activity?.user?.firstName}
+                                            size="lg"
+                                            className="mr-2"
+                                        />
+
+                                        <span className="text-base font-semibold text-gray-900">
+                                            {activity?.user?.firstName}{' '}
+                                            {activity?.user?.lastName}
+                                        </span>
+                                        {user?.firstName +
+                                            ' ' +
+                                            user?.lastName && (
+                                            <span className="ml-2 text-gray-600">
+                                                with{' '}
+                                                <span className="font-semibold text-base capitalize text-gray-800">
+                                                    {selectedCand?.firstName}{' '}
+                                                    {selectedCand?.lastName}
+                                                </span>
+                                            </span>
+                                        )}
+                                        <Badge
+                                            stage={selectedCand?.pipelineStep}
+                                            content={selectedCand?.pipelineStep}
+                                            className="ml-4" // Margin added to the left of the badge
+                                        />
+                                    </div>
+                                    <div className="text-sm text-gray-600 mb-2">
+                                        <strong>Franchise: </strong>
+                                        {activity?.listings?.[0]?.name}
+                                    </div>
+                                    <div
+                                        className="text-gray-700"
+                                        dangerouslySetInnerHTML={{
+                                            __html: activity.log.description
+                                                .replace(/(\r\n|\n|\r)/gm, ' ')
+                                                .replace(/\s\s+/g, ' ')
+                                                .replace(/,/g, ''),
+                                        }}
                                     />
-                                </div>
-                                <div className="text-sm text-gray-600 mb-2">
-                                    <strong>Franchise: </strong>
-                                    {activity?.listings?.[0]?.name}
-                                </div>
-                                <div
-                                    className="text-gray-700"
-                                    dangerouslySetInnerHTML={{
-                                        __html: activity.log.description.replace(
-                                            /(\r\n|\n|\r)/gm,
-                                            ' ',
-                                        ).replace(/\s\s+/g, ' ').replace(/,/g, ''),
-                                    }}
-                                />
-                                {/* {activity.details.additionalInfo && (
+                                    {/* {activity.details.additionalInfo && (
                             <Card className="mt-3 p-2 bg-gray-50 border border-gray-200 text-gray-600 text-sm">
                                 {activity.details.additionalInfo}
                             </Card>
                         )} */}
-                                <span className="block mt-2 text-sm text-gray-500">
-                                    {formatDatePST(activity.log.docDate)}
-                                </span>
-                            </div>
-                        </Timeline.Item>
-                    )
-                }) : <h5></h5>}
+                                    <span className="block mt-2 text-sm text-gray-500">
+                                        {formatDatePST(activity.log.docDate)}
+                                    </span>
+                                </div>
+                            </Timeline.Item>
+                        )
+                    })
+                ) : (
+                    <h5></h5>
+                )}
             </Timeline>
         </div>
     )

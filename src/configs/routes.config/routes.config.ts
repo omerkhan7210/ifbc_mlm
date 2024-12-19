@@ -24,7 +24,7 @@ export const protectedRoutes: Routes = [
     },
     {
         key: 'activity-log',
-        path: `${DEALSMANAGEMENT_PREFIX_PATH}/activity-log/:id`,
+        path: `/activity-log/:id`,
         component: lazy(() => import('@/views/activityLog/ActivityLogPage')),
         authority: [],
     },
