@@ -50,13 +50,16 @@ export default function FranchiseInquiries() {
             const capital = item?.checkout?.availCapital
                 ?.toString()
                 .toLowerCase()
-            const date = formatDateCustom(item?.checkout?.docDate).toLowerCase()
+            const date = formatDateCustom(item?.checkout?.docDate).toLowerCase();
+            const phone = item?.checkout?.phone.toLowerCase();
+
 
             return (
                 name.includes(query) ||
                 email.includes(query) ||
                 capital.includes(query) ||
-                date.includes(query)
+                date.includes(query) ||
+                phone.includes(query)
             )
         })
 
