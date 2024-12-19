@@ -38,7 +38,7 @@ const RegisterUser = () => {
     const validateForm = () => {
         const errors = {};
 
-        if (!formFields.mangerName.trim()) errors.mangerName = "Manager Name is required.";
+        if (!formFields.mangerName.trim()) errors.mangerName = "Consultant Name is required.";
         if (!formFields.firstName.trim()) errors.firstName = "First Name is required.";
         if (!formFields.lastName.trim()) errors.lastName = "Last Name is required.";
         if (!formFields.email.trim()) {

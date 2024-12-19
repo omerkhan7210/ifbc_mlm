@@ -55,9 +55,9 @@ const AddUserInGraph = ({
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
                         {/* Input fields for form */}
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Manager Name</label>
+                            <label className="text-gray-800 text-sm mb-2 block">Consultant Name</label>
                             <input
-                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Manager Name"
+                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Consultant Name"
                                 value={formFields?.mangerName}
                                 disabled={true}
                                 onChange={(e) => setFormFields({ ...formFields, mangerName: e.target.value })}

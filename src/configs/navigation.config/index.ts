@@ -6,6 +6,7 @@ import {
 
 import type { NavigationTree } from '@/@types/navigation'
 import {
+    DEALSMANAGEMENT_PREFIX_PATH,
     // APPROVAL_PREFIX_PATH,
     INQUIRIES_PREFIX_PATH,
     NETWORKS_PREFIX_PATH,
@@ -14,6 +15,7 @@ import {
     REPORTS_PREFIX_PATH,
     SETTINGS_PREFIX_PATH,
     SIGNUP_PREFIX_PATH,
+    TOOLS_PREFIX_PATH,
     USER_MANAGeMENT_PREFIX_PATH,
     // TOOLS_PREFIX_PATH,
 } from '@/constants/route.constant'
@@ -339,16 +341,7 @@ const settingsNavigation: NavigationTree[] = [
                 authority: [],
                 subMenu: [],
             },
-            {
-                key: 'collapseMenu.referrallink',
-                path: `${SETTINGS_PREFIX_PATH}/referral-link`,
-                title: 'All Referral Link',
-                translateKey: 'nav.collapseMenu.referrallink',
-                icon: 'contentmanagement',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
+
             // {
             //     key: 'collapseMenu.mailcontent',
             //     path: `${SETTINGS_PREFIX_PATH}/mail-content`,
@@ -382,7 +375,7 @@ const inquiriesNavigation: NavigationTree[] = [
             {
                 key: 'franchise-inquiries',
                 path: `${INQUIRIES_PREFIX_PATH}/franchise-inquiries`,
-                title: 'Franchi Inquiries',
+                title: 'Franchise Inquiries',
                 translateKey: 'nav.franchise-inquiries',
                 icon: 'franchiseinquiries',
                 type: NAV_ITEM_TYPE_ITEM,
@@ -446,7 +439,7 @@ const inquiriesNavigation: NavigationTree[] = [
 const toolsNavigation: NavigationTree[] = [
     {
         key: 'tools',
-        path: `${INQUIRIES_PREFIX_PATH}`,
+        path: `${TOOLS_PREFIX_PATH}`,
         title: 'Tools',
         translateKey: 'nav.tools',
         icon: 'tools',
@@ -461,7 +454,7 @@ const toolsNavigation: NavigationTree[] = [
         subMenu: [
             {
                 key: 'e-wallet',
-                path: '/e-wallet',
+                path: `${TOOLS_PREFIX_PATH}/e-wallet`,
                 title: 'E-wallet',
                 translateKey: 'nav.e-wallet',
                 icon: 'eWallet',
@@ -472,7 +465,7 @@ const toolsNavigation: NavigationTree[] = [
 
             {
                 key: 'payout',
-                path: '/payout',
+                path: `${TOOLS_PREFIX_PATH}/payout`,
                 title: 'Payout',
                 translateKey: 'nav.payout',
                 icon: 'payout',
@@ -483,10 +476,20 @@ const toolsNavigation: NavigationTree[] = [
 
             {
                 key: 'mailbox',
-                path: '/mailbox',
+                path: `${TOOLS_PREFIX_PATH}/mailbox`,
                 title: 'Mailbox',
                 translateKey: 'nav.mailbox',
                 icon: 'mailbox',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
+            {
+                key: 'referralLink',
+                path: `${TOOLS_PREFIX_PATH}/referral-link`,
+                title: 'All Referral Links',
+                translateKey: 'nav.referralLink',
+                icon: 'contentmanagement',
                 type: NAV_ITEM_TYPE_ITEM,
                 authority: [],
                 subMenu: [],
@@ -498,7 +501,8 @@ const toolsNavigation: NavigationTree[] = [
 const dealsNavigation: NavigationTree[] = [
     {
         key: 'dealsManagement',
-        path: '/deals-management',
+        path: `${DEALSMANAGEMENT_PREFIX_PATH}`,
+        // path: '/deals-management',
         title: 'Deals Management',
         translateKey: 'nav.dealsManagement',
         icon: 'deals', // Replace with a relevant icon
@@ -507,7 +511,8 @@ const dealsNavigation: NavigationTree[] = [
         subMenu: [
             {
                 key: 'candidates',
-                path: '/candidates',
+                path: `${DEALSMANAGEMENT_PREFIX_PATH}/candidates`,
+                // path: '/candidates',
                 title: 'Candidates',
                 translateKey: 'nav.candidates',
                 icon: 'candidates',
@@ -517,7 +522,8 @@ const dealsNavigation: NavigationTree[] = [
             },
             {
                 key: 'completedDeals',
-                path: '/completed-deals', // Updated path
+                path: `${DEALSMANAGEMENT_PREFIX_PATH}/completed-deals`,
+                // path: '/completed-deals',
                 title: 'Completed Deals', // Updated title
                 translateKey: 'nav.completedDeals',
                 icon: 'business', // Retain the same icon for now
@@ -527,7 +533,8 @@ const dealsNavigation: NavigationTree[] = [
             },
             {
                 key: 'teamDeals',
-                path: '/team-deals', // Updated path
+                path: `${DEALSMANAGEMENT_PREFIX_PATH}/team-deals`,
+                // path: '/team-deals', // Updated path
                 title: "Team's Completed Deals", // Updated title
                 translateKey: 'nav.teamDeals',
                 icon: 'business', // Retain the same icon for now

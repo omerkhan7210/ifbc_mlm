@@ -18,15 +18,6 @@ const ReferralLinkTable = () => {
         // alert('Copied to clipboard!');
     };
 
-
-
-
-
-
-
-
-
-
     const filteredCandidates = [
         {
             Home: `ifbc.co/${user?.username}`,
@@ -64,8 +55,8 @@ const ReferralLinkTable = () => {
                 <thead>
                     <tr>
                         <th className="text-start font-extrabold px-2 py-1 border-b-2">S.No</th>
+                        <th className="text-start font-extrabold px-2 py-1 border-b-2">Page Name</th>
                         <th className="text-start font-extrabold px-2 py-1 border-b-2">Page Links</th>
-                        <th className="text-start font-extrabold px-2 py-1 border-b-2">Link Name</th>
                         <th className="text-start font-extrabold px-2 py-1 border-b-2">Action</th>
                     </tr>
                 </thead>
@@ -74,8 +65,8 @@ const ReferralLinkTable = () => {
                     {Object.entries(filteredCandidates[0]).map(([key, value], index) => (
                         <tr key={key}>
                             <td className="border-b px-2 py-2">{index + 1}</td>
-                            <td className="border-b px-2 py-2">{value}</td>
-                            <td className="border-b px-2 py-5">{key.replace(/([A-Z])/g, ' $1').trim()}</td>
+                            <td className="border-b px-2 py-5 font-bold">{key.replace(/([A-Z])/g, ' $1').trim()}</td>
+                            <td className="border-b px-2 py-2 text-blue-600 underline">{value}</td>
                             <td className="border-b px-2 py-2">
                                 <button
                                     onClick={() => {
