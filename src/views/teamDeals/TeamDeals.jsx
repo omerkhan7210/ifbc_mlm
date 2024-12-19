@@ -34,6 +34,7 @@ export default function TeamDeals() {
 
 
     useEffect(() => {
+        if (isAdmin) return;
         setIsLoading(true);
         getData(`commissions/consultant/${user?.userId}/all-child-deals-with-details`).then((response) => {
             console.log(response)
@@ -73,16 +74,16 @@ export default function TeamDeals() {
         setFilteredData(filtered)
     }
 
-    useEffect(() => {
-        const calculateTotalAmountAndCount = () => {
-            const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
-            const itemCount = data.length;
-            setTotalAmount(totalAmount);
-            setItemCount(itemCount);
-        };
+    // useEffect(() => {
+    //     const calculateTotalAmountAndCount = () => {
+    //         const totalAmount = data?.reduce((sum, item) => sum + item.amount, 0);
+    //         const itemCount = data.length;
+    //         setTotalAmount(totalAmount);
+    //         setItemCount(itemCount);
+    //     };
 
-        calculateTotalAmountAndCount();
-    }, [data]);
+    //     calculateTotalAmountAndCount();
+    // }, [data]);
 
     useEffect(() => {
         handleSearch()

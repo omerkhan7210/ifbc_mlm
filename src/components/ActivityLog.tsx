@@ -157,33 +157,7 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ id }) => {
 
     return (
         <div className="max-w-[700px] mx-auto p-4">
-            {/* <div className="mt-4">
-                <label
-                    htmlFor="candidateSelect"
-                    className="block text-sm font-medium text-gray-700"
-                >
-                    Select Candidate
-                </label>
-                <select
-                    id="candidateSelect"
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                    onChange={(e) => {
-                        const selectedDocId = parseInt(e.target.value, 10)
-                        const selectedCandidate = candidates.find(
-                            (candidate) => candidate.docid === selectedDocId,
-                        )
-                        setSelectedCand(selectedCandidate)
-                    }}
-                >
-                    <option value="">Select a candidate</option>
-                    {candidates.map((candidate) => (
-                        <option key={candidate.docid} value={candidate.docid}>
-                            {candidate.firstName} {candidate.lastName} (
-                            {candidate.email})
-                        </option>
-                    ))}
-                </select>
-            </div> */}
+
             <Timeline>
                 {(activities && activities.length > 0) ? activities.map((activity, index) => {
                     return (

@@ -5,7 +5,7 @@ import Dialog from '@/components/ui/Dialog';
 interface ModalProps {
     title?: string;
     open: boolean;
-    width: number;
+    width?: number;
     setOpen: (isOpen: boolean) => void;
     children: React.ReactNode;
 }
