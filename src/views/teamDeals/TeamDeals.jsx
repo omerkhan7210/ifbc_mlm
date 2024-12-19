@@ -8,7 +8,8 @@ import {
     PiEnvelopeThin,
     PiPhoneCallLight,
     PiCalendarDotsLight,
-    PiBuildingOfficeThin
+    PiBuildingOfficeThin,
+    PiUser
 } from 'react-icons/pi'
 import CardSkeleton from '@/components/CardSkeleton'
 import PaginationHandler from '@/components/PaginationHandler'
@@ -59,6 +60,12 @@ export default function TeamDeals() {
             const category = item?.listingDetails?.category?.toLowerCase();
             const amount = item?.amount?.toLocaleString('eng-US',).toLowerCase();
             const amountSimple = toString(item?.amount)?.toLowerCase();
+            const consutantName = (`${item?.consultantDetails?.firstName} ${item?.consultantDetails?.lastName}`).toLowerCase();
+            const consultantEmail = item?.consultantDetails?.email?.toLowerCase();
+            const consultantPhone = item?.consultantDetails?.companyPhoneNumber?.toLowerCase();
+
+
+
             return (
                 date.includes(query) ||
                 name.includes(query) ||
@@ -67,7 +74,10 @@ export default function TeamDeals() {
                 listingName.includes(query) ||
                 category.includes(query) ||
                 amount.includes(query) ||
-                amountSimple.includes(query)
+                amountSimple.includes(query) ||
+                consutantName.includes(query) ||
+                consultantEmail.includes(query) ||
+                consultantPhone.includes(query)
             )
         })
 
@@ -167,18 +177,35 @@ export default function TeamDeals() {
                                                         {e?.candidateDetails?.phone}
                                                     </div>
                                                 </div>
+
+
+                                                <hr className='my-1' />
+                                                <h6 className='mb-1' >Consultant Details</h6>
+                                                <div className="flex justify-start items-center gap-2">
+                                                    <PiUser className="text-gray-600 " />
+                                                    <div className="text-gray-700 cursor-pointer capitalize">
+                                                        {e?.consultantDetails?.firstName + ' ' + e?.consultantDetails?.lastName}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-start items-center gap-2">
+                                                    <PiEnvelopeThin className="text-gray-600" />
+                                                    <div className="text-gray-700 cursor-pointer">
+                                                        {e?.consultantDetails?.email}
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-start items-center gap-2">
+                                                    <PiPhoneCallLight className="text-gray-600" />
+                                                    <div className="text-gray-700">
+                                                        {e?.consultantDetails?.companyPhoneNumber}
+                                                    </div>
+                                                </div>
+
                                                 <div className="flex justify-start items-center gap-2">
                                                     <PiCalendarDotsLight className="text-gray-600" />
                                                     <div className="text-gray-700">
                                                         {formatDateCustom(
                                                             e?.commissionDate
                                                         )}
-                                                    </div>
-                                                </div>
-
-                                                <div className="flex justify-start items-center gap-2">
-                                                    <div className="text-gray-700">
-                                                        {e?.contactReason}
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,7 +243,6 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                     <div className="h-full flex flex-col justify-between gap-5">
                         <div className="flex flex-col gap-1 border-gray-200 md:border-r-2 mr-10 ">
                             <h5 className="mb-2">Candidate Details</h5>
-
                             <div className="flex justify-start items-center gap-1 capitalize">
                                 <div className="text-gray-800 font-semibold ">
                                     Name:{' '}
@@ -247,6 +273,37 @@ const DataModal = ({ dataObj, openModal, setOpenModal }) => {
                                 </a>
                             </div>
 
+                            <h5 className="mb-2">Consultant Details</h5>
+
+                            <div className="flex justify-start items-center gap-1 capitalize">
+                                <div className="text-gray-800 font-semibold ">
+                                    Name:{' '}
+                                </div>
+                                {`${dataObj?.consultantDetails?.firstName} ${dataObj?.consultantDetails?.lastName}`}
+                            </div>
+
+                            <div className="flex justify-start items-center gap-1">
+                                <div className="text-gray-800 font-semibold">
+                                    Email:{' '}
+                                </div>
+                                <a
+                                    href={`mailto:${dataObj?.consultantDetails?.email}`}
+                                    className="text-gray-600 cursor-pointer"
+                                >
+                                    {dataObj?.consultantDetails?.email}
+                                </a>
+                            </div>
+                            <div className="flex justify-start items-center gap-1">
+                                <div className="text-gray-800 font-semibold ">
+                                    Phone:{' '}
+                                </div>
+                                <a
+                                    href={`tel:${dataObj?.consultantDetails?.companyPhoneNumber}`}
+                                    className="text-gray-600"
+                                >
+                                    {dataObj?.consultantDetails?.companyPhoneNumber}
+                                </a>
+                            </div>
 
 
                         </div>

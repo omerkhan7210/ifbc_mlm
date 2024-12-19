@@ -2,7 +2,7 @@ import classNames from '@/utils/classNames'
 import { TbArrowDownToArc } from 'react-icons/tb'
 import { FaSackDollar, FaCircleDollarToSlot, FaMoneyCheckDollar } from "react-icons/fa6";
 import { useEffect, useState, type ReactNode } from 'react'
-import { Card } from "@/components/ui"
+import { Card, Skeleton } from "@/components/ui"
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { GrInProgress } from "react-icons/gr";
 import { BsMicrosoftTeams } from "react-icons/bs";
@@ -75,7 +75,7 @@ const DealsOverview = () => {
                 <StatisticCard
                     title="In Progress Deals"
                     className="bg-red-100 dark:bg-opacity-75"
-                    value={inProgressDeals || allDeals - completedDeals}
+                    value={inProgressDeals}
                     icon={<GoIssueReopened />}
                 />
                 <StatisticCard
@@ -114,7 +114,8 @@ const StatisticCard = ({
             <div className="flex justify-between items-center relative">
                 <div>
                     <div className="mb-4 text-gray-900 font-bold">{title}</div>
-                    <h1 className="mb-1 text-gray-900">{value}</h1>
+                    {value ? <h1 className="mb-1 text-gray-900">{value}</h1> :
+                        <Skeleton className='w-12 h-12' />}
                 </div>
                 <div
                     className={

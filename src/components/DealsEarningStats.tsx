@@ -6,7 +6,7 @@ import {
     FaRegFaceSmile
 } from 'react-icons/fa6'
 import type { ReactNode } from 'react'
-import { Card } from '@/components/ui'
+import { Card, Skeleton } from '@/components/ui'
 
 
 type DealsEarningStatsProps = {
@@ -32,16 +32,9 @@ const DealsEarningStats = ({
                 <StatisticCard
                     title="Commission Earned"
                     className="bg-emerald-100 dark:bg-opacity-75"
-                    value={'$ ' + totalAmount.toLocaleString('eng-us', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
+                    value={totalAmount ? ('$ ' + totalAmount.toLocaleString('eng-us', { minimumFractionDigits: 0, maximumFractionDigits: 2 })) : 0}
                     icon={<FaCircleDollarToSlot />}
                 />
-
-                {/* <StatisticCard
-                    title="Your Commission"
-                    className="bg-emerald-100 dark:bg-opacity-75"
-                    value={'$ ' + totalCommission.toLocaleString('eng-us', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}
-                    icon={<FaSackDollar />}
-                /> */}
 
             </div>
         </Card>
@@ -73,7 +66,9 @@ const StatisticCard = ({
             <div className="flex justify-between items-center relative">
                 <div>
                     <div className="mb-4 text-gray-900 font-bold">{title}</div>
-                    <h3 className="mb-1 text-gray-900">{value}</h3>
+                    {value ? <h3 className="mb-1 text-gray-900">{value}</h3> :
+                        <Skeleton className='w-8 h-8' />
+                    }
                 </div>
                 <div
                     className={

@@ -4,6 +4,7 @@ import { Card, Select } from '@/components/ui'
 import { useAuth } from '@/auth';
 import { useEffect, useState } from 'react';
 import { getData } from '@/services/axios/axiosUtils';
+import LineChartSkeleton from '@/components/ui/LineChartSkeleton';
 
 const MonthlyDealsChart = () => {
     const { user } = useAuth();
@@ -13,7 +14,6 @@ const MonthlyDealsChart = () => {
 
     useEffect(() => {
         getData(`commissions/consultant/${user?.userId}/completed-deals-with-details`).then((response) => {
-
             setData(response?.totalCompletedDeals);
         }).catch(err => console.log(err));
     }, [user]);
@@ -43,44 +43,52 @@ const MonthlyDealsChart = () => {
         setYears(tempYears);
     }, [])
 
+    console.log(chartData)
+
 
     return (
-        <Card>
-            {/* <Select onChange={(newValue) => handleYearChange(newValue as number)} value={year}>
+        <>
+            {data ? <Card>
+                {/* <Select onChange={(newValue) => handleYearChange(newValue as number)} value={year}>
                 {years.map(y => (
                     <option key={y} value={y}>{y}</option>
                 ))}
             </Select> */}
-            <h2 className="text-sm text-center mb-2">
-                Monthly Completed Deals Data
-            </h2>
-            <Chart
-                options={{
-                    chart: {
-                        type: 'line',
-                        zoom: {
+                <h2 className="text-sm text-center mb-2">
+                    Monthly Completed Deals Data
+                </h2>
+                <Chart
+                    options={{
+                        chart: {
+                            type: 'line',
+                            zoom: {
+                                enabled: false,
+                            },
+                        },
+                        dataLabels: {
                             enabled: false,
                         },
-                    },
-                    dataLabels: {
-                        enabled: false,
-                    },
-                    stroke: {
-                        curve: 'smooth',
-                        width: 3,
-                    },
-                    colors: [COLOR_2],
-                    xaxis: {
-                        categories: [
-                            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-                        ],
-                    },
-                }}
-                series={[{ name: 'Deals', data: chartData }]}
-                height={300}
-            />
-        </Card>
+                        stroke: {
+                            curve: 'smooth',
+                            width: 3,
+                        },
+                        colors: [COLOR_2],
+                        xaxis: {
+                            categories: [
+                                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                            ],
+                        },
+                    }}
+                    series={[{ name: 'Deals', data: chartData }]}
+                    height={300}
+                />
+
+            </Card> :
+                <LineChartSkeleton />
+
+            }
+        </>
     );
 };
 
