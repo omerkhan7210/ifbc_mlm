@@ -49,15 +49,15 @@ const AddUserInGraph = ({
                 </div>
 
 
-                <h4 className='text-center mb-3 text-[16px] md:mb-6 md:text-xl flex justify-center items-center text-[#1E93EB]'>🌟Welcome to the {formFields?.userType} Portal🌟</h4>
+                <h4 className='text-center mb-3 text-[16px] md:mb-6 md:text-xl flex justify-center items-center text-[#1E93EB]'>{formFields?.userType}</h4>
 
                 <form>
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
                         {/* Input fields for form */}
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Manager Name</label>
+                            <label className="text-gray-800 text-sm mb-2 block">Consultant Name</label>
                             <input
-                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Manager Name"
+                                type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Consultant Name"
                                 value={formFields?.mangerName}
                                 disabled={true}
                                 onChange={(e) => setFormFields({ ...formFields, mangerName: e.target.value })}
@@ -89,7 +89,7 @@ const AddUserInGraph = ({
                             {formErrors.email && <p className="text-red-500 text-xs">{formErrors?.email}</p>}
                         </div>
 
-                        <div className='relative'>
+                        {/* <div className='relative'>
                             <label className="text-gray-800 text-sm mb-2 block">Password</label>
                             <input type={showPassword?.password ? "text" : "password"} className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter Your Password"
                                 value={formFields.password}
@@ -124,7 +124,7 @@ const AddUserInGraph = ({
                                 {showPassword?.confirmpassword ? <BiHide size={20} /> : <GrFormView size={30} />}
                             </span>
                             {formErrors.confirmpassword && <p className="text-red-500 text-xs">{formErrors?.confirmpassword}</p>}
-                        </div>
+                        </div> */}
 
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">Phone Number</label>
@@ -304,17 +304,17 @@ const AddUserInGraph = ({
                                     <option value="In The Mail">In The Mail</option>
                                     <option value="Podcast">Podcast</option>
                                     <option value="Streaming Audio (Pandora, Spotify, etc)">Streaming Audio (Pandora, Spotify, etc)</option>
-                                    <option value="Outher">Outher</option>
+                                    <option value="Other">Other</option>
                                 </select>
                                 {formErrors.hearAbout && <p className="text-red-500 text-xs">{formErrors?.hearAbout}</p>}
                             </div>
                         }
 
                         {
-                            formFields?.hearAbout === "Outher" &&
+                            formFields?.hearAbout === "Other" &&
                             <div>
-                                <label className="text-gray-800 text-sm mb-2 block">Hear About specify</label>
-                                <input type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Hear About Specify"
+                                <label className="text-gray-800 text-sm mb-2 block">Please specify</label>
+                                <input type="text" className="bg-gray-200 w-full text-gray-800 text-sm px-4 py-2.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Please Specify"
                                     value={formFields.hearAboutSpecify}
                                     onChange={(e) => setFormFields({ ...formFields, hearAboutSpecify: e.target.value })} />
                                 {formErrors.hearAboutSpecify && <p className="text-red-500 text-xs">{formErrors?.hearAboutSpecify}</p>}

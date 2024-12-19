@@ -53,9 +53,26 @@ const CandidateListGrid = () => {
     const containerRef = useRef()
     const stepOptions = steps.map((step) => ({ value: step, label: step }))
     const scrollPosition = useRef(0) // Create a ref to store the scroll position
+    const [getAllConsultants, setGetAllConsultant] = useState([])
+
+
+
+    // FILTER CONSULTANTS DATA IN LOGIC START
+    const handleGetAllConsultants = () => {
+        getData('consultants')
+            .then((data) => setGetAllConsultant(data))
+            .catch((err) => console.log(err, "Error"))
+    }
+    const setGetAllConsultantsFilterData = getAllConsultants?.map((item) => ({
+        label: `${item?.firstName} ${item?.lastName} ${item?.email}`,
+        value: item?.docId || "",
+    }));
+    // FILTER CONSULTANTS DATA IN LOGIC END
+    console.log(setGetAllConsultantsFilterData, "setGetAllConsultantsFilterData")
 
     useEffect(() => {
         getCandidates()
+        handleGetAllConsultants()
     }, [])
 
     useEffect(() => {
@@ -124,17 +141,23 @@ const CandidateListGrid = () => {
                     const candDocDate = new Date(FormatRawDate(cand)).getTime()
 
                     const selectedStepsMatch =
-                        filterCands?.selectedSteps.length > 0
+                        filterCands?.selectedSteps?.length > 0
                             ? filterCands?.selectedSteps.includes(
-                                  cand.pipelineStep,
-                              )
+                                cand.pipelineStep,
+                            )
+                            : true
+                    const selectedConsultantsMatch =
+                        filterCands?.selectedConsultants?.length > 0
+                            ? filterCands?.selectedConsultants.includes(
+                                cand.agentUserId,
+                            )
                             : true
 
                     // Check all filter conditions
                     const statusMatch =
                         filterCands?.status &&
-                        filterCands.status !== 'Select Deal Stage' &&
-                        filterCands.status !== 'All'
+                            filterCands.status !== 'Select Deal Stage' &&
+                            filterCands.status !== 'All'
                             ? cand.pipelineStep === filterCands.status
                             : true
 
@@ -148,60 +171,60 @@ const CandidateListGrid = () => {
                     const searchMatch =
                         filterCands?.search && filterCands.search !== ''
                             ? cand.firstName
-                                  .toLowerCase()
-                                  .includes(filterCands.search.toLowerCase())
+                                .toLowerCase()
+                                .includes(filterCands.search.toLowerCase())
                             : true
 
                     const dateMatch = filterCands?.selectedRange
                         ? (() => {
-                              const { startDate, endDate } =
-                                  filterCands.selectedRange
+                            const { startDate, endDate } =
+                                filterCands.selectedRange
 
-                              if (startDate && endDate) {
-                                  // Both start and end dates are present
-                                  return (
-                                      new Date(candDocDate) >=
-                                          new Date(startDate) &&
-                                      new Date(candDocDate) <= new Date(endDate)
-                                  )
-                              } else if (startDate) {
-                                  // Only start date is present
-                                  return (
-                                      new Date(candDocDate).getTime() ===
-                                      new Date(startDate).getTime()
-                                  ) // Compare time values
-                              } else if (endDate) {
-                                  // Only end date is present
-                                  return (
-                                      new Date(candDocDate).getTime() ===
-                                      new Date(endDate).getTime()
-                                  ) // Compare time values
-                              }
+                            if (startDate && endDate) {
+                                // Both start and end dates are present
+                                return (
+                                    new Date(candDocDate) >=
+                                    new Date(startDate) &&
+                                    new Date(candDocDate) <= new Date(endDate)
+                                )
+                            } else if (startDate) {
+                                // Only start date is present
+                                return (
+                                    new Date(candDocDate).getTime() ===
+                                    new Date(startDate).getTime()
+                                ) // Compare time values
+                            } else if (endDate) {
+                                // Only end date is present
+                                return (
+                                    new Date(candDocDate).getTime() ===
+                                    new Date(endDate).getTime()
+                                ) // Compare time values
+                            }
 
-                              return true // Neither date is present, show all data
-                          })()
+                            return true // Neither date is present, show all data
+                        })()
                         : true // If selectedRange is not defined, show all data
 
                     const franchiseMatch =
                         filterCands?.franchise &&
-                        filterCands.franchise.length > 0
+                            filterCands.franchise.length > 0
                             ? (() => {
-                                  const franchiseIds =
-                                      filterCands.franchise.map(
-                                          (fc) => fc.docId,
-                                      )
-                                  if (cand.franchiseInterested) {
-                                      const parsedFranchises = JSON.parse(
-                                          cand.franchiseInterested,
-                                      )
-                                      return parsedFranchises.some(
-                                          (franchiseId) =>
-                                              franchiseIds.includes(
-                                                  franchiseId,
-                                              ),
-                                      )
-                                  }
-                              })()
+                                const franchiseIds =
+                                    filterCands.franchise.map(
+                                        (fc) => fc.docId,
+                                    )
+                                if (cand.franchiseInterested) {
+                                    const parsedFranchises = JSON.parse(
+                                        cand.franchiseInterested,
+                                    )
+                                    return parsedFranchises.some(
+                                        (franchiseId) =>
+                                            franchiseIds.includes(
+                                                franchiseId,
+                                            ),
+                                    )
+                                }
+                            })()
                             : true
 
                     const consultantMatch = filterCands?.consultantid
@@ -218,8 +241,8 @@ const CandidateListGrid = () => {
                         ? filterCands.selectedApprovalStatus === 'isArchived'
                             ? cand.isArchived
                             : filterCands.selectedApprovalStatus === 'isDeleted'
-                              ? cand.isDeleted
-                              : true
+                                ? cand.isDeleted
+                                : true
                         : !cand.isDeleted
 
                     // Apply both conditions together
@@ -234,7 +257,8 @@ const CandidateListGrid = () => {
                         consultantMatch &&
                         shouldShow &&
                         referralStatusMatch &&
-                        selectedStepsMatch
+                        selectedStepsMatch &&
+                        selectedConsultantsMatch
                     )
                 })
         }
@@ -294,6 +318,11 @@ const CandidateListGrid = () => {
         setFilterCands((prev) => ({ ...prev, selectedSteps }))
     }
 
+    const handleConsultantsFilter = (selectedOptions) => {
+        const selectedConsultants = selectedOptions.map((option) => option.value)
+        console.log(selectedConsultants, "filterCands")
+        setFilterCands((prev) => ({ ...prev, selectedConsultants }))
+    }
     const handleMouseDown = (e) => {
         const container = containerRef.current
         if (!container) return
@@ -347,7 +376,7 @@ const CandidateListGrid = () => {
                         {loading ? (
                             <CandidateListSkeleton />
                         ) : filteredCandidates &&
-                          filteredCandidates.length > 0 ? (
+                            filteredCandidates.length > 0 ? (
                             <FullScreen handle={handle}>
                                 <motion.div
                                     ref={containerRef}
@@ -426,6 +455,8 @@ const CandidateListGrid = () => {
                 stepOptions={stepOptions}
                 switchFormat={switchFormat}
                 filteredCandidates={filteredCandidates}
+                setGetAllConsultantsFilterData={setGetAllConsultantsFilterData}
+                handleConsultantsFilter={handleConsultantsFilter}
             />
             {SwitchFormatHandler()}
             <ToastContainer />
