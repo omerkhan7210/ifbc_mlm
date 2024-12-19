@@ -20,11 +20,11 @@ export const SignUpBase = ({
 
     return (
         <>
-            <div className="mb-8">
-                <Logo type="streamline" mode={mode} imgClass="mx-auto" logoWidth={60} />
+            <div className="mb-3">
+                <Logo type="streamline" mode={mode} imgClass="mx-auto" logoWidth={250} />
             </div>
-            <div className="mb-8">
-                <h3 className="mb-1">Sign Up</h3>
+            <div className="mb-3">
+                <h3 className="">Sign Up</h3>
                 <p className="font-semibold heading-text">
                     And lets get started with your free trial
                 </p>
@@ -36,7 +36,7 @@ export const SignUpBase = ({
             )}
             <SignUpForm disableSubmit={disableSubmit} setMessage={setMessage} />
             <div>
-                <div className="mt-6 text-center">
+                <div className="mt-2 text-center">
                     <span>Already have an account? </span>
                     <ActionLink
                         to={signInUrl}

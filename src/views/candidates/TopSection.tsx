@@ -1,3 +1,4 @@
+import { useAuth } from '@/auth'
 import { CSVLink } from 'react-csv'
 import Select from 'react-select'
 
@@ -10,7 +11,10 @@ export const TopButtonsSection = ({
     filteredCandidates,
     setShowTable,
     showTable,
+    setGetAllConsultantsFilterData,
+    handleConsultantsFilter,
 }) => {
+    const { user } = useAuth()
     const buttonClass =
         'flex items-center justify-center w-full bg-[#001136] rounded-sm py-2 px-4 text-sm bg-custom-heading-color text-white '
     return (
@@ -39,6 +43,13 @@ export const TopButtonsSection = ({
                 options={stepOptions}
                 onChange={handleStepFilterChange}
             />
+            {user?.email === 'info@ifbc.co' && (
+                <Select
+                    isMulti
+                    options={setGetAllConsultantsFilterData}
+                    onChange={handleConsultantsFilter}
+                />
+            )}
         </div>
     )
 }

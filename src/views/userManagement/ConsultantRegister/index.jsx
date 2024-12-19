@@ -42,7 +42,7 @@ const ConsultantRegister = () => {
     const validateForm = () => {
         const errors = {};
 
-        if (!formFields.mangerName.trim()) errors.mangerName = "Manager Name is required.";
+        if (!formFields.mangerName.trim()) errors.mangerName = "Consultant Name is required.";
         if (!formFields.firstName.trim()) errors.firstName = "First Name is required.";
         if (!formFields.lastName.trim()) errors.lastName = "Last Name is required.";
         if (!formFields.email.trim()) {
@@ -55,16 +55,16 @@ const ConsultantRegister = () => {
         } else if (!/^\d{10,15}$/.test(formFields.phone)) {
             errors.phone = "Invalid phone number.";
         }
-        if (!formFields.password.trim()) {
-            errors.password = "Password is required.";
-        } else if (formFields.password.length < 6) {
-            errors.password = "Password must be at least 6 characters long.";
-        }
-        if (!formFields.confirmpassword.trim()) {
-            errors.confirmpassword = "Confirm Password is required.";
-        } else if (formFields.password !== formFields.confirmpassword) {
-            errors.confirmpassword = "Passwords do not match.";
-        }
+        // if (!formFields.password.trim()) {
+        //     errors.password = "Password is required.";
+        // } else if (formFields.password.length < 6) {
+        //     errors.password = "Password must be at least 6 characters long.";
+        // }
+        // if (!formFields.confirmpassword.trim()) {
+        //     errors.confirmpassword = "Confirm Password is required.";
+        // } else if (formFields.password !== formFields.confirmpassword) {
+        //     errors.confirmpassword = "Passwords do not match.";
+        // }
         if (!formFields.street.trim()) errors.street = "Street address is required.";
         if (!formFields.city.trim()) errors.city = "City is required.";
         if (!formFields.postal.trim()) {
@@ -107,7 +107,7 @@ const ConsultantRegister = () => {
             companyPhoneNumber: formFields?.phone,
             usertype: "C",
             isVerified: true,
-            password: formFields?.password,
+            password: "",
             gettingStartedStep: "1",
             isApproved: true,
             alreadyApproved: true,

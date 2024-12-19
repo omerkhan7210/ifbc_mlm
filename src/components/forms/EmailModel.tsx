@@ -93,12 +93,12 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                             />
                         </div> */}
                         <div className="col-span-2">
-                            <label
+                            {/* <label
                                 htmlFor="description"
                                 className="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                             >
                                 Message
-                            </label>
+                            </label> */}
                             <div style={{ marginBottom: '15px' }}>
                                 <label
                                     htmlFor="subject"
@@ -127,6 +127,7 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
 
                             <div>
                                 <ReactQuill
+                                    className="h-[13.5rem]"
                                     theme="snow"
                                     value={emailForm.body}
                                     onChange={(value) =>
@@ -134,13 +135,13 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                                     }
                                     placeholder="Write something here..."
                                 />
-                                <p>Editor Content:</p>
+                                {/* <p>Editor Content:</p> */}
                             </div>
                         </div>
                     </div>
                     <button
                         type="submit"
-                        className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mt-[2rem] mt-[4rem]"
                     >
                         Send
                     </button>

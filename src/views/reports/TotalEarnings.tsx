@@ -3,6 +3,7 @@ import { getData } from '@/services/axios/axiosUtils'
 import { useAuth } from '@/auth'
 import useIsAdmin from '../../hooks/useIsAdmin'
 import CommissionTable from '../EcommerceDashboard/components/CommissionTable'
+import TableSkeleton from '@/components/ui/TableSkeleton'
 
 const TotalEarnings = () => {
     const { user } = useAuth()
@@ -40,7 +41,11 @@ const TotalEarnings = () => {
             </h2>
 
             {isLoading ? (
-                <p>Loading...</p>
+                <TableSkeleton />
+            ) : totalEarnings.length === 0 ? (
+                <p className="text-gray-500 text-center">
+                    Total Earnings Not Available.
+                </p>
             ) : (
                 <CommissionTable totalEarnings={totalEarnings} />
             )}

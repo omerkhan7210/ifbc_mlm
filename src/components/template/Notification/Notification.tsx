@@ -222,20 +222,21 @@ const _Notification = ({ className }: { className?: string }) => {
                                 className={`relative rounded-xl flex py-2 cursor-pointer hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-gray-700`}
                                 onClick={() => onMarkAsRead(item.id)}
                             >
-                                <div>{<NotificationAvatar {...item} />}</div>
+                                {/* <div>{<NotificationAvatar {...item} />}</div> */}
                                 <div className="mx-3">
                                     <div>
                                         {/* {item.target && ( */}
                                         <span className="font-semibold heading-text">
-                                            {item.recipient} <br></br>
+                                        {item.title}
+                                            {/* {item.recipient} <br></br> */}
                                         </span>
                                         {/* )} */}
-                                        <span>{item.title}</span>
+                                        {/* <span>{item.title}</span> */}
                                     </div>
                                     <span className="text-xs">
                                         {item.message}
                                         <br></br>
-                                        {item.notificationType}
+                                        {/* {item.notificationType} */}
                                         <br></br>
                                         <span className="flex justify-end">
                                             {item.formattedDate}
@@ -243,7 +244,7 @@ const _Notification = ({ className }: { className?: string }) => {
                                     </span>
                                 </div>
                                 <Badge
-                                    className="absolute top-4 ltr:right-4 rtl:left-4 mt-1.5"
+                                    className="absolute top-2 ltr:right-4 rtl:left-4"
                                     innerClass={`${
                                         item.isRead
                                             ? 'bg-gray-300 dark:bg-gray-600'
