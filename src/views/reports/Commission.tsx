@@ -4,6 +4,8 @@ import { getData } from '@/services/axios/axiosUtils'
 import { useAuth } from '@/auth'
 import useIsAdmin from '../../hooks/useIsAdmin'
 import CommissionTable from '../EcommerceDashboard/components/CommissionTable'
+import Loading from '@/components/shared/Loading'
+import TableSkeleton from '@/components/ui/TableSkeleton'
 
 const Commission = () => {
     const { user } = useAuth()
@@ -25,7 +27,7 @@ const Commission = () => {
                     : response?.totalCompletedDeals
 
                 const filteredData = fetchedData.filter(
-                    (item) => item.commissionType === 'Child',
+                    (item) => item.commissionType === 'Direct',
                 )
 
                 // Set the filtered data to the state
@@ -39,8 +41,18 @@ const Commission = () => {
 
     return (
         <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">Total Commissions</h2>
-            {isLoading ? <p>Loading...</p> : <CommissionTable data={data} />}
+            <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-gray-300 pb-2">
+                Total Commissions
+            </h2>
+            {isLoading ? (
+                <TableSkeleton rows={5} columns={9} />
+            ) : data?.length === 0 ? (
+                <p className="text-gray-500 text-center">
+                    Commission Not Available.
+                </p>
+            ) : (
+                <CommissionTable data={data} />
+            )}
         </div>
     )
 }
