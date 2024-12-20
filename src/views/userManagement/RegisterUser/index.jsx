@@ -76,7 +76,7 @@ const RegisterUser = () => {
         // if (!formFields.hearAbout.trim()) errors.hearAbout = "Source of information is required.";
 
         setFormErrors(errors);
-        return Object.keys(errors).length === 0;
+        return Object?.keys(errors)?.length === 0;
     };
 
 
@@ -101,7 +101,7 @@ const RegisterUser = () => {
             firstname: formFields?.firstName,
             lastname: formFields?.lastName,
             email: formFields?.email,
-            phone: "",
+            phone: formFields?.phone,
             usertype: "A",
             isVerified: true,
             password: formFields?.password,
@@ -138,6 +138,7 @@ const RegisterUser = () => {
                     confirmpassword: '',
                     userName: '',
                     refferralId: '',
+                    userType: "Ambassador",
                     // street: "",
                     // city: "",
                     // postal: "",
@@ -152,7 +153,8 @@ const RegisterUser = () => {
             })
             .catch((error) => {
                 console.error('Error adding user:', error);
-                toast.error("Failed to register user. Please try again.");
+                toast.error(error?.response?.data?.message ||
+                    "Failed to register user. Please try again.");
                 setLoader(false);
             });
     };
