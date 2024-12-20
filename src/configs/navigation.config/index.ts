@@ -375,7 +375,7 @@ const inquiriesNavigation: NavigationTree[] = [
             {
                 key: 'franchise-inquiries',
                 path: `${INQUIRIES_PREFIX_PATH}/franchise-inquiries`,
-                title: 'Franchies Inquiries',
+                title: 'Franchise Inquiries',
                 translateKey: 'nav.franchise-inquiries',
                 icon: 'franchiseinquiries',
                 type: NAV_ITEM_TYPE_ITEM,
