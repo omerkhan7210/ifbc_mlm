@@ -64,7 +64,7 @@ const CandidateListGrid = () => {
             .catch((err) => console.log(err, "Error"))
     }
     const setGetAllConsultantsFilterData = getAllConsultants?.map((item) => ({
-        label: `${item?.firstName} ${item?.lastName} ${item?.email}`,
+        label: `${item?.firstName} ${item?.lastName} [${item?.email}]`,
         value: item?.docId || "",
     }));
     // FILTER CONSULTANTS DATA IN LOGIC END
