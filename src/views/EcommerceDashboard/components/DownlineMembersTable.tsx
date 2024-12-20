@@ -51,6 +51,7 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
     const [selectRowName, setSelectRowName] = useState<
         {
             docId: number
+            email: string
             firstName: string
             lastName: string
         }[]
@@ -80,6 +81,7 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
                       ...prev,
                       {
                           docId: item?.docid,
+                          email: item?.email,
                           firstName: item?.firstName,
                           lastName: item?.lastName,
                       },
@@ -92,6 +94,7 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
             isChecked
                 ? filteredData.map((item) => ({
                       docId: item?.docid,
+                      email: item?.email,
                       firstName: item?.firstName,
                       lastName: item?.lastName,
                   }))

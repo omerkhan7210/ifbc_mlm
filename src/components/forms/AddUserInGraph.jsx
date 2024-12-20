@@ -15,10 +15,10 @@ const AddUserInGraph = ({
     handleSubmitAfterValidation,
     loader
 }) => {
-    const [showPassword, setShowPassword] = useState({
-        password: false,
-        confirmpassword: false,
-    });
+    // const [showPassword, setShowPassword] = useState({
+    //     password: false,
+    //     confirmpassword: false,
+    // });
     const [selectedState, setSelectedState] = useState("");
 
 
@@ -29,7 +29,6 @@ const AddUserInGraph = ({
     };
 
     const cities = selectedState ? citiesByState[selectedState] || [] : [];
-    console.log(formFields?.userType, "formFields?.userType")
 
 
     return (

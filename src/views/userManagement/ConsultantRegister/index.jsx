@@ -81,7 +81,7 @@ const ConsultantRegister = () => {
 
 
         setFormErrors(errors);
-        return Object.keys(errors).length === 0; // Return true if no errors
+        return Object?.keys(errors)?.length === 0;
     };
 
     const notifyUpdate = (formErrors) => {
@@ -127,7 +127,6 @@ const ConsultantRegister = () => {
             isDeleted: false,
             isArchived: false,
         };
-        console.log(newUser, "newUser");
         postData('consultants', newUser)
             .then((response) => {
                 console.log(response, "response")
@@ -152,12 +151,14 @@ const ConsultantRegister = () => {
                     networking: "",
                     hearAbout: "",
                     hearAboutSpecify: "",
+                    userType: "Consultants",
                 });
                 setIsLoading(false);
             })
             .catch((error) => {
                 console.error('Error adding user:', error);
-                toast.success(error || "SomeThing is went to wrong!");
+                toast.error(error?.response?.data?.message
+                    || "SomeThing is went to wrong!");
                 setIsLoading(false);
             });
     };
