@@ -5,7 +5,8 @@ import profile from "/images/logo/android-chrome-192x192.png"
 
 const { Tr, Td, TBody, THead, Th } = Table
 
-const CommissionTable = ({ data = [], totalBouns = [], totalEarnings = [], subscriptionData = [], user = {} }) => {
+const CommissionTable = ({ data = [], totalBouns = [], totalEarnings = [], }) => {
+    // subscriptionData = [], user = {} 
 
     const generatePDF = (commission) => {
         const doc = new jsPDF()
@@ -32,37 +33,35 @@ const CommissionTable = ({ data = [], totalBouns = [], totalEarnings = [], subsc
         )
         doc.save(`commission_${commission?.commissionId || commission?.docId}.pdf`)
     }
-    console.log(subscriptionData, "subscriptionData")
+    // console.log(subscriptionData, "subscriptionData")
     return (
         <div>
             <Table>
                 <THead>
-                    {subscriptionData?.length > 0 ?
-                        <Tr>
-                            <Th>S.NO</Th>
-                            <Th>Profile</Th>
-                            <Th>Name</Th>
-                            <Th>Email</Th>
-                            <Th>Phone</Th>
-                            <Th>User Name</Th>
-                            <Th>Refferral Id</Th>
-                            <Th>User Type</Th>
-                            <Th>Date</Th>
-                            <Th>Actions</Th>
-                        </Tr> :
-                        // <Tr>
-                        //     <Th>Commission ID</Th>
-                        //     <Th>Candidate Name</Th>
+                    {/* {subscriptionData?.length > 0 ? */}
+                    {/* // <Tr>
+                        //     <Th>S.NO</Th>
+                        //     <Th>Profile</Th>
+                        //     <Th>Name</Th>
                         //     <Th>Email</Th>
                         //     <Th>Phone</Th>
-                        //     <Th>Amount</Th>
-                        //     <Th>Category</Th>
-                        //     <Th>Listing Name</Th>
-                        //     <Th>Commission Date</Th>
+                        //     <Th>User Name</Th>
+                        //     <Th>Refferral Id</Th>
+                        //     <Th>User Type</Th>
+                        //     <Th>Date</Th>
                         //     <Th>Actions</Th>
-                        // </Tr>
-                        <>efe</>
-                    }
+                        // </Tr> : */}
+                    <Tr>
+                        <Th>Commission ID</Th>
+                        <Th>Candidate Name</Th>
+                        <Th>Email</Th>
+                        <Th>Phone</Th>
+                        <Th>Amount</Th>
+                        <Th>Category</Th>
+                        <Th>Listing Name</Th>
+                        <Th>Commission Date</Th>
+                        <Th>Actions</Th>
+                    </Tr>
                 </THead>
                 <TBody>
                     {data?.map((commission) => (
@@ -125,7 +124,7 @@ const CommissionTable = ({ data = [], totalBouns = [], totalEarnings = [], subsc
                             </Td>
                         </Tr>
                     ))}
-                    {subscriptionData?.map((commission) => (
+                    {/* {subscriptionData?.map((commission) => (
                         <Tr key={commission?.docId}>
                             <Td>{commission?.docId}</Td>
                             <Td>  <img
@@ -139,7 +138,6 @@ const CommissionTable = ({ data = [], totalBouns = [], totalEarnings = [], subsc
                             <Td>{`${user?.firstName} ${commission.refferralId}`}</Td>
                             <Td>{commission.userType === "A" ? "Ambassador" : "Consultant"}</Td>
                             <Td>{new Date(commission?.docDate).toLocaleString()}</Td>
-                            {/* <Td>{new Date(subscription.commissionDate).toLocaleString()}</Td> */}
                             <Td>
                                 <button
                                     onClick={() => generatePDF(commission)}
@@ -149,7 +147,7 @@ const CommissionTable = ({ data = [], totalBouns = [], totalEarnings = [], subsc
                                 </button>
                             </Td>
                         </Tr>
-                    ))}
+                    ))} */}
                 </TBody>
             </Table >
         </div >

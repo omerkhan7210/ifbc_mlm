@@ -4,11 +4,12 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import profile from '/images/logo/android-chrome-192x192.png'
 
 interface EmailFormState {
     subject: string
     body: string
-    files: []
+    files: File[]
 }
 
 const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
@@ -18,54 +19,150 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
         files: [],
     })
 
-    const handleChange = (field: keyof EmailFormState, value: string) => {
+    const handleChange = (
+        field: keyof EmailFormState,
+        value: string | File[],
+    ) => {
         setEmailForm((prevState) => ({
             ...prevState,
             [field]: value,
         }))
     }
+
     const handleFileChange = (event) => {
-        const file = event.target.files[0]
-        handleChange('files', file)
+        const files = event.target.files // Get all selected files
+        handleChange('files', Array.from(files)) // Store files as an array
     }
 
     const receiversEmails = allBulkEmailName?.map((item) => item?.email)
+    // const receiversEmails = [
+    //     'mshayanshakeel786@gmail.com',
+    //     'odoobasit@gmail.com',
+    //     // 'unitytech0@gmail.com',
+    // ]
 
-    const handleSendBulkEmail = async (event: React.FormEvent) => {
-        event.preventDefault()
+    // const handleSendBulkEmail = async (event: React.FormEvent) => {
+    //     event.preventDefault()
 
-        const formData = new FormData()
+    //     const formData = new FormData()
+    //     if (receiversEmails && receiversEmails.length > 0) {
+    //         formData.append('receiverEmails', JSON.stringify(receiversEmails))
+    //     }
+    //     formData.append('subject', emailForm?.subject)
+    //     formData.append('Body', emailForm?.body)
+    //     formData.append('files', [emailForm?.files])
+
+    //     // if (emailForm?.files?.length > 0) {
+    //     //     const filesArray = emailForm.files.map((file, index) => {
+    //     //         return { key: `files`, file }
+    //     //     })
+
+    //     //     filesArray.forEach(({ key, file }) => {
+    //     //         formData.append(key, file)
+    //     //     })
+    //     // }
+    //     for (const [key, value] of formData.entries()) {
+    //         console.log(
+    //             `${key}:`,
+    //             value instanceof File ? `File(${value.name})` : value,
+    //         )
+    //     }
+    //     // postData('emailing/send-email-bulk', formData)
+
+    //     const baseUrl = `${BASE_API_URL}/emailing/send-bulk-email` //https://backend.ifbc.co/api/emailing/
+    //     await axios
+    //         .post(baseUrl, formData, {
+    //             headers: {
+    //                 // 'Content-Type': 'multipart/form-data',
+    //                 'X-App-Token': HEADER_TOKEN,
+    //             },
+    //         })
+    //         .then((response) => console.log('User added:', response))
+    //         .catch((error) => console.error('Error adding user:', error))
+    // }
+
+    const handleSendBulkEmail = async (e) => {
+        e.preventDefault()
+
+        const data = new FormData()
         if (receiversEmails && receiversEmails.length > 0) {
-            formData.append('receiverEmails', JSON.stringify(receiversEmails))
+            data.append('ReceiverEmails', JSON.stringify(receiversEmails))
         }
-        formData.append('subject', emailForm?.subject)
-        formData.append('Body', emailForm?.body)
 
-        if (emailForm?.files?.length > 0) {
-            emailForm.files.forEach((file, index) => {
-                formData.append(`files[${index}]`, file)
+        // if (receiversEmails && receiversEmails.length > 0) {
+        //     data.append('ReceiverEmails', JSON.stringify(receiversEmails))
+        // }
+        data.append('Subject', emailForm?.subject)
+        data.append('Body', emailForm?.body)
+        if (emailForm?.files && emailForm.files.length > 0) {
+            emailForm.files.forEach((file) => {
+                console.log('Appending file:', file)
+                data.append('Files', file) // Append each file directly
             })
         }
-        for (const [key, value] of formData.entries()) {
+
+        // Log FormData entries (for debugging)
+        for (let [key, value] of data.entries()) {
             console.log(
-                `${key}:`,
-                value instanceof File ? `File(${value.name})` : value,
-                emailForm.files,
+                `${key}: ${value instanceof File ? `File(${value.name})` : value}`,
             )
         }
-        // postData('emailing/send-email-bulk', formData)
 
-        const baseUrl = `${BASE_API_URL}/emailing/send-email-bulk`
-        await axios
-            .post(baseUrl, formData, {
-                headers: {
-                    // 'Content-Type': 'multipart/form-data',
-                    'X-App-Token': HEADER_TOKEN,
+        try {
+            const response = await axios.post(
+                `${BASE_API_URL}/emailing/send-bulk-email`,
+                data,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'X-App-Token': HEADER_TOKEN,
+                    },
                 },
-            })
-            .then((response) => console.log('User added:', response))
-            .catch((error) => console.error('Error adding user:', error))
+            )
+            alert('Emails sent successfully!')
+        } catch (error) {
+            console.error('Error sending emails:', error)
+            // alert('Failed to send emails. Check the console for details.')
+        }
     }
+
+    // const handleSendBulkEmail = async (event: React.FormEvent) => {
+    //     event.preventDefault()
+
+    //     const formData = new FormData()
+
+    //     // Append receiver emails and email details
+    //     if (receiversEmails && receiversEmails.length > 0) {
+    //         formData.append('ReceiverEmails', JSON.stringify(receiversEmails))
+    //     }
+    //     formData.append('Subject', emailForm?.subject)
+    //     formData.append('Body', emailForm?.body)
+
+    //     if (emailForm?.files && emailForm.files.length > 0) {
+    //         emailForm.files.forEach((file) => {
+    //             console.log('Appending file:', file)
+    //             formData.append('files', file)
+    //         })
+    //     }
+
+    //     for (const [key, value] of formData.entries()) {
+    //         console.log(
+    //             `${key}:`,
+    //             value instanceof File ? `File(${value.name})` : value,
+    //         )
+    //     }
+    //     // Send the request
+    //     const baseUrl = `${BASE_API_URL}/emailing/send-bulk-email`
+    //     await axios
+    //         .post(baseUrl, formData, {
+    //             headers: {
+    //                 'X-App-Token': HEADER_TOKEN,
+    //             },
+    //         })
+    //         .then((response) => console.log('User added:', response))
+    //         .catch((error) => console.error('Error adding user:', error))
+    // }
+    console.log(emailForm, 'emailForm', emailForm?.files)
     return (
         <div
             id="crud-modal"
