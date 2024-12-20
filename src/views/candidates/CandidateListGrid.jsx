@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 import { HiOutlineLightBulb } from 'react-icons/hi'
 import ConfettiComponent from '../../GlobalPageSections/ConfettiComponent.jsx'
 import { useAuth } from '@/auth'
-import { getData } from '@/services/axios/axiosUtils'
+import { getData, postData } from '@/services/axios/axiosUtils'
 import DownlineMembersTable from '../EcommerceDashboard/components/DownlineMembersTable.tsx'
 import CandidateListSkeleton from '../../components/ui/CandidateListSkeleton.jsx'
 
@@ -41,7 +41,7 @@ const steps = [
     'On Hold',
 ]
 const CandidateListGrid = () => {
-    const { user } = useAuth()
+    const { user } = useAuth();
     const [cands, setCands] = useState()
     // const { cands, refetch, isLoading } = useContext(MyCandContext)
     const [filteredCandidates, setFilteredCandidates] = useState([])
@@ -68,7 +68,7 @@ const CandidateListGrid = () => {
         value: item?.docId || "",
     }));
     // FILTER CONSULTANTS DATA IN LOGIC END
-    console.log(setGetAllConsultantsFilterData, "setGetAllConsultantsFilterData")
+    // console.log(setGetAllConsultantsFilterData, "setGetAllConsultantsFilterData")
 
     useEffect(() => {
         getCandidates()
@@ -270,6 +270,8 @@ const CandidateListGrid = () => {
         setFilteredCandidates(uniqueCands)
     }, [filterCands, loading, cands])
 
+
+
     const handleDropCandidate = async (cand, newStep) => {
         setLoading(true)
         const container = containerRef.current
@@ -283,17 +285,33 @@ const CandidateListGrid = () => {
                 pipelineStep: newStep, // Update the pipeline step
             }
 
+            const logData = {
+                userId: user?.userId,
+                dealStageId: cand?.dealStageId,
+                candidateId: cand?.docid,
+                description: `Deal Stage updated to ${newStep} for ${cand?.firstName[0]?.toUpperCase() + cand?.firstName.slice(1)} ${cand?.lastName[0]?.toUpperCase() + cand?.lastName.slice(1)} (${cand?.email}) by ${user?.firstName[0]?.toUpperCase() + user?.firstName.slice(1)} ${user?.lastName[0]?.toUpperCase() + user?.lastName.slice(1)} (${user?.email}).`,
+                actionType: 'Deal Stage Update',
+                ipAddress: "",
+                browserInfo: "",
+                requestUrl: "",
+                module: "",
+            }
+
+
             const response = await axios.put(
                 `${BASE_API_URL}/candidateprofile/deal-stage/${cand?.dealStageId}`,
                 formData,
                 {
                     headers: {
+                        Authorization: `Bearer ${localStorage.getItem('mlmToken')}`,
                         'X-App-Token': HEADER_TOKEN,
                     },
                 },
             )
 
             if (response.status === 204) {
+                postData('ActivityLogCandidate', logData).then((data) => { }).catch((err) => console.log(err, "Error"))
+
                 setCands((prevCands) =>
                     prevCands.map((c) =>
                         c.dealStageId === cand.dealStageId
@@ -320,7 +338,7 @@ const CandidateListGrid = () => {
 
     const handleConsultantsFilter = (selectedOptions) => {
         const selectedConsultants = selectedOptions.map((option) => option.value)
-        console.log(selectedConsultants, "filterCands")
+        // console.log(selectedConsultants, "filterCands")
         setFilterCands((prev) => ({ ...prev, selectedConsultants }))
     }
     const handleMouseDown = (e) => {
@@ -717,6 +735,7 @@ const ReferralRibbon = ({ cand }) => {
 }
 
 const DraggableCard = ({ cand, key, containerRef }) => {
+    const { user } = useAuth();
     const [{ isDragging }, drag, preview] = useDrag(() => ({
         type: 'CANDIDATE',
         item: { cand },
@@ -824,7 +843,9 @@ const DraggableCard = ({ cand, key, containerRef }) => {
                     </span>
                 </div>
                 <div
-                    onClick={() => navigate(`/activity-log/${cand.docid}`)}
+                    onClick={() => navigate(`/activity-log/${cand.docid}`, {
+                        state: cand
+                    })}
                     className="text-xs font-semibold text-blue-600 hover:text-blue-800">
                     Check Activities
                 </div>
@@ -833,3 +854,4 @@ const DraggableCard = ({ cand, key, containerRef }) => {
     )
 }
 export default CandidateListGrid
+
