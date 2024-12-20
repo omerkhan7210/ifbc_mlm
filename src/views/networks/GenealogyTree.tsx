@@ -6,17 +6,14 @@ import ReactFlow, {
     Handle,
 } from 'react-flow-renderer'
 import dagre from 'dagre'
-import AddUserInGraph from '../../components/forms/AddUserInGraph.jsx'
+// import AddUserInGraph from '../../components/forms/AddUserInGraph.jsx'
 import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
 
 const CustomNode = ({ data }) => (
     <div className="custom-node flex items-center justify-center p-2 border rounded bg-white shadow-md">
         <img
-            src={
-                data.profile ||
-                '../../../public/images/logo/android-chrome-192x192.png'
-            }
+            src={data.profile || '/images/logo/android-chrome-192x192.png'}
             alt="profileImage"
             className="w-6 h-6 rounded-full mr-2"
         />
@@ -94,10 +91,16 @@ const Business = () => {
     const { user } = useAuth()
     const [selectedUser, setSelectedUser] = useState(null)
     const [apiData, setApiData] = useState([])
-    console.log(apiData ,"apiData")
+    console.log(apiData, 'apiData')
     function capitalizeWords(name) {
-        return name.split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),).join(' ')
-        }
+        return name
+            .split(' ')
+            .map(
+                (word) =>
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+            )
+            .join(' ')
+    }
 
     // Fetch data from the API
     const handleData = () => {
