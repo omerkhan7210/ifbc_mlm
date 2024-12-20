@@ -152,7 +152,7 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ id }) => {
     }
 
     return (
-        <div className="max-w-[700px] mx-auto p-4">
+        <div className="w-full mx-auto p-4">
             <Timeline>
                 {activities && activities.length > 0 ? (
                     activities.map((activity, index) => {
@@ -185,14 +185,14 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ id }) => {
                                         {user?.firstName +
                                             ' ' +
                                             user?.lastName && (
-                                            <span className="ml-2 text-gray-600">
-                                                with{' '}
-                                                <span className="font-semibold text-base capitalize text-gray-800">
-                                                    {selectedCand?.firstName}{' '}
-                                                    {selectedCand?.lastName}
+                                                <span className="ml-2 text-gray-600">
+                                                    with{' '}
+                                                    <span className="font-semibold text-base capitalize text-gray-800">
+                                                        {selectedCand?.firstName}{' '}
+                                                        {selectedCand?.lastName}
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        )}
+                                            )}
                                         <Badge
                                             stage={selectedCand?.pipelineStep}
                                             content={selectedCand?.pipelineStep}
