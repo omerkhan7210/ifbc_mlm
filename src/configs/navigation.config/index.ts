@@ -282,7 +282,7 @@ const reportsNavigation: NavigationTree[] = [
             //     subMenu: [],
             // },
             {
-                key: 'subscriptionreport',
+                key: 'subscriptionrepor',
                 path: `${REPORTS_PREFIX_PATH}/subscription-report`,
                 title: 'Subscription Report',
                 translateKey: 'nav.subscriptionreport',

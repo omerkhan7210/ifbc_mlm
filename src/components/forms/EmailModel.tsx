@@ -1,3 +1,6 @@
+import { BASE_API_URL, HEADER_TOKEN } from '@/constants/app.constant'
+import { postData } from '@/services/axios/axiosUtils'
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -5,20 +8,64 @@ import 'react-quill/dist/quill.snow.css'
 interface EmailFormState {
     subject: string
     body: string
+    files: []
 }
 
 const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
     const [emailForm, setEmailForm] = useState<EmailFormState>({
         subject: '',
         body: '',
+        files: [],
     })
+
     const handleChange = (field: keyof EmailFormState, value: string) => {
         setEmailForm((prevState) => ({
             ...prevState,
             [field]: value,
         }))
     }
-    console.log(emailForm, 'emailText')
+    const handleFileChange = (event) => {
+        const file = event.target.files[0]
+        handleChange('files', file)
+    }
+
+    const receiversEmails = allBulkEmailName?.map((item) => item?.email)
+
+    const handleSendBulkEmail = async (event: React.FormEvent) => {
+        event.preventDefault()
+
+        const formData = new FormData()
+        if (receiversEmails && receiversEmails.length > 0) {
+            formData.append('receiverEmails', JSON.stringify(receiversEmails))
+        }
+        formData.append('subject', emailForm?.subject)
+        formData.append('Body', emailForm?.body)
+
+        if (emailForm?.files?.length > 0) {
+            emailForm.files.forEach((file, index) => {
+                formData.append(`files[${index}]`, file)
+            })
+        }
+        for (const [key, value] of formData.entries()) {
+            console.log(
+                `${key}:`,
+                value instanceof File ? `File(${value.name})` : value,
+                emailForm.files,
+            )
+        }
+        // postData('emailing/send-email-bulk', formData)
+
+        const baseUrl = `${BASE_API_URL}/emailing/send-email-bulk`
+        await axios
+            .post(baseUrl, formData, {
+                headers: {
+                    // 'Content-Type': 'multipart/form-data',
+                    'X-App-Token': HEADER_TOKEN,
+                },
+            })
+            .then((response) => console.log('User added:', response))
+            .catch((error) => console.error('Error adding user:', error))
+    }
     return (
         <div
             id="crud-modal"
@@ -54,7 +101,8 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                     </button>
                 </div>
 
-                <form className="p-4 md:p-5">
+                {/* <form className="p-4 md:p-5" <form className="p-4 md:p-5" onSubmit={handleSendBulkEmail}>> */}
+                <form className="p-4 md:p-5" onSubmit={handleSendBulkEmail}>
                     <div className="grid gap-4 mb-4 grid-cols-2">
                         <div className="col-span-2">
                             <label
@@ -124,10 +172,27 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                                     }}
                                 />
                             </div>
+                            <div style={{ marginBottom: '15px' }}>
+                                <input
+                                    type="file"
+                                    id="subject"
+                                    // value={emailForm?.subject}
+                                    onChange={handleFileChange}
+                                    placeholder="Select Files"
+                                    style={{
+                                        width: '100%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '4px',
+                                        fontSize: '14px',
+                                    }}
+                                />
+                            </div>
 
-                            <div>
+                            <div className="relative">
                                 <ReactQuill
-                                    className="h-[13.5rem]"
+                                    className="h-[11rem]"
                                     theme="snow"
                                     value={emailForm.body}
                                     onChange={(value) =>
@@ -135,7 +200,6 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                                     }
                                     placeholder="Write something here..."
                                 />
-                                {/* <p>Editor Content:</p> */}
                             </div>
                         </div>
                     </div>
