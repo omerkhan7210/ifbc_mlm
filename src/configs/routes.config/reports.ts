@@ -40,9 +40,9 @@ export const reports: Routes = [
         authority: [],
     },
     {
-        key: 'subscriptionreport',
-        path: `${REPORTS_PREFIX_PATH}/payout`,
-        component: lazy(() => import('@/views/reports/Payout')),
+        key: 'subscriptionrepor',
+        path: `${REPORTS_PREFIX_PATH}/subscription-report`,
+        component: lazy(() => import('@/views/reports/SubscriptionReport')),
         authority: [],
     },
 ]
