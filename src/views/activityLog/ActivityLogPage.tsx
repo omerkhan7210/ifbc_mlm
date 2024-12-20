@@ -265,8 +265,18 @@ const DataModal = ({ user, cand, openModal, setOpenModal, getAllLogs }) => {
     }
 
     useEffect(() => {
-        addData('candidateId', cand?.docid)
-        addData('dealStageId', cand?.dealStageId)
+        let obj = {
+            userId: user?.userId,
+            dealStageId: cand?.dealStageId,
+            candidateId: cand?.docid,
+            description: '',
+            actionType: '',
+            ipAddress: "",
+            browserInfo: window.location.href,
+            requestUrl: "",
+            module: "",
+        }
+        setNoteObj(obj)
     }, [cand])
 
     const handleAddNote = () => {
