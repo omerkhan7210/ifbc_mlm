@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import DownlineMembersTable from '../views/EcommerceDashboard/components/DownlineMembersTable'
 import profileImage from '../../public/images/logo/android-chrome-192x192.png'
 import EmailModel from '../components/forms/EmailModel'
+import InvitationEmail from '../components/forms/InvitationEmail'
+import toast from 'react-hot-toast'
+import AuthContext from '@/auth/AuthContext'
 
-type BulkEmailNameType = {
-    [key: string]: { docid: number; firstName: string; lastName: string }
-}
+type BulkEmailNameType = Array<{
+    docId: number
+    email: string
+    firstName: string
+    lastName: string
+}>
 
 const Mailbox = () => {
     const filteredCandidates = [
@@ -88,17 +94,25 @@ const Mailbox = () => {
         },
     ]
     const [showEmailModel, setShowEmailModel] = useState<boolean>(false)
+    const [showInvitation, setShowInvitation] = useState<boolean>(false)
     const [allBulkEmailName, setAllBulkEmailName] = useState<BulkEmailNameType>(
-        {},
+        [],
     )
+    // if (allBulkEmailName?.length > 2) {
+    //     toast.error(
+    //         'You can select a maximum of 10 email addresses in one time.',
+    //     )
+    // }
     const headerConfig = {
         title: 'Inbox',
         buttonText: 'New email',
         placeholderText: 'Search User',
-        buttonAction: () => {
-            setShowEmailModel(true)
-
-            console.log(showEmailModel, 'Button action triggered')
+        buttonAction: (actionType: string) => {
+            if (actionType === 'newEmail' && allBulkEmailName.length <= 10) {
+                setShowEmailModel(true)
+            } else if (actionType === 'invitation') {
+                setShowInvitation(true)
+            }
         },
         onchangeAction: () => {
             console.log('Onchange details')
@@ -112,6 +126,12 @@ const Mailbox = () => {
             {showEmailModel && (
                 <EmailModel
                     onClose={() => setShowEmailModel(false)}
+                    allBulkEmailName={allBulkEmailName}
+                />
+            )}
+            {showInvitation && (
+                <InvitationEmail
+                    onClose={() => setShowInvitation(false)}
                     allBulkEmailName={allBulkEmailName}
                 />
             )}
