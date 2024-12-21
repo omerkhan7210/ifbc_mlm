@@ -13,6 +13,8 @@ export const TopButtonsSection = ({
     showTable,
     setGetAllConsultantsFilterData,
     handleConsultantsFilter,
+    setGetAllConsultantsFilterDataForUser,
+    handleConsultantsFilterForUser,
 }) => {
     const { user } = useAuth()
     const buttonClass =
@@ -50,6 +52,11 @@ export const TopButtonsSection = ({
                     onChange={handleConsultantsFilter}
                 />
             )}
+            <Select
+                isMulti
+                options={setGetAllConsultantsFilterDataForUser}
+                onChange={handleConsultantsFilterForUser}
+            />
         </div>
     )
 }

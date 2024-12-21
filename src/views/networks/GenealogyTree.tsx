@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, useContext } from 'react'
 import ReactFlow, {
     MiniMap,
     Controls,
@@ -9,6 +9,7 @@ import dagre from 'dagre'
 // import AddUserInGraph from '../../components/forms/AddUserInGraph.jsx'
 import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
+import AuthContext from '@/auth/AuthContext'
 
 const CustomNode = ({ data }) => (
     <div className="custom-node flex items-center justify-center p-2 border rounded bg-white shadow-md">
@@ -106,6 +107,7 @@ const Business = () => {
     const handleData = () => {
         getData(`consultants/getconsultanthierarchy/${user?.userId}`)
             .then((data) => {
+                // setInfo(data)
                 const cleanedData = {
                     ...data,
                     firstName: capitalizeWords(data.firstName.trim()),

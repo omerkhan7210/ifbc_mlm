@@ -20,6 +20,7 @@ export default function Members() {
     const [openModal, setOpenModal] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [itemsPerPage, setItemsPerPage] = useState(6);
+    console.log(data, "data")
 
 
 
