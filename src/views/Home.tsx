@@ -7,6 +7,8 @@ import { useAuth } from '@/auth'
 import { Card } from '@/components/ui'
 import DealsOverview from './business/components/DealsOverview'
 import MonthlyDealsChart from './business/components/MonthlyDealsChart'
+import { useUsersStore } from '@/store/authStore'
+import useIsAdmin from '../hooks/useIsAdmin.js'
 
 const months = [
     // 'Jan',
@@ -56,6 +58,8 @@ interface MonthlyData {
 
 const Home = () => {
     const { user } = useAuth()
+    const isAdmin = useIsAdmin()
+    const users = useUsersStore((state) => state.users)
     const [data, setData] = useState<MonthlyData[]>([])
     const [consultantsData, setConsultantsData] = useState([])
     const [ambassadorsData, setAmbassadorsData] = useState<MonthlyData[]>([])
@@ -66,6 +70,8 @@ const Home = () => {
             const result = await apiFetch('candidateprofile', '')
 
             const resultUsers = await apiFetch('users', '')
+
+            console.log(users, result, resultUsers)
 
             const filterUsersByType = (users: User[], type: string) => {
                 return users.filter(
@@ -147,7 +153,10 @@ const Home = () => {
                             Monthly Candidates Data
                         </h2>
                         {/* <BasicLine data={data} /> */}
-                        <BasicLine data={data} months={availableMonths} />
+                        <BasicLine
+                            data={isAdmin ? data : consultantsData}
+                            months={availableMonths}
+                        />
                     </div>
                 </Card>
                 <Card>
