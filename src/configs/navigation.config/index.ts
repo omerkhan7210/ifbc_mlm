@@ -281,16 +281,16 @@ const reportsNavigation: NavigationTree[] = [
             //     authority: [],
             //     subMenu: [],
             // },
-            {
-                key: 'subscriptionrepor',
-                path: `${REPORTS_PREFIX_PATH}/subscription-report`,
-                title: 'Subscription Report',
-                translateKey: 'nav.subscriptionreport',
-                icon: 'subscriptionreport',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
+            // {
+            //     key: 'subscriptionrepor',
+            //     path: `${REPORTS_PREFIX_PATH}/subscription-report`,
+            //     title: 'Subscription Report',
+            //     translateKey: 'nav.subscriptionreport',
+            //     icon: 'subscriptionreport',
+            //     type: NAV_ITEM_TYPE_ITEM,
+            //     authority: [],
+            //     subMenu: [],
+            // },
         ],
     },
 ]
@@ -452,16 +452,16 @@ const toolsNavigation: NavigationTree[] = [
             },
         },
         subMenu: [
-            {
-                key: 'e-wallet',
-                path: `${TOOLS_PREFIX_PATH}/e-wallet`,
-                title: 'E-wallet',
-                translateKey: 'nav.e-wallet',
-                icon: 'eWallet',
-                type: NAV_ITEM_TYPE_ITEM,
-                authority: [],
-                subMenu: [],
-            },
+            // {
+            //     key: 'e-wallet',
+            //     path: `${TOOLS_PREFIX_PATH}/e-wallet`,
+            //     title: 'E-wallet',
+            //     translateKey: 'nav.e-wallet',
+            //     icon: 'eWallet',
+            //     type: NAV_ITEM_TYPE_ITEM,
+            //     authority: [],
+            //     subMenu: [],
+            // },
 
             {
                 key: 'payout',

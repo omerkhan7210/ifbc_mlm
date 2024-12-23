@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 import ModalInternalScroll from '@/components/ui/modal/ModalInternalScroll'
 import toast from 'react-hot-toast'
 import { FormatRawDate } from '../../utils/FormatRawDate.js'
+import { set } from 'lodash'
 
 interface CandidateDetails {
     firstName: string
@@ -83,6 +84,7 @@ interface ActivityLogProps {
 const ActivityLogPage: React.FC<ActivityLogProps> = () => {
     const [activities, setActivities] = useState<Activity[]>([])
     const [openModal, setOpenModal] = useState(false)
+    const [response, setRespnse] = useState<any>([])
 
     const { user } = useAuth()
     const location = useLocation();
@@ -107,7 +109,9 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
             `activitylogcandidate/dealStageId/${selectedCand?.dealStageId}`,
             // `activitylogcandidate/dealStageId/${79}`,
         )
-        const logs = responseData.reverse()
+        console.log(responseData, "Response Data")
+        setRespnse(responseData)
+        const logs = responseData.logs
         setActivities([...logs])
     }
 
@@ -174,7 +178,7 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
                                         <div className="bg-gray-200 rounded-full overflow-hidden w-10 h-10 flex items-center justify-center">
                                             <span className="text-gray-600">
                                                 {getEventIcon(
-                                                    activity?.logs?.actionType,
+                                                    activity?.actionType,
                                                 )}
                                             </span>
                                         </div>
@@ -184,7 +188,7 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
                                         <div className="p-2  rounded-t-lg text-white text-base md:text-xl font-semibold  text-center"
                                             style={{ backgroundColor: 'var(--primary)' }}
                                         >
-                                            {activity?.logs?.actionType}
+                                            {activity?.actionType}
 
                                         </div>
 
@@ -193,21 +197,21 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
                                                 <div className="flex items-center">
                                                     <Avatar
                                                         src={'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2409187029.jpg'}
-                                                        alt={activity?.logs?.userDetails?.firstName}
+                                                        alt={activity?.userDetails?.firstName}
                                                         size="sm"
                                                         className="mr-2"
                                                     />
                                                     <div className='flex flex-col md:flex-row md:items-center md:gap-2'>
                                                         <div className="text-sm md:text-lg font-semibold text-gray-900">
-                                                            {activity?.logs?.userDetails?.firstName}{' '}
-                                                            {activity?.logs?.userDetails?.lastName}
+                                                            {activity?.userDetails?.firstName}{' '}
+                                                            {activity?.userDetails?.lastName}
                                                         </div>
 
                                                         <div className="text-gray-600 flex items-center gap-2">
                                                             with
                                                             <div className="font-semibold text-sm md:text-lg capitalize text-gray-800">
-                                                                {activity?.candidateDetails?.firstName}{' '}
-                                                                {activity?.candidateDetails?.lastName}
+                                                                {response?.candidateDetails?.firstName}{' '}
+                                                                {response?.candidateDetails?.lastName}
                                                             </div>
                                                         </div>
 
@@ -216,9 +220,9 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
                                                 <div
                                                     className='max-md:hidden'
                                                 >
-                                                    {activity?.logs?.pipelineStep && <Badge
-                                                        stage={activity?.logs?.pipelineStep ?? activity?.dealStageDetails?.pipelineStep}
-                                                        content={activity?.logs?.pipelineStep ?? activity?.dealStageDetails?.pipelineStep}
+                                                    {activity?.pipelineStep && <Badge
+                                                        stage={activity?.pipelineStep}
+                                                        content={activity?.pipelineStep}
                                                         className="ml-4" // Margin added to the left of the badge
                                                     />}
                                                 </div>
@@ -226,9 +230,9 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
                                             <div
                                                 className='mt-3 pr-3 flex justify-end md:hidden'
                                             >
-                                                {activity?.logs?.pipelineStep && <Badge
-                                                    stage={activity?.logs?.pipelineStep ?? activity?.dealStageDetails?.pipelineStep}
-                                                    content={activity?.logs?.pipelineStep ?? activity?.dealStageDetails?.pipelineStep}
+                                                {activity?.pipelineStep && <Badge
+                                                    stage={activity?.pipelineStep}
+                                                    content={activity?.pipelineStep}
                                                     className="ml-4" // Margin added to the left of the badge
                                                 />}
                                             </div>
@@ -241,7 +245,7 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
                                                     <div
                                                         className="text-gray-700 "
                                                         dangerouslySetInnerHTML={{
-                                                            __html: activity?.logs?.description
+                                                            __html: activity?.description
                                                                 .replace(/(\r\n|\n|\r)/gm, ' ')
                                                                 .replace(/\s\s+/g, ' ')
                                                                 .replace(/,/g, ''),
@@ -254,7 +258,7 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
                                                 className='w-full flex justify-end'
                                             >
                                                 <span className="block mt-2 text-sm text-gray-800 font-semibold ">
-                                                    {FormatRawDate(activity?.logs)}
+                                                    {FormatRawDate(activity)}
                                                 </span>
                                             </div>
 
