@@ -10,6 +10,7 @@ import PaginationHandler from '@/components/PaginationHandler';
 import FiltersHandler from '@/components/FiltersHandler';
 import useIsAdmin from '../../../hooks/useIsAdmin';
 
+
 export default function Members() {
     const { user } = useAuth();
     const isAdmin = useIsAdmin();
@@ -20,9 +21,7 @@ export default function Members() {
     const [openModal, setOpenModal] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [itemsPerPage, setItemsPerPage] = useState(6);
-    console.log(data, "data")
-
-
+   
 
     const getUsers = () => {
         setIsLoading(true);

@@ -4,6 +4,7 @@ import { TOKEN_NAME_IN_STORAGE } from '@/constants/api.constant'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import type { User } from '@/@types/auth'
+import { set } from 'lodash'
 
 type Session = {
     signedIn: boolean
@@ -18,6 +19,15 @@ type AuthAction = {
     setSessionSignedIn: (payload: boolean) => void
     setUser: (payload: User) => void
 }
+// ALL USER TYPES START
+type UsersState = {
+    users: User[]
+}
+
+type UsersAction = {
+    setUsers: (users: User[]) => void
+}
+// ALL USER GET END
 
 const getPersistStorage = () => {
     if (appConfig.accessTokenPersistStrategy === 'localStorage') {
@@ -77,6 +87,17 @@ export const useSessionUser = create<AuthState & AuthAction>()(
                 })),
         }),
         { name: 'sessionUser', storage: createJSONStorage(() => localStorage) },
+    ),
+)
+
+// ALL USER GET FUNCTIONS START
+export const useUsersStore = create<UsersState & UsersAction>()(
+    persist(
+        (set) => ({
+            users: [],
+            setUsers: (users) => set(() => ({ users })),
+        }),
+        { name: 'usersData', storage: createJSONStorage(() => localStorage) },
     ),
 )
 
