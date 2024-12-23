@@ -6,7 +6,7 @@ import {
 } from '@/constants/app.constant'
 import Cookies from 'js-cookie'
 
-const token = localStorage.getItem('mlmToken') || Cookies.get('mlmToken')
+const token = localStorage.getItem('mlmToken')
 const defaultHeaders = {
     'X-App-Token': HEADER_TOKEN,
     'Content-Type': 'application/json',
