@@ -26,13 +26,14 @@ const months = [
 ]
 
 const apiFetch = async (endpoint: string, decryptedToken: string) => {
+
     const res = axios
         .get(`https://backend.ifbc.co/api/${endpoint}`, {
             headers: {
                 ...(decryptedToken && decryptedToken !== ''
                     ? {
-                          Authorization: `Bearer ${decryptedToken}`,
-                      }
+                        Authorization: `Bearer ${decryptedToken}`,
+                    }
                     : {}),
                 'X-App-Token': 'your-app-specific-token-ifbc',
             },
@@ -57,21 +58,24 @@ interface MonthlyData {
 }
 
 const Home = () => {
-    const { user } = useAuth()
+    const { user } = useAuth();
     const isAdmin = useIsAdmin()
     const users = useUsersStore((state) => state.users)
     const [data, setData] = useState<MonthlyData[]>([])
     const [consultantsData, setConsultantsData] = useState([])
     const [ambassadorsData, setAmbassadorsData] = useState<MonthlyData[]>([])
     const [availableMonths, setAvailableMonths] = useState<string[]>([])
+    const token = localStorage.getItem('mlmToken') || '';
+
 
     useEffect(() => {
         const fetchDataAsync = async () => {
-            const result = await apiFetch('candidateprofile', '')
+            const result = await apiFetch(isAdmin ? 'candidateprofile' : `CandidateProfile/consultant/${user?.userId}`, token)
+
 
             const resultUsers = await apiFetch('users', '')
 
-            console.log(users, result, resultUsers)
+            // console.log(users, result, resultUsers)
 
             const filterUsersByType = (users: User[], type: string) => {
                 return users.filter(
@@ -154,12 +158,12 @@ const Home = () => {
                         </h2>
                         {/* <BasicLine data={data} /> */}
                         <BasicLine
-                            data={isAdmin ? data : consultantsData}
+                            data={data}
                             months={availableMonths}
                         />
                     </div>
                 </Card>
-                <Card>
+                {isAdmin && <Card>
                     <div className="w-full">
                         <h2 className="text-sm text-center mb-2">
                             Monthly Users Data
@@ -170,7 +174,7 @@ const Home = () => {
                             months={availableMonths}
                         />
                     </div>
-                </Card>
+                </Card>}
             </div>
         </div>
     )
