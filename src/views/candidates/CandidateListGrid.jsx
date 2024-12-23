@@ -125,8 +125,8 @@ const CandidateListGrid = () => {
             return cands
                 ?.sort((a, b) => {
                     // Convert 'docDate' to Date objects, ensuring valid dates
-                    const dateA = new Date(a.docDate)
-                    const dateB = new Date(b.docDate)
+                    const dateA = new Date(a.localDocDate)
+                    const dateB = new Date(b.localDocDate)
 
                     // Check if both dates are valid before sorting
                     if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
@@ -289,6 +289,7 @@ const CandidateListGrid = () => {
                 userId: user?.userId,
                 dealStageId: cand?.dealStageId,
                 candidateId: cand?.docid,
+                pipelineStep: newStep,
                 description: `Deal Stage updated to ${newStep} for ${cand?.firstName[0]?.toUpperCase() + cand?.firstName.slice(1)} ${cand?.lastName[0]?.toUpperCase() + cand?.lastName.slice(1)} (${cand?.email}) by ${user?.firstName[0]?.toUpperCase() + user?.firstName.slice(1)} ${user?.lastName[0]?.toUpperCase() + user?.lastName.slice(1)} (${user?.email}).`,
                 actionType: 'Deal Stage Update',
                 ipAddress: "",

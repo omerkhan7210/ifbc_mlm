@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { act, useEffect, useState } from 'react'
 import Timeline from '@/components/ui/Timeline'
 import Avatar from '@/components/ui/Avatar'
 import Badge from '@/components/ui/Badge'
@@ -9,38 +9,62 @@ import { Button, Card, Input } from '@/components/ui'
 import { useParams } from 'react-router-dom'
 import ModalInternalScroll from '@/components/ui/modal/ModalInternalScroll'
 import toast from 'react-hot-toast'
+import { FormatRawDate } from '../../utils/FormatRawDate.js'
+
+interface CandidateDetails {
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    refferralId: number
+    agentUserId: number
+}
+
+interface ListingDetails {
+    name: string
+    imgUrl: string
+    category: string
+}
+
+interface DealStageDetails {
+    docId: number
+    candidateId: number
+    listingId: number
+    pipelineStep: string
+    isApproved: boolean
+    listing: any
+    candidate: any
+}
+
+interface UserDetails {
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    profileImage: string
+}
 
 interface Log {
     id: number
     userId: number
+    pipelineStep: string
+    userDetails: UserDetails
+    dealStageId: number
     candidateId: number
     description: string
     actionType: string
-    docDate?: string
-    browserInfo?: string
-    ipAddress?: string
-    module?: string
-    requestUrl?: string
-}
-interface User {
-    docId: number
-    userId: number
-    firstName: string
-    lastName: string
-    email: string
-    profileImage: string
-}
-interface Listing {
-    name: string
-    docId: number
-    category: string
-    imgUrl: string
+    localDocDate: string
+    ipAddress: string
+    browserInfo: string
+    requestUrl: string
+    module: string
 }
 
 interface Activity {
-    log: Log
-    user: User
-    listings: Listing[]
+    candidateDetails: CandidateDetails
+    listingDetails: ListingDetails
+    dealStageDetails: DealStageDetails
+    logs: Log
 }
 
 interface Candidates {
@@ -49,6 +73,7 @@ interface Candidates {
     lastName: string
     email: string
     pipelineStep: string
+    dealStageId: number
 }
 
 interface ActivityLogProps {
@@ -57,13 +82,11 @@ interface ActivityLogProps {
 
 const ActivityLogPage: React.FC<ActivityLogProps> = () => {
     const [activities, setActivities] = useState<Activity[]>([])
-    const [candidates, setCandidates] = useState<Candidates[]>([])
     const [openModal, setOpenModal] = useState(false)
 
     const { user } = useAuth()
     const location = useLocation();
 
-    console.log(location.pathname, location?.state,)
 
     const [selectedCand, setSelectedCand] = useState<Candidates | null>(null)
     // Format date to Pacific Standard Time
@@ -79,29 +102,18 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
         return new Date(isoDate).toLocaleString('en-US', options)
     }
 
-    const stageColors: { [key: string]: string } = {
-        'New Deal': 'bg-blue-500 text-white',
-        'Initial Call Attempt': 'bg-orange-500 text-white',
-        'Connected': 'bg-green-500 text-white',
-        'Spoton/Candidate Research': 'bg-purple-500 text-white',
-        'Research & Prep Presentation': 'bg-indigo-500 text-white',
-        'Present Franchise Review': 'bg-teal-500 text-white',
-        'Intro to Zor': 'bg-pink-500 text-white',
-        'Franchise Due Diligence': 'bg-yellow-500 text-white',
-        'Validation - FSO': 'bg-red-500 text-white',
-        'Discovery Day/Award - FSO': 'bg-cyan-500 text-white',
-        'Closed Won': 'bg-emerald-500 text-white',
-        'Closed Lost': 'bg-gray-500 text-white',
-        'On Hold': 'bg-brown-500 text-white',
-    }
-
-    const handleGetAllUserActivitylog = async (candidateId: number) => {
+    const handleGetAllUserActivitylog = async () => {
         const responseData = await getData(
-            `activitylogcandidate/candidate/${candidateId}`,
+            `activitylogcandidate/dealStageId/${selectedCand?.dealStageId}`,
+            // `activitylogcandidate/dealStageId/${79}`,
         )
-        const logs = responseData.logs.reverse()
+        const logs = responseData.reverse()
         setActivities([...logs])
     }
+
+    console.log("All activities", activities)
+
+
 
     useEffect(() => {
         setSelectedCand(location?.state);
@@ -109,18 +121,14 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
 
     useEffect(() => {
         if (selectedCand) {
-            handleGetAllUserActivitylog(selectedCand?.docid)
+            handleGetAllUserActivitylog()
         }
-    }, [selectedCand])
-
-    console.log('selected candidate', selectedCand)
-
-
+    }, [selectedCand, location])
 
 
     // Map event types to icons
     const getEventIcon = (eventType) => {
-        switch (eventType.toLowerCase()) {
+        switch (eventType?.toLowerCase()) {
             case 'insert':
                 return <span className="text-green-500">✅</span>
             case 'update':
@@ -136,21 +144,28 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
         }
     }
 
+    const customStyles = {
+        backgroundColor: "var(--primary)", // Use the CSS variable
+    };
+
     return (
-        <Card>
-            <div className="flex justify-between items-center p-3 mb-5">
-                <h2 >Activity Log</h2>
-                <Button
-                    variant="solid"
-                    size="sm"
-                    onClick={() => setOpenModal(true)}
-                >
-                    Add Note
-                </Button>
-            </div>
+        <div>
+            {/* <Card> */}
+            <Card>
+                <div className="flex justify-between items-center p-3 mb-5">
+                    <h2 >Activity Log</h2>
+                    <Button
+                        variant="solid"
+                        size="sm"
+                        onClick={() => setOpenModal(true)}
+                    >
+                        Add Note
+                    </Button>
+                </div>
+            </Card>
             <div className="w-full mx-auto p-4">
                 <Timeline>
-                    {activities && activities.length > 0 ? (
+                    {activities && activities?.length > 0 ? (
                         activities.map((activity, index) => {
                             return (
                                 <Timeline.Item
@@ -159,63 +174,91 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
                                         <div className="bg-gray-200 rounded-full overflow-hidden w-10 h-10 flex items-center justify-center">
                                             <span className="text-gray-600">
                                                 {getEventIcon(
-                                                    activity.log.actionType,
+                                                    activity?.logs?.actionType,
                                                 )}
                                             </span>
                                         </div>
                                     }
                                 >
-                                    <div className="p-3 bg-white rounded-lg shadow-sm border border-gray-200">
-                                        <div className="flex items-center mb-2">
-                                            <Avatar
-                                                src={'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2409187029.jpg'}
-                                                alt={activity?.user?.firstName}
-                                                size="lg"
-                                                className="mr-2"
-                                            />
+                                    <div className=" bg-white rounded-lg shadow-sm border border-gray-200">
+                                        <div className="p-2  rounded-t-lg text-white text-base md:text-xl font-semibold  text-center"
+                                            style={{ backgroundColor: 'var(--primary)' }}
+                                        >
+                                            {activity?.logs?.actionType}
 
-                                            <span className="text-base font-semibold text-gray-900">
-                                                {activity?.user?.firstName}{' '}
-                                                {activity?.user?.lastName}
-                                            </span>
-                                            {user?.firstName +
-                                                ' ' +
-                                                user?.lastName && (
-                                                    <span className="ml-2 text-gray-600">
-                                                        with{' '}
-                                                        <span className="font-semibold text-base capitalize text-gray-800">
-                                                            {selectedCand?.firstName}{' '}
-                                                            {selectedCand?.lastName}
-                                                        </span>
-                                                    </span>
-                                                )}
-                                            {/* <Badge
-                                            stage={selectedCand?.pipelineStep}
-                                            content={selectedCand?.pipelineStep}
-                                            className="ml-4" // Margin added to the left of the badge
-                                        /> */}
                                         </div>
-                                        <div className="text-sm text-gray-600 mb-2">
-                                            <strong>Franchise: </strong>
-                                            {activity?.listings?.[0]?.name}
+
+                                        <div className="p-4">
+                                            <div className="flex justify-between items-center">
+                                                <div className="flex items-center">
+                                                    <Avatar
+                                                        src={'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-2409187029.jpg'}
+                                                        alt={activity?.logs?.userDetails?.firstName}
+                                                        size="sm"
+                                                        className="mr-2"
+                                                    />
+                                                    <div className='flex flex-col md:flex-row md:items-center md:gap-2'>
+                                                        <div className="text-sm md:text-lg font-semibold text-gray-900">
+                                                            {activity?.logs?.userDetails?.firstName}{' '}
+                                                            {activity?.logs?.userDetails?.lastName}
+                                                        </div>
+
+                                                        <div className="text-gray-600 flex items-center gap-2">
+                                                            with
+                                                            <div className="font-semibold text-sm md:text-lg capitalize text-gray-800">
+                                                                {activity?.candidateDetails?.firstName}{' '}
+                                                                {activity?.candidateDetails?.lastName}
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    className='max-md:hidden'
+                                                >
+                                                    {activity?.logs?.pipelineStep && <Badge
+                                                        stage={activity?.logs?.pipelineStep ?? activity?.dealStageDetails?.pipelineStep}
+                                                        content={activity?.logs?.pipelineStep ?? activity?.dealStageDetails?.pipelineStep}
+                                                        className="ml-4" // Margin added to the left of the badge
+                                                    />}
+                                                </div>
+                                            </div>
+                                            <div
+                                                className='mt-3 pr-3 flex justify-end md:hidden'
+                                            >
+                                                {activity?.logs?.pipelineStep && <Badge
+                                                    stage={activity?.logs?.pipelineStep ?? activity?.dealStageDetails?.pipelineStep}
+                                                    content={activity?.logs?.pipelineStep ?? activity?.dealStageDetails?.pipelineStep}
+                                                    className="ml-4" // Margin added to the left of the badge
+                                                />}
+                                            </div>
+                                            <div className='flex flex-col gap-1 my-4' >
+                                                {/* <div className="text-sm text-gray-700">
+                                                    <strong>Action Type: </strong>
+                                                    {activity?.logs?.actionType}
+                                                </div> */}
+                                                <Card>
+                                                    <div
+                                                        className="text-gray-700 "
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: activity?.logs?.description
+                                                                .replace(/(\r\n|\n|\r)/gm, ' ')
+                                                                .replace(/\s\s+/g, ' ')
+                                                                .replace(/,/g, ''),
+                                                        }}
+                                                    />
+                                                </Card>
+                                            </div>
+
+                                            <div
+                                                className='w-full flex justify-end'
+                                            >
+                                                <span className="block mt-2 text-sm text-gray-800 font-semibold ">
+                                                    {FormatRawDate(activity?.logs)}
+                                                </span>
+                                            </div>
+
                                         </div>
-                                        <div
-                                            className="text-gray-700"
-                                            dangerouslySetInnerHTML={{
-                                                __html: activity.log.description
-                                                    .replace(/(\r\n|\n|\r)/gm, ' ')
-                                                    .replace(/\s\s+/g, ' ')
-                                                    .replace(/,/g, ''),
-                                            }}
-                                        />
-                                        {/* {activity.details.additionalInfo && (
-                            <Card className="mt-3 p-2 bg-gray-50 border border-gray-200 text-gray-600 text-sm">
-                                {activity.details.additionalInfo}
-                            </Card>
-                        )} */}
-                                        <span className="block mt-2 text-sm text-gray-500">
-                                            {formatDatePST(activity.log.docDate)}
-                                        </span>
                                     </div>
                                 </Timeline.Item>
                             )
@@ -233,7 +276,8 @@ const ActivityLogPage: React.FC<ActivityLogProps> = () => {
                 setOpenModal={setOpenModal}
                 getAllLogs={handleGetAllUserActivitylog}
             />
-        </Card>
+            {/* </Card> */}
+        </div>
 
     )
 }
@@ -281,7 +325,6 @@ const DataModal = ({ user, cand, openModal, setOpenModal, getAllLogs }) => {
 
     const handleAddNote = () => {
         postData('ActivityLogCandidate', noteObj).then((data) => {
-            console.log(data, "Data")
             setOpenModal(false)
             toast.success('Note added successfully');
             getAllLogs(noteObj.candidateId)
@@ -289,7 +332,6 @@ const DataModal = ({ user, cand, openModal, setOpenModal, getAllLogs }) => {
     }
 
 
-    console.log('in modal', cand, noteObj)
     return (
         <ModalInternalScroll open={openModal} setOpen={setOpenModal} width={800}>
             <div className="bg-white rounded-lg shadow-lg p-2 md:p-6  mx-auto w-full">

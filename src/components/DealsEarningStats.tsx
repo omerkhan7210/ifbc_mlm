@@ -11,7 +11,7 @@ import { Card, Skeleton } from '@/components/ui'
 
 type DealsEarningStatsProps = {
     totalAmount: number
-    totalCompletedDeals: number
+    totalCompletedDeals: number | string
     totalCommission: number
 }
 
@@ -32,7 +32,7 @@ const DealsEarningStats = ({
                 <StatisticCard
                     title="Commission Earned"
                     className="bg-emerald-100 dark:bg-opacity-75"
-                    value={totalAmount ? ('$ ' + totalAmount.toLocaleString('eng-us', { minimumFractionDigits: 0, maximumFractionDigits: 2 })) : 0}
+                    value={('$ ' + totalAmount.toLocaleString('eng-us', { minimumFractionDigits: 0, maximumFractionDigits: 2 }))}
                     icon={<FaCircleDollarToSlot />}
                 />
 

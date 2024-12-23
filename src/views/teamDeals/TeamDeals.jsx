@@ -84,16 +84,6 @@ export default function TeamDeals() {
         setFilteredData(filtered)
     }
 
-    // useEffect(() => {
-    //     const calculateTotalAmountAndCount = () => {
-    //         const totalAmount = data?.reduce((sum, item) => sum + item.amount, 0);
-    //         const itemCount = data.length;
-    //         setTotalAmount(totalAmount);
-    //         setItemCount(itemCount);
-    //     };
-
-    //     calculateTotalAmountAndCount();
-    // }, [data]);
 
     useEffect(() => {
         handleSearch()
@@ -107,11 +97,7 @@ export default function TeamDeals() {
 
     return (
         <div className='flex flex-col  gap-5' >
-            {/* <DealsEarningStats
-                totalAmount={totalAmount}
-                totalCompletedDeals={itemCount}
-                totalCommission={(totalAmount * 2 / 100)}
-            /> */}
+
 
             <Card>
                 <h4 className="mb-4">Team's Completed Deals</h4>
