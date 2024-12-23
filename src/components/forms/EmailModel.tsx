@@ -6,14 +6,19 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import profile from '/images/logo/android-chrome-192x192.png'
 import toast from 'react-hot-toast'
+import { Button } from '../ui'
 
 interface EmailFormState {
     subject: string
     body: string
     files: File[]
 }
+type EmailModelProps = {
+    onClose: () => void
+    allBulkEmailName: string[]
+}
 
-const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
+const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
     const [emailForm, setEmailForm] = useState<EmailFormState>({
         subject: '',
         body: '',
@@ -31,10 +36,12 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
     }
 
     const handleFileChange = (event) => {
-        const files = event.target.files // Get all selected files
-        handleChange('files', Array.from(files)) // Store files as an array
+        const files = event.target.files
+        handleChange('files', Array.from(files))
     }
-    const receiversEmails = allBulkEmailName?.map((item) => item?.email)
+    const receiversEmails: string[] = allBulkEmailName?.map(
+        (item) => item?.email,
+    )
 
     const handleSendBulkEmail = async (e) => {
         e.preventDefault()
@@ -44,9 +51,11 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
             )
         }
         const data = new FormData()
-        if (receiversEmails && receiversEmails.length > 0) {
-            data.append('ReceiverEmails', JSON.stringify(receiversEmails))
-        }
+        // if (receiversEmails && receiversEmails.length > 0) {
+        //     data.append('ReceiverEmails', JSON.stringify(receiversEmails))
+        // }
+        // data.append('ReceiverEmails', receiversEmails)
+        data.append('ReceiverEmails', JSON.stringify(receiversEmails))
         data.append('Subject', emailForm?.subject)
         data.append('Body', emailForm?.body)
         if (emailForm?.files && emailForm.files.length > 0) {
@@ -61,7 +70,7 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                 `${key}: ${value instanceof File ? `File(${value.name})` : value}`,
             )
         }
-
+        console.log(data, 'data')
         try {
             const response = await axios.post(
                 `${BASE_API_URL}/emailing/send-bulk-email`,
@@ -78,6 +87,44 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
             toast.error(error?.message || 'Something went wrong')
         }
     }
+
+    // const handleSendBulkEmail = async (e) => {
+    //     e.preventDefault()
+
+    //     if (receiversEmails?.length > 10) {
+    //         return toast.error(
+    //             'You can select a maximum of 10 email addresses at one time.',
+    //         )
+    //     }
+
+    //     if (!emailForm?.subject || !emailForm?.subject) {
+    //         return toast.error('Subject and Body must be required')
+    //     }
+
+    //     const fd = {
+    //         ReceiverEmails: receiversEmails,
+    //         Subject: emailForm?.subject,
+    //         Body: emailForm?.body,
+    //         Files: emailForm?.files,
+    //     }
+    //     console.log(fd, 'file body')
+    //     try {
+    //         const response: any = await axios.post(
+    //             `${BASE_API_URL}/emailing/send-bulk-email`,
+    //             fd,
+    //             {
+    //                 headers: {
+    //                     // 'Content-Type': 'application/json',
+    //                     'X-App-Token': HEADER_TOKEN,
+    //                 },
+    //             },
+    //         )
+    //         toast.success(response || 'Emails sent successfully!')
+    //     } catch (error) {
+    //         console.log(error, 'Erroe')
+    //         toast.error(error?.message || 'Something went wrong')
+    //     }
+    // }
 
     console.log(emailForm, 'emailForm', emailForm?.files)
     return (
@@ -214,15 +261,35 @@ const EmailModel = ({ onClose, allBulkEmailName }: { onClose: () => void }) => {
                                     }
                                     placeholder="Write something here..."
                                 />
+                                {/* <input
+                                    type="text"
+                                    id="subject"
+                                    value={emailForm?.body}
+                                    onChange={(e) =>
+                                        handleChange('body', e.target.value)
+                                    }
+                                    placeholder="Enter email body"
+                                    style={{
+                                        width: '100%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '4px',
+                                        fontSize: '14px',
+                                    }}
+                                /> */}
                             </div>
                         </div>
                     </div>
-                    <button
+                    <Button
+                        variant="solid"
                         type="submit"
-                        className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mt-[2rem] mt-[4rem]"
+                        size="md"
+                        className="md:mt-[2rem] mt-[4rem]"
+                        // className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mt-[2rem] mt-[4rem]"
                     >
                         Send
-                    </button>
+                    </Button>
                 </form>
             </div>
         </div>

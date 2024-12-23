@@ -9,12 +9,14 @@ import dagre from 'dagre'
 // import AddUserInGraph from '../../components/forms/AddUserInGraph.jsx'
 import { useAuth } from '@/auth'
 import { getData } from '@/services/axios/axiosUtils'
-import AuthContext from '@/auth/AuthContext'
 
 const CustomNode = ({ data }) => (
     <div className="custom-node flex items-center justify-center p-2 border rounded bg-white shadow-md">
         <img
-            src={data.profile || '/images/logo/android-chrome-192x192.png'}
+            src={
+                data.profile ||
+                'https://ifbc.co/images/consultant-placeholer.jpg'
+            }
             alt="profileImage"
             className="w-6 h-6 rounded-full mr-2"
         />

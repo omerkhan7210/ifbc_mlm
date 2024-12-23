@@ -1,7 +1,7 @@
-import { useRef, useImperativeHandle, forwardRef } from 'react'
+import { useRef, useImperativeHandle, forwardRef, useEffect } from 'react'
 import AuthContext from './AuthContext'
 import appConfig from '@/configs/app.config'
-import { useSessionUser, useToken } from '@/store/authStore'
+import { useSessionUser, useToken, useUsersStore } from '@/store/authStore'
 import { apiSignIn, apiSignOut, apiSignUp } from '@/services/AuthService'
 import { REDIRECT_URL_KEY } from '@/constants/app.constant'
 import { useNavigate } from 'react-router-dom'
@@ -15,6 +15,7 @@ import type {
 } from '@/@types/auth'
 import type { ReactNode } from 'react'
 import type { NavigateFunction } from 'react-router-dom'
+import { getData } from '@/services/axios/axiosUtils'
 
 type AuthProviderProps = { children: ReactNode }
 
@@ -37,8 +38,10 @@ const IsolatedNavigator = forwardRef<IsolatedNavigatorRef>((_, ref) => {
 function AuthProvider({ children }: AuthProviderProps) {
     const signedIn = useSessionUser((state) => state.session.signedIn)
     const user = useSessionUser((state) => state.user)
+    const setUsers = useUsersStore((state) => state.setUsers)
 
     const isAdmin = user?.docId === 87
+
     const setUser = useSessionUser((state) => state.setUser)
     const setSessionSignedIn = useSessionUser(
         (state) => state.setSessionSignedIn,
@@ -138,6 +141,23 @@ function AuthProvider({ children }: AuthProviderProps) {
             redirect,
         })
     }
+
+    const getUsers = () => {
+        getData(isAdmin ? 'users' : `users/referral/${user?.userId}`)
+            .then((data) => {
+                const filteredData = data.reverse().filter((e) => !e?.isDeleted)
+                setUsers(filteredData)
+            })
+            .catch((error) => {
+                console.error('Error fetching users:', error)
+            })
+    }
+
+    useEffect(() => {
+        if (authenticated) {
+            getUsers()
+        }
+    }, [authenticated])
 
     return (
         <AuthContext.Provider

@@ -9,13 +9,13 @@ import DealsOverview from './business/components/DealsOverview'
 import MonthlyDealsChart from './business/components/MonthlyDealsChart'
 
 const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
+    // 'Jan',
+    // 'Feb',
+    // 'Mar',
+    // 'Apr',
+    // 'May',
+    // 'Jun',
+    // 'Jul',
     'Aug',
     'Sep',
     'Oct',
@@ -29,8 +29,8 @@ const apiFetch = async (endpoint: string, decryptedToken: string) => {
             headers: {
                 ...(decryptedToken && decryptedToken !== ''
                     ? {
-                        Authorization: `Bearer ${decryptedToken}`,
-                    }
+                          Authorization: `Bearer ${decryptedToken}`,
+                      }
                     : {}),
                 'X-App-Token': 'your-app-specific-token-ifbc',
             },
@@ -55,10 +55,11 @@ interface MonthlyData {
 }
 
 const Home = () => {
-    const { user } = useAuth();
+    const { user } = useAuth()
     const [data, setData] = useState<MonthlyData[]>([])
     const [consultantsData, setConsultantsData] = useState([])
     const [ambassadorsData, setAmbassadorsData] = useState<MonthlyData[]>([])
+    const [availableMonths, setAvailableMonths] = useState<string[]>([])
 
     useEffect(() => {
         const fetchDataAsync = async () => {
@@ -117,6 +118,15 @@ const Home = () => {
                 count: groupedData[month],
             }))
 
+            const allMonths = [
+                ...new Set([
+                    ...formattedData.map((d) => d.month),
+                    ...formattedDataConsultant.map((d) => d.month),
+                    ...formattedDataAmbassador.map((d) => d.month),
+                ]),
+            ]
+
+            setAvailableMonths(allMonths)
             setConsultantsData(formattedDataConsultant)
             setAmbassadorsData(formattedDataAmbassador)
             setData(formattedData)
@@ -126,10 +136,9 @@ const Home = () => {
 
     return (
         <div className=" flex flex-col gap-5 ">
-
             <DealsOverview />
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-5' >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <MonthlyDealsChart />
 
                 <Card>
@@ -137,33 +146,41 @@ const Home = () => {
                         <h2 className="text-sm text-center mb-2">
                             Monthly Candidates Data
                         </h2>
-                        <BasicLine data={data} />
+                        {/* <BasicLine data={data} /> */}
+                        <BasicLine data={data} months={availableMonths} />
                     </div>
                 </Card>
                 <Card>
                     <div className="w-full">
-                        <h2 className="text-sm text-center mb-2">Monthly Users Data</h2>
+                        <h2 className="text-sm text-center mb-2">
+                            Monthly Users Data
+                        </h2>
                         <SplineArea
                             consultantData={consultantsData}
                             ambassadorData={ambassadorsData}
+                            months={availableMonths}
                         />
                     </div>
                 </Card>
             </div>
-
-
         </div>
     )
 }
 export default Home
 
-
-const BasicLine = ({ data: candData }: { data: MonthlyData[] }) => {
+const BasicLine = ({
+    data: candData,
+    months,
+}: {
+    data: MonthlyData[]
+    months: string[]
+}) => {
     const data = [
         {
             name: 'Candidates',
             data: months.map((month) => {
                 const monthData = candData.find((d) => d.month === month)
+                // console.log(monthData, 'monthData')
                 return monthData ? monthData.count : 0
             }),
         },
@@ -248,18 +265,20 @@ const SplineArea = ({
 }
 
 const ConsultantDeals = ({ user }) => {
+    getData(`commissions/consultant/${user?.userId}/completed-deals`)
+        .then((response) => {
+            // console.log(response)
+        })
+        .catch((err) => console.log(err))
 
-    getData(`commissions/consultant/${user?.userId}/completed-deals`).then((response) => {
-        // console.log(response)
-    }).catch(err => console.log(err))
-
-    getData(`commissions/consultant/${user?.userId}/sum-commission`).then((response) => {
-        console.log(response)
-    }).catch(err => console.log(err))
+    getData(`commissions/consultant/${user?.userId}/sum-commission`)
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((err) => console.log(err))
     return (
         <div>
             <h1>Consultant Deals</h1>
         </div>
     )
 }
-
