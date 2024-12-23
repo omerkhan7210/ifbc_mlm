@@ -6,7 +6,8 @@ import dynamicImport from 'vite-plugin-dynamic-import'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react(), dynamicImport()],
-    assetsInclude: ['**/*.md'],
+    // assetsInclude: ['**/*.md'],
+    assetsInclude: ['**/*.md', '**/*.PNG'],
     resolve: {
         alias: {
             '@': path.join(__dirname, 'src'),

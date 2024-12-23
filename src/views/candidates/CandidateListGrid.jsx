@@ -57,7 +57,7 @@ const CandidateListGrid = () => {
 
 
 
-    // FILTER CONSULTANTS DATA IN LOGIC START
+    // FILTER CONSULTANTS DATA FOR ADMIN  IN LOGIC START
     const handleGetAllConsultants = () => {
         getData('consultants')
             .then((data) => setGetAllConsultant(data))
@@ -67,8 +67,15 @@ const CandidateListGrid = () => {
         label: `${item?.firstName} ${item?.lastName} [${item?.email}]`,
         value: item?.docId || "",
     }));
+    // FILTER CONSULTANTS DATA FOR ADMIN IN LOGIC END
+
+
+
     // FILTER CONSULTANTS DATA IN LOGIC END
-    // console.log(setGetAllConsultantsFilterData, "setGetAllConsultantsFilterData")
+    const setGetAllConsultantsFilterDataForUser = filteredCandidates?.map((item) => ({
+        label: `${item?.firstName} ${item?.lastName} [${item?.email}]`,
+        value: item?.docid || "",
+    }));
 
     useEffect(() => {
         getCandidates()
@@ -146,12 +153,25 @@ const CandidateListGrid = () => {
                                 cand.pipelineStep,
                             )
                             : true
+                    // console.log('selectedConsultantsForUser:', filterCands?.selectedConsultantsMatch);
+                    // console.log('cand.agentUserId:', cand.agentUserId);
+
                     const selectedConsultantsMatch =
                         filterCands?.selectedConsultants?.length > 0
                             ? filterCands?.selectedConsultants.includes(
                                 cand.agentUserId,
                             )
                             : true
+                    console.log('selectedConsultantsForUser:', filterCands?.selectedConsultantsForUser);
+                    console.log('cand.agentUserId:', cand.agentUserId);
+
+                    const selectedConsultantsMatchForUser =
+                        filterCands?.selectedConsultantsForUser?.length > 0
+                            ? filterCands?.selectedConsultantsForUser.includes(
+                                cand.docid,
+                            )
+                            : true
+                    console.log('cand.rId:', selectedConsultantsMatchForUser);
 
                     // Check all filter conditions
                     const statusMatch =
@@ -258,6 +278,7 @@ const CandidateListGrid = () => {
                         shouldShow &&
                         referralStatusMatch &&
                         selectedStepsMatch &&
+                        selectedConsultantsMatchForUser &&
                         selectedConsultantsMatch
                     )
                 })
@@ -339,9 +360,16 @@ const CandidateListGrid = () => {
 
     const handleConsultantsFilter = (selectedOptions) => {
         const selectedConsultants = selectedOptions.map((option) => option.value)
-        // console.log(selectedConsultants, "filterCands")
         setFilterCands((prev) => ({ ...prev, selectedConsultants }))
     }
+
+    const handleConsultantsFilterForUser = (selectedOptions) => {
+        const selectedConsultantsForUser = selectedOptions.map((option) => option.value);
+        setFilterCands((prev) => ({ ...prev, selectedConsultantsForUser }));
+    };
+
+
+
     const handleMouseDown = (e) => {
         const container = containerRef.current
         if (!container) return
@@ -476,6 +504,8 @@ const CandidateListGrid = () => {
                 filteredCandidates={filteredCandidates}
                 setGetAllConsultantsFilterData={setGetAllConsultantsFilterData}
                 handleConsultantsFilter={handleConsultantsFilter}
+                setGetAllConsultantsFilterDataForUser={setGetAllConsultantsFilterDataForUser}
+                handleConsultantsFilterForUser={handleConsultantsFilterForUser}
             />
             {SwitchFormatHandler()}
             <ToastContainer />
