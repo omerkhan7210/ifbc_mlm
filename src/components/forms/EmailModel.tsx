@@ -51,17 +51,17 @@ const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
             )
         }
         const data = new FormData()
-        // if (receiversEmails && receiversEmails.length > 0) {
-        //     data.append('ReceiverEmails', JSON.stringify(receiversEmails))
-        // }
+        if (receiversEmails && receiversEmails.length > 0) {
+            data.append('ReceiverEmails', JSON.stringify(receiversEmails))
+        }
         // data.append('ReceiverEmails', receiversEmails)
-        data.append('ReceiverEmails', JSON.stringify(receiversEmails))
+        // data.append('ReceiverEmails', JSON.stringify(receiversEmails))
         data.append('Subject', emailForm?.subject)
         data.append('Body', emailForm?.body)
         if (emailForm?.files && emailForm.files.length > 0) {
             emailForm.files.forEach((file) => {
                 console.log('Appending file:', file)
-                data.append('Files', file)
+                data.append('Files', file[0])
             })
         }
 
@@ -84,6 +84,7 @@ const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
             )
             toast.success('Emails sent successfully!')
         } catch (error) {
+            console.log(error, 'error')
             toast.error(error?.message || 'Something went wrong')
         }
     }
@@ -285,7 +286,7 @@ const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
                         variant="solid"
                         type="submit"
                         size="md"
-                        className="md:mt-[2rem] mt-[4rem]"
+                        className="md:mt-[2rem] mt-[4rem] bg-blue-600"
                         // className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mt-[2rem] mt-[4rem]"
                     >
                         Send

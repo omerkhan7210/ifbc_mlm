@@ -3,6 +3,7 @@ import { jsPDF } from 'jspdf';
 import Table from '@/components/ui/Table';
 import profile from "/images/logo/android-chrome-192x192.png";
 import PaginationHandler from '@/components/PaginationHandler';
+import { Button } from '../../../components/ui';
 
 const { Tr, Td, TBody, THead, Th } = Table;
 
@@ -51,7 +52,7 @@ const CommissionTable = ({ data = [], totalBouns = [], totalEarnings = [] }) => 
                         <THead>
                             <Tr>
                                 <Th>Commission ID</Th>
-                                <Th>Images</Th>
+                                <Th>Profile Image</Th>
                                 <Th>Candidate Name</Th>
                                 <Th>Email</Th>
                                 <Th>Phone</Th>
@@ -70,23 +71,25 @@ const CommissionTable = ({ data = [], totalBouns = [], totalEarnings = [] }) => 
                                         <img
                                             src={"https://ifbc.co/" + commission?.listingDetails?.imgUrl || profile}
                                             alt="Profile"
-                                            style={{ width: "40px", height: "40px", objectFit: "cover" }}
+                                            style={{ width: "60px", height: "60px", objectFit: "contain" }}
                                         />
                                     </Td>
                                     <Td>{`${capitalizeFirstLetter(commission?.candidateDetails?.firstName)} ${capitalizeFirstLetter(commission?.candidateDetails?.lastName)}`}</Td>
                                     <Td>{commission?.candidateDetails?.email}</Td>
                                     <Td>{commission?.candidateDetails?.phone}</Td>
-                                    <Td>{commission?.amount}</Td>
+                                    <Td>{`$ ${commission?.amount}`}</Td>
                                     <Td>{commission?.listingDetails?.category}</Td>
                                     <Td>{commission?.listingDetails?.name}</Td>
                                     <Td>{new Date(commission?.commissionDate)?.toLocaleString()}</Td>
                                     <Td>
-                                        <button
+                                        {/* <button */}
+                                        <Button
                                             onClick={() => generatePDF(commission)}
-                                            className="py-[2px] px-6 bg-[#4CAF50] border-none cursor-pointer rounded text-[#FFFF]"
+                                            // className="py-[2px] px-6 bg-[#4CAF50] hover:text-[black] border-none cursor-pointer rounded text-[#FFFF]"
+                                            className='bg-[#4CAF50]'
                                         >
                                             Download PDF
-                                        </button>
+                                        </Button>
                                     </Td>
                                 </Tr>
                             ))}
