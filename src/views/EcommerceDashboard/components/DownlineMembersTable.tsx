@@ -43,6 +43,7 @@ type TreeViewTableProps = {
         placeholderText: string
         buttonAction: () => void
     }
+    invitationComponent: string
 }
 
 const columnHelper = createColumnHelper<TreeViewItem>()
@@ -51,6 +52,7 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
     data,
     headerConfig,
     handleGetValue,
+    invitationComponent,
 }) => {
     const [searchQuery, setSearchQuery] = useState('')
     const [selectRowName, setSelectRowName] = useState<
@@ -232,16 +234,6 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
         getCoreRowModel: getCoreRowModel(),
     })
 
-    const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false)
-    const handleButtonClick = () => {
-        if (selectRowName?.length > 10) {
-            toast.error('You can select a maximum of 10 email addresses in one time.',)
-            setIsButtonDisabled(true)
-            return
-        }
-        setIsButtonDisabled(false)
-    }
-
     return (
         <Card>
             {/* Search Box */}
@@ -253,26 +245,42 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-[45%] md:w-[30%] bg-[#E5E5E5]"
                 />
-                <Button
-                    size="sm"
-                    className="bg-blue-600 hover:bg-blue-400 hover:text-white focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-center text-white inline-flex items-center"
-                    onClick={() => headerConfig.buttonAction('invitation')}
-                    disabled={selectRowName.length === 0}
-                >
-                    Send Invitation
-                </Button>
-                <Button
-                    size="sm"
-                    className={`text-white inline-flex items-center ${
-                        selectRowName.length > 10
-                            ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-blue-600 hover:bg-blue-400 hover:text-white focus:ring-2 focus:outline-none focus:ring-blue-300'
-                    } font-medium rounded-lg text-center`}
-                    onClick={handleButtonClick}
-                    disabled={isButtonDisabled || selectRowName.length === 0}
-                >
-                    {headerConfig.buttonText}
-                </Button>
+                {invitationComponent === 'InvitationComponent' ? (
+                    <Button
+                        size="sm"
+                        className="bg-blue-600 hover:bg-blue-400 hover:text-white focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-center text-white inline-flex items-center"
+                        onClick={() => headerConfig.buttonAction('invitation')}
+                        disabled={selectRowName.length === 0}
+                    >
+                        {headerConfig.buttonText}
+                    </Button>
+                ) : (
+                    <Button
+                        size="sm"
+                        className={`text-white inline-flex items-center ${
+                            selectRowName.length > 10
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-blue-600 hover:bg-blue-400 hover:text-white focus:ring-2 focus:outline-none focus:ring-blue-300'
+                        } font-medium rounded-lg text-center`}
+                        // onClick={handleButtonClick}
+                        // onClick={() => headerConfig.buttonAction('email') }
+                        // disabled={
+                        //     isButtonDisabled || selectRowName.length === 0
+                        // }
+                        onClick={() => {
+                            if (selectRowName.length > 10) {
+                                toast.error(
+                                    'You can select a maximum of 10 email addresses in one time.',
+                                )
+                                return
+                            }
+                            headerConfig.buttonAction('email')
+                        }}
+                        disabled={selectRowName.length === 0}
+                    >
+                        {headerConfig.buttonText}
+                    </Button>
+                )}
             </div>
 
             {/* Table with Pagination */}

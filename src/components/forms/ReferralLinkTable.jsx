@@ -24,6 +24,9 @@ import ReferralLink19 from "/AllReferralLinkImages/ReferralLink19.PNG";
 // import ReferralLink21 from "/AllReferralLinkImages/ReferralLink21.PNG";
 // import ReferralLink22 from "/AllReferralLinkImages/ReferralLink22.PNG";
 // import ReferralLink23 from "/AllReferralLinkImages/ReferralLink23.PNG";
+import Table from '@/components/ui/Table';
+
+const { Tr, Td, TBody, THead, Th } = Table;
 
 const ReferralLinkTable = () => {
     const { user } = useAuth();
@@ -63,7 +66,7 @@ const ReferralLinkTable = () => {
             // FranchiseYourBusiness: `ifbc.co/${user?.username}/franchise-your-business`,
             // PrivacyPolicy: `ifbc.co/${user?.username}/privacy-policy`,
             images: [
-                ReferralLink3, ReferralLink5, ReferralLink1, ReferralLink2 , ReferralLink7, ReferralLink8,
+                ReferralLink3, ReferralLink5, ReferralLink1, ReferralLink2, ReferralLink7, ReferralLink8,
                 ReferralLink11, ReferralLink13, ReferralLink15,
                 ReferralLink16, ReferralLink19
             ]
@@ -71,31 +74,76 @@ const ReferralLinkTable = () => {
     ];
 
     return (
+        // <div>
+        //     <table className="table-auto w-[100%] mt-5 border-collapse">
+        //         <thead>
+        //             <tr>
+        //                 <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">S.No</th>
+        //                 <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Image</th>
+        //                 <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Page Name</th>
+        //                 <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Page Links</th>
+        //                 <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Copy</th>
+        //             </tr>
+        //         </thead>
+        //         <tbody>
+        //             {Object.entries(filteredCandidates[0]).map(([key, value], index) => {
+        //                 if (key === "images") return null;
+
+        //                 return (
+        //                     <tr key={key}>
+        //                         <td className="border-b px-2 py-2">{index + 1}</td>
+        //                         <td className="border-b px-2 py-2">
+        //                             <img src={filteredCandidates[0].images[index]} alt={`Referral ${index + 1}`} className="w-[120px] h-[60px] rounded-sm object-contain" />
+        //                         </td>
+
+        //                         <td className="border-b px-2 py-5 font-bold">{key.replace(/([A-Z])/g, ' $1').trim()}</td>
+        //                         <td className="border-b px-2 py-2 text-blue-600 underline">{value}</td>
+        //                         <td className="border-b px-2 py-2">
+        //                             <button
+        //                                 onClick={() => {
+        //                                     copyToClipboard(value);
+        //                                     setCopiedIndex(index);
+        //                                     setTimeout(() => setCopiedIndex(null), 2500);
+        //                                 }}
+        //                                 className={copiedIndex === index ? "text-[#0071F3] bg-[white] p-2 rounded-sm" : "p-2 text-blue-100 bg-[#0071F3] rounded-md"}
+        //                             >
+        //                                 <FaCopy size={22} />
+        //                             </button>
+        //                         </td>
+        //                     </tr>
+        //                 );
+        //             })}
+        //         </tbody>
+        //     </table>
+        // </div>
         <div>
-            <table className="table-auto w-[100%] mt-5 border-collapse">
-                <thead>
-                    <tr>
-                        <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">S.No</th>
-                        <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Image</th>
-                        <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Page Name</th>
-                        <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Page Links</th>
-                        <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Copy</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <Table>
+                <THead>
+                    <Tr>
+                        <Th>S.No</Th>
+                        <Th>Image</Th>
+                        <Th>Page Name</Th>
+                        <Th>Page Links</Th>
+                        <Th>Copy</Th>
+                    </Tr>
+                </THead>
+                <TBody>
                     {Object.entries(filteredCandidates[0]).map(([key, value], index) => {
                         if (key === "images") return null;
 
                         return (
-                            <tr key={key}>
-                                <td className="border-b px-2 py-2">{index + 1}</td>
-                                <td className="border-b px-2 py-2">
-                                    <img src={filteredCandidates[0].images[index]} alt={`Referral ${index + 1}`} className="w-[120px] h-[60px] rounded-sm object-contain" />
-                                </td>
-
-                                <td className="border-b px-2 py-5 font-bold">{key.replace(/([A-Z])/g, ' $1').trim()}</td>
-                                <td className="border-b px-2 py-2 text-blue-600 underline">{value}</td>
-                                <td className="border-b px-2 py-2">
+                            <Tr key={key}>
+                                <Td>{index + 1}</Td>
+                                <Td>
+                                    <img
+                                        src={filteredCandidates[0].images[index]}
+                                        alt={`Referral ${index + 1}`}
+                                        className="w-[120px] h-[60px] rounded-sm object-contain"
+                                    />
+                                </Td>
+                                <Td className="font-bold">{key.replace(/([A-Z])/g, ' $1').trim()}</Td>
+                                <Td className="text-blue-600 underline">{value}</Td>
+                                <Td>
                                     <button
                                         onClick={() => {
                                             copyToClipboard(value);
@@ -104,14 +152,14 @@ const ReferralLinkTable = () => {
                                         }}
                                         className={copiedIndex === index ? "text-[#0071F3] bg-[white] p-2 rounded-sm" : "p-2 text-blue-100 bg-[#0071F3] rounded-md"}
                                     >
-                                        <FaCopy size={22} />
+                                        <FaCopy size={21} />
                                     </button>
-                                </td>
-                            </tr>
+                                </Td>
+                            </Tr>
                         );
                     })}
-                </tbody>
-            </table>
+                </TBody>
+            </Table>
         </div>
     );
 };

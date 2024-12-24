@@ -16,6 +16,12 @@ export const userManagementRoutes: Routes = [
         authority: [],
     },
     {
+        key: 'inviteusers',
+        path: `${USER_MANAGeMENT_PREFIX_PATH}/inviteusers`,
+        component: lazy(() => import('@/views/userManagement/InviteUsers')),
+        authority: [],
+    },
+    {
         key: 'consultantregister',
         path: `${USER_MANAGeMENT_PREFIX_PATH}/consultantregister`,
         component: lazy(

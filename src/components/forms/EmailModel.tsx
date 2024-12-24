@@ -135,8 +135,8 @@ const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
             aria-hidden="true"
             className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 overflow-auto"
         >
-            <div className="relative w-full min-w-[50%] max-w-md max-h-auto bg-white rounded-lg shadow dark:bg-gray-700">
-                <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+            <div className="max-h-[100vh] relative w-full min-w-[50%] max-w-md max-h-auto bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         New Message
                     </h3>
@@ -174,7 +174,7 @@ const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
                                 To All Selected Members
                             </label>
 
-                            <input
+                            {/* <input
                                 type="text"
                                 id="name"
                                 value={allBulkEmailName
@@ -186,7 +186,18 @@ const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
                                 disabled={true}
                                 className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:text-white"
                                 placeholder="Enter Your email"
-                            />
+                            /> */}
+
+                            <div className="flex flex-wrap gap-2 border p-1 rounded-lg max-h-[16vh] overflow-auto">
+                                {allBulkEmailName?.map((item, index) => (
+                                    <div
+                                        key={index}
+                                        className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 dark:bg-gray-600 dark:text-white"
+                                    >
+                                        @{item?.firstName} {item?.lastName}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         {/* <div className="col-span-2">
                             <label
@@ -209,7 +220,7 @@ const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
                             >
                                 Message
                             </label> */}
-                            <div style={{ marginBottom: '15px' }}>
+                            <div className="mb-[15px]">
                                 <label
                                     htmlFor="subject"
                                     style={{ fontWeight: 'bold' }}
@@ -217,6 +228,7 @@ const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
                                     Subject:
                                 </label>
                                 <input
+                                    className="w-[100%] p-[8px] mt-[5px] rounded-sm font-md border"
                                     type="text"
                                     id="subject"
                                     value={emailForm?.subject}
@@ -224,37 +236,22 @@ const EmailModel = ({ onClose, allBulkEmailName }: EmailModelProps) => {
                                         handleChange('subject', e.target.value)
                                     }
                                     placeholder="Enter email subject"
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px',
-                                        marginTop: '5px',
-                                        border: '1px solid #ccc',
-                                        borderRadius: '4px',
-                                        fontSize: '14px',
-                                    }}
                                 />
                             </div>
-                            <div style={{ marginBottom: '15px' }}>
+                            <div className="mb-[15px]">
                                 <input
+                                    className="w-[100%] p-[8px] mt-[5px] rounded-sm font-md border"
                                     type="file"
                                     id="subject"
                                     // value={emailForm?.subject}
                                     onChange={handleFileChange}
                                     placeholder="Select Files"
-                                    style={{
-                                        width: '100%',
-                                        padding: '8px',
-                                        marginTop: '5px',
-                                        border: '1px solid #ccc',
-                                        borderRadius: '4px',
-                                        fontSize: '14px',
-                                    }}
                                 />
                             </div>
 
                             <div className="relative">
                                 <ReactQuill
-                                    className="h-[11rem]"
+                                    className="h-[10rem]"
                                     theme="snow"
                                     value={emailForm.body}
                                     onChange={(value) =>

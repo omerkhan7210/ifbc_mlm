@@ -111,6 +111,16 @@ const userManagementNavigation: NavigationTree[] = [
                 authority: [],
                 subMenu: [],
             },
+            {
+                key: 'inviteusers',
+                path: `${USER_MANAGeMENT_PREFIX_PATH}/inviteusers`,
+                title: 'Invite Users',
+                translateKey: 'nav.inviteusers',
+                icon: 'inviteusers',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: [],
+                subMenu: [],
+            },
             // {
             //     key: 'createTeam',
             //     path: '/create-team',
