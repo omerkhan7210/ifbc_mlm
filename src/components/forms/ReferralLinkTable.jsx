@@ -6,7 +6,7 @@ import ReferralLink2 from "/AllReferralLinkImages/ReferralLink2.PNG";
 import ReferralLink3 from "/AllReferralLinkImages/ReferralLink3.PNG";
 // import ReferralLink4 from "../../../public/AllReferralLinkImages/ReferralLink4.PNG";
 import ReferralLink5 from "/AllReferralLinkImages/ReferralLink5.PNG";
-import ReferralLink6 from "/AllReferralLinkImages/ReferralLink6.PNG";
+// import ReferralLink6 from "/AllReferralLinkImages/ReferralLink6.PNG";
 import ReferralLink7 from "/AllReferralLinkImages/ReferralLink7.PNG";
 import ReferralLink8 from "/AllReferralLinkImages/ReferralLink8.PNG";
 // import ReferralLink9 from "/AllReferralLinkImages/ReferralLink9.PNG";
@@ -40,11 +40,11 @@ const ReferralLinkTable = () => {
 
     const filteredCandidates = [
         {
-            Home: `ifbc.co/${user?.username}`,
-            ApplyNow: `ifbc.co/${user?.username}/apply-now`,
             ConsultantSignUp: `ifbc.co/${user?.username}/consultant/signup`,
             AmbassadorSignUp: `ifbc.co/${user?.username}/ambassador/signup`,
-            BecomeConsultant: `ifbc.co/${user?.username}/become-consultant`,
+            Home: `ifbc.co/${user?.username}`,
+            ApplyNow: `ifbc.co/${user?.username}/apply-now`,
+            // BecomeConsultant: `ifbc.co/${user?.username}/become-consultant`,
             SearchFranchises: `ifbc.co/${user?.username}/search-franchises`,
             MakeAReferral: `ifbc.co/${user?.username}/make-a-referral`,
             // Login: `ifbc.co/${user?.username}/login`,
@@ -63,8 +63,7 @@ const ReferralLinkTable = () => {
             // FranchiseYourBusiness: `ifbc.co/${user?.username}/franchise-your-business`,
             // PrivacyPolicy: `ifbc.co/${user?.username}/privacy-policy`,
             images: [
-                ReferralLink1, ReferralLink2, ReferralLink3, ReferralLink5,
-                ReferralLink6, ReferralLink7, ReferralLink8,
+                ReferralLink3, ReferralLink5, ReferralLink1, ReferralLink2 , ReferralLink7, ReferralLink8,
                 ReferralLink11, ReferralLink13, ReferralLink15,
                 ReferralLink16, ReferralLink19
             ]
@@ -80,7 +79,7 @@ const ReferralLinkTable = () => {
                         <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Image</th>
                         <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Page Name</th>
                         <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Page Links</th>
-                        <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Action</th>
+                        <th className="text-start font-extrabold px-2 py-1 border-b-2 text-[black]">Copy</th>
                     </tr>
                 </thead>
                 <tbody>

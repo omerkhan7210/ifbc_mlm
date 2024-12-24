@@ -11,6 +11,7 @@ import Table from '@/components/ui/Table'
 import { Input } from '@/components/ui'
 import { TbBinaryTree } from 'react-icons/tb'
 import PaginationHandler from '@/components/PaginationHandler'
+import toast from 'react-hot-toast'
 // import { FormatRawDate } from '@/utils/FormatRawDate.js'
 // import { FormatRawDate } from '../../../utils/FormatRawDate.js'
 const { Tr, Td, TBody, THead, Th } = Table
@@ -231,6 +232,16 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
         getCoreRowModel: getCoreRowModel(),
     })
 
+    const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false)
+    const handleButtonClick = () => {
+        if (selectRowName?.length > 10) {
+            toast.error('You can select a maximum of 10 email addresses in one time.',)
+            setIsButtonDisabled(true)
+            return
+        }
+        setIsButtonDisabled(false)
+    }
+
     return (
         <Card>
             {/* Search Box */}
@@ -246,7 +257,7 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
                     size="sm"
                     className="bg-blue-600 hover:bg-blue-400 hover:text-white focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-center text-white inline-flex items-center"
                     onClick={() => headerConfig.buttonAction('invitation')}
-                    disabled={selectRowName.length === 0} // Disable if no rows selected
+                    disabled={selectRowName.length === 0}
                 >
                     Send Invitation
                 </Button>
@@ -257,12 +268,8 @@ const DownlineMembersTable: React.FC<TreeViewTableProps> = ({
                             ? 'bg-gray-400 cursor-not-allowed'
                             : 'bg-blue-600 hover:bg-blue-400 hover:text-white focus:ring-2 focus:outline-none focus:ring-blue-300'
                     } font-medium rounded-lg text-center`}
-                    onClick={() => headerConfig.buttonAction('newEmail')}
-                    disabled={
-                        selectRowName.length === 0 || selectRowName.length > 10
-                    }
-
-                    // Disable the button if more than 10 emails are selected
+                    onClick={handleButtonClick}
+                    disabled={isButtonDisabled || selectRowName.length === 0}
                 >
                     {headerConfig.buttonText}
                 </Button>

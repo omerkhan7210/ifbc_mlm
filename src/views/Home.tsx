@@ -71,7 +71,7 @@ const Home = () => {
 
             const resultUsers = await apiFetch('users', '')
 
-            console.log(users, result, resultUsers)
+            // console.log(users, result, resultUsers)
 
             const filterUsersByType = (users: User[], type: string) => {
                 return users.filter(
