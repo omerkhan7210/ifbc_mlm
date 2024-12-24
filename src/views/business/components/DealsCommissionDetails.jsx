@@ -48,7 +48,7 @@ export default function DealsCommissionDetails() {
     useEffect(() => {
         const calculateTotalAmountAndCount = () => {
             const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
-            const itemCount = data.length;
+            const itemCount = data.length.toString();
             setTotalAmount(totalAmount);
             setItemCount(itemCount);
         };

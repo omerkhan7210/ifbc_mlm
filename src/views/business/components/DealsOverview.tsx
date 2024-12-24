@@ -19,9 +19,10 @@ type StatisticCardProps = {
 }
 
 export type Project = {
-    ongoingProject: number
-    projectCompleted: number
-    upcomingProject: number
+    ongoingProject: number | string
+    projectCompleted: number | string
+    upcomingProject: number | string
+    totalProject: number | string
 }
 
 type IncomeOverview = {
@@ -32,28 +33,28 @@ type IncomeOverview = {
 
 const DealsOverview = () => {
     const { user } = useAuth();
-    const [allDeals, setAllDeals] = useState(0);
-    const [completedDeals, setCompletedDeals] = useState(0);
-    const [inProgressDeals, setInProgressDeals] = useState(0);
-    const [childDeals, setChildDeals] = useState(0);
+    const [allDeals, setAllDeals] = useState<string | number>(0);
+    const [completedDeals, setCompletedDeals] = useState<string | number>(0);
+    const [inProgressDeals, setInProgressDeals] = useState<string | number>(0);
+    const [childDeals, setChildDeals] = useState<string | number>(0);
 
 
     useEffect(() => {
 
         getData(`commissions/consultant/${user?.userId}/all-deals`).then((response) => {
-            setAllDeals(response.inProgressDeals);
+            setAllDeals(response?.inProgressDeals?.toString());
         }).catch(err => console.log(err))
 
         getData(`commissions/consultant/${user?.userId}/completed-deals`).then((response) => {
-            setCompletedDeals(response.totalCompletedDeals);
+            setCompletedDeals(response?.totalCompletedDeals?.toString());
         }).catch(err => console.log(err))
 
         getData(`commissions/consultant/${user?.userId}/inprogress-deals`).then((response) => {
-            setInProgressDeals(response.inProgressDeals);
+            setInProgressDeals(response?.inProgressDeals?.toString());
         }).catch(err => console.log(err))
 
         getData(`commissions/consultant/${user?.userId}/all-child-deals`).then((response) => {
-            setChildDeals(response.childDeals);
+            setChildDeals(response?.childDeals?.toString());
         }).catch(err => console.log(err))
 
 
